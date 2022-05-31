@@ -123,8 +123,6 @@ module.exports = settings => {
         'VERSION': phases[phase].tag,
         'PHASE': phases[phase].phase,
         'URL_SUFFIX': phases[phase].url_suffix,
-        'DB_HOST': phases[phase].db_host,
-        'DB_NAME': phases[phase].db_name,
         'CPU_REQUEST': phases[phase].cpu_request,
         'CPU_LIMIT': phases[phase].cpu_limit,
         'MEMORY_REQUEST': phases[phase].memory_request,

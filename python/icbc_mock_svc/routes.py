@@ -22,7 +22,7 @@ def basic_auth_required(f):
         if not auth or not _check_credentials(
                 Config.BASIC_USER, Config.BASIC_PASSWORD, auth.username, auth.password):
             logging.warning("Request denied - unauthorized - IP Address: {}".format(request.remote_addr))
-            message = {'error': 'Unauthorized'}
+            message = 'Authentication Required'
             resp = jsonify(message)
             resp.status_code = 401
             return resp
@@ -38,19 +38,35 @@ def driver(bcdl_number):
             drivers = _load_json_into_dict('python/icbc_mock_svc/data/drivers.json')
             return make_response(jsonify(drivers.get(bcdl_number, {})), 200)
         except Exception as e:
-            return make_response(jsonify({"error": "record not found"}), 500)
+            return make_response(jsonify({
+              "error": {
+                "code": "404",
+                "message": "Not Found",
+                "description": "The resource specified in the request was not found",
+                "request_uri": "/drivers/" + bcdl_number,
+                "request_id": "03f11de1-4286-48cb-a8ef-e6e8776c5b60"
+              }
+            }), 404)
 
 
 @application.route('/vips/icbc/vehicles', methods=['GET'])
 @basic_auth_required
 def vehicle():
     if request.method == 'GET':
+        licence_plate = request.args.get('plateNumber')
         try:
-            licence_plate = request.args.get('plateNumber')
             vehicles = _load_json_into_dict('python/icbc_mock_svc/data/vehicles.json')
             return make_response(jsonify(vehicles[licence_plate]), 200)
         except Exception as e:
-            return make_response(jsonify({"error": "record not found"}), 500)
+            return make_response(jsonify({
+                    "error": {
+                        "code": 404,
+                        "message": "Not Found",
+                        "description": "vehicle not found",
+                        "request_uri": "/vehicles?plateNumber="+licence_plate,
+                        "request_id": "8b1e3c93-b977-463a-b54f-e6e8776c5e15"
+                    }
+                }), 404)
 
 
 def _load_json_into_dict(file_name) -> dict:
