@@ -11,8 +11,7 @@ parameters:
 - name: HOST
 - name: FLASK_SECRET_KEY
 - name: LOG_LEVEL
-  value: 'INFO'
-- name: ICBC_API_ROOT
+  value: 'DEBUG'
 - name: ICBC_API_USERNAME
 - name: ICBC_API_PASSWORD
 - name: FLASK_ENV
@@ -88,11 +87,6 @@ objects:
                 secretKeyRef:
                   name: ${NAME}${SUFFIX}
                   key: prohibition-flask-secret
-            - name: ICBC_API_ROOT
-              valueFrom:
-                secretKeyRef:
-                  name: ${NAME}${SUFFIX}
-                  key: icbc-api-root
             - name: ICBC_API_USERNAME
               valueFrom:
                 secretKeyRef:

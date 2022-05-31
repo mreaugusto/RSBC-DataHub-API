@@ -20,7 +20,7 @@ def basic_auth_required(f):
     def decorated(*args, **kwargs):
         auth = request.authorization
         if not auth or not _check_credentials(
-                Config.BASIC_USER, Config.BASIC_PASSWORD, auth.username, auth.password):
+                Config.ICBC_API_USERNAME, Config.ICBC_API_PASSWORD, auth.username, auth.password):
             logging.warning("Request denied - unauthorized - IP Address: {}".format(request.remote_addr))
             message = 'Authentication Required'
             resp = jsonify(message)
