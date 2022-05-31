@@ -75,10 +75,6 @@ objects:
         labels:
           deploymentconfig: ${NAME}-${COMPONENT}${SUFFIX}
       spec:
-        volumes:
-        - name: "${NAME}-data"
-          persistentVolumeClaim:
-            claimName: "${NAME}-${COMPONENT}${SUFFIX}"
         containers:
         - image: " "
           name: app
