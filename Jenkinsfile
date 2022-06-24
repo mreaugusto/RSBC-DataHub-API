@@ -5,7 +5,7 @@ pipeline {
     }
     stages {
         stage('test oc') {
-            agent { label 'deploy' }
+            agent { label 'build' }
             steps{
                 sh 'oc get pods -n be78d6-prod'
             }
