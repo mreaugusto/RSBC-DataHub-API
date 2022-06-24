@@ -4,8 +4,18 @@ pipeline {
         disableResume()
     }
     stages {
+        stage('test oc') {
+            agent { label 'deploy' }
+            steps{
+                sh 'oc get pods -n be78d6-prod'
+            }
+        }
         stage('Build') {
             agent { label 'build' }
+             input {
+                message "Should we continue with build?"
+                ok "Yes!"
+            }
             steps {
                 script {
                     def filesInThisCommitAsString = sh(script:"git diff --name-only HEAD~1..HEAD | grep -v '^.jenkins/' || echo -n ''", returnStatus: false, returnStdout: true).trim()
