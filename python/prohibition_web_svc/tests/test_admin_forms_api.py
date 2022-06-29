@@ -4,31 +4,8 @@ import pytest
 import base64
 import logging
 from datetime import datetime, timedelta
-from python.prohibition_web_svc.models import Form
-from python.prohibition_web_svc.app import db, create_app
+from python.prohibition_web_svc.models import Form, db
 from python.prohibition_web_svc.config import Config
-
-
-@pytest.fixture
-def app():
-    return create_app()
-
-
-@pytest.fixture
-def as_guest(app):
-    app.config['TESTING'] = True
-    with app.test_client() as client:
-        yield client
-
-
-@pytest.fixture
-def database(app):
-    with app.app_context():
-        db.init_app(app)
-        db.create_all()
-        yield db
-        db.drop_all()
-        db.session.commit()
 
 
 @pytest.fixture

@@ -4,7 +4,7 @@ import logging
 import json
 from datetime import datetime
 import pytz
-from python.prohibition_web_svc.models import db, User, UserRole
+from python.prohibition_web_svc.models import db, User, UserRole, UserSchema, UserRoleSchema
 
 
 def user_has_not_applied_previously(**kwargs) -> tuple:
@@ -81,7 +81,8 @@ def create_user_role(**kwargs) -> tuple:
         )
         db.session.add(requested_role)
         db.session.commit()
-        kwargs['response'] = make_response(jsonify(UserRole.serialize(requested_role)), 201)
+        user_role_schema = UserRoleSchema()
+        kwargs['response'] = make_response(user_role_schema.jsonify(requested_role), 201)
     except Exception as e:
         logging.warning(str(e))
         return False, kwargs
@@ -138,11 +139,9 @@ def validate_create_user_payload(**kwargs) -> tuple:
 
 def get_user(**kwargs) -> tuple:
     try:
-        user = db.session.query(User) \
-            .filter(User.user_guid == kwargs.get('user_guid')) \
-            .first()
-        db.session.commit()
-        kwargs['response'] = make_response(jsonify(User.serialize(user)), 200)
+        user = User.query.filter_by(user_guid=kwargs.get('user_guid')).first_or_404()
+        user_schema = UserSchema(many=False)
+        kwargs['response'] = make_response(user_schema.jsonify(user), 200)
     except Exception as e:
         logging.warning(str(e))
         return False, kwargs

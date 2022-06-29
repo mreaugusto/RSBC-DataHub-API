@@ -3,7 +3,7 @@ import pytz
 from datetime import datetime
 import logging
 from python.prohibition_web_svc.config import Config
-from python.prohibition_web_svc.models import db, UserRole, User
+from python.prohibition_web_svc.models import db, UserRole, User, UserRoleSchema, UserSchema
 
 
 def query_current_users_roles(**kwargs) -> tuple:
@@ -12,7 +12,8 @@ def query_current_users_roles(**kwargs) -> tuple:
             .filter(UserRole.user_guid == kwargs['user_guid']) \
             .filter(UserRole.approved_dt != None) \
             .all()
-        kwargs['response'] = make_response(jsonify(UserRole.collection_to_dict(my_roles, "serialize")))
+        user_role_schema = UserRoleSchema(many=True)
+        kwargs['response'] = make_response(jsonify(user_role_schema.dump(my_roles)))
     except Exception as e:
         logging.warning(str(e))
         return False, kwargs
@@ -21,10 +22,11 @@ def query_current_users_roles(**kwargs) -> tuple:
 
 def query_all_users_roles(**kwargs) -> tuple:
     try:
-        user_role = db.session.query(UserRole) \
-            .filter(UserRole.user_guid == kwargs.get('requested_user_guid')) \
-            .limit(Config.MAX_RECORDS_RETURNED).all()
-        kwargs['response'] = make_response(jsonify(UserRole.collection_to_dict(user_role, "serialize")))
+        user = db.session.query(User) \
+            .filter(User.user_guid == kwargs.get('requested_user_guid')) \
+            .limit(Config.MAX_RECORDS_RETURNED).first()
+        user_schema = UserSchema()
+        kwargs['response'] = make_response(jsonify(user_schema.dump(user)), 200)
     except Exception as e:
         logging.warning(str(e))
         return False, kwargs
@@ -50,7 +52,8 @@ def create_a_role(**kwargs) -> tuple:
         role_user = UserRole("officer", kwargs.get('username'), datetime.now(tz))
         db.session.add(role_user)
         db.session.commit()
-        kwargs['response'] = make_response(jsonify(UserRole.serialize(role_user)), 201)
+        user_role_schema = UserRoleSchema()
+        kwargs['response'] = make_response(jsonify(user_role_schema.dump(role_user)), 201)
     except Exception as e:
         logging.warning(str(e))
         return False, kwargs
@@ -67,7 +70,8 @@ def approve_officers_role(**kwargs) -> tuple:
         tz = pytz.timezone('America/Vancouver')
         user_role.approved_dt = datetime.now(tz)
         db.session.commit()
-        kwargs['response'] = make_response(jsonify(UserRole.serialize(user_role)), 200)
+        user_role_schema = UserRoleSchema(many=False)
+        kwargs['response'] = make_response(user_role_schema.jsonify(user_role), 200)
     except Exception as e:
         logging.warning(str(e))
         return False, kwargs
@@ -95,13 +99,14 @@ def admin_create_role(**kwargs) -> tuple:
     try:
         tz = pytz.timezone('America/Vancouver')
         current_dt = datetime.now(tz)
-        role_user = UserRole(payload.get('role_name'),
+        user_role = UserRole(payload.get('role_name'),
                              kwargs.get('requested_user_guid'),
                              current_dt,
                              current_dt)
-        db.session.add(role_user)
+        db.session.add(user_role)
         db.session.commit()
-        kwargs['response'] = make_response(jsonify(UserRole.serialize(role_user)), 201)
+        user_role_schema = UserRoleSchema(many=False)
+        kwargs['response'] = make_response(user_role_schema.jsonify(user_role), 201)
     except Exception as e:
         logging.warning(str(e))
         return False, kwargs
@@ -110,20 +115,9 @@ def admin_create_role(**kwargs) -> tuple:
 
 def query_all_users(**kwargs) -> tuple:
     try:
-        user_role = db.session.query(
-            UserRole.user_guid,
-            UserRole.role_name,
-            UserRole.approved_dt,
-            UserRole.submitted_dt,
-            User.username,
-            User.agency,
-            User.badge_number,
-            User.first_name,
-            User.last_name)\
-            .join(User) \
-            .limit(Config.MAX_RECORDS_RETURNED)\
-            .all()
-        kwargs['response'] = make_response(jsonify(UserRole.collection_to_dict(user_role, "serialize_all_users")))
+        users = User.query.limit(Config.MAX_RECORDS_RETURNED).all()
+        user_schema = UserSchema(many=True)
+        kwargs['response'] = user_schema.jsonify(users)
     except Exception as e:
         logging.warning(str(e))
         return False, kwargs

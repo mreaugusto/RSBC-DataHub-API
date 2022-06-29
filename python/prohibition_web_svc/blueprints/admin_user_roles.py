@@ -21,22 +21,10 @@ CORS(bp, resources={Config.URL_PREFIX + "/api/v1/admin/users/*": {"origins": Con
 @bp.route('/admin/users/<string:user_guid>/roles', methods=['GET'])
 def index(user_guid):
     """
-    Administrator list all user roles for a specific user
+    DEPRECATED - no longer needed
     """
     if request.method == 'GET':
-        kwargs = helper.middle_logic(
-            keycloak_logic.get_authorized_keycloak_user() + [
-                {"try": splunk_middleware.admin_get_user_role, "fail": []},
-                {"try": splunk.log_to_splunk, "fail": []},
-                {"try": role_middleware.query_all_users_roles, "fail": [
-                    {"try": http_responses.server_error_response, "fail": []},
-                ]}
-            ],
-            required_permission='admin_user_roles-index',
-            requested_user_guid=user_guid,
-            request=request,
-            config=Config)
-        return kwargs.get('response')
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/admin/users/<string:user_guid>/roles/<string:role_name>', methods=['PATCH'])

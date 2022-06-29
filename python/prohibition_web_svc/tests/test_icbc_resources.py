@@ -4,32 +4,9 @@ import urllib
 from datetime import datetime
 import python.prohibition_web_svc.middleware.keycloak_middleware as middleware
 from python.prohibition_web_svc.models import db, UserRole
-from python.prohibition_web_svc.app import create_app
-from python.prohibition_web_svc.config import Config
+from python.prohibition_web_svc.config import Config, TestConfig
 import logging
 import json
-
-
-@pytest.fixture
-def application():
-    return create_app()
-
-
-@pytest.fixture
-def as_guest(application):
-    application.config['TESTING'] = True
-    with application.test_client() as client:
-        yield client
-
-
-@pytest.fixture
-def database(application):
-    with application.app_context():
-        db.init_app(application)
-        db.create_all()
-        yield db
-        db.drop_all()
-        db.session.commit()
 
 
 @pytest.fixture

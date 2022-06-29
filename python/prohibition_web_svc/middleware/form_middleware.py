@@ -5,7 +5,7 @@ import iso8601
 from datetime import datetime
 from cerberus import Validator
 from flask import jsonify, make_response
-from python.prohibition_web_svc.models import db, Form
+from python.prohibition_web_svc.models import db, Form, FormSchema
 from python.prohibition_web_svc.config import Config
 
 
@@ -36,7 +36,8 @@ def lease_a_form_id(**kwargs) -> tuple:
         db.session.commit()
     except Exception as e:
         return False, kwargs
-    kwargs['response_dict'] = Form.serialize(form)
+    form_schema = FormSchema()
+    kwargs['response_dict'] = form_schema.dump(form)
     return True, kwargs
 
 
@@ -59,7 +60,8 @@ def renew_form_id_lease(**kwargs) -> tuple:
         db.session.commit()
     except Exception as e:
         return False, kwargs
-    kwargs['response_dict'] = Form.serialize(form)
+    form_schema = FormSchema()
+    kwargs['response_dict'] = form_schema.dump(form)
     return True, kwargs
 
 
@@ -83,7 +85,9 @@ def mark_form_as_printed(**kwargs) -> tuple:
         db.session.commit()
     except Exception as e:
         return False, kwargs
-    kwargs['response_dict'] = Form.serialize(form)
+    logging.info("form submitted by {}: {}".format(user_guid, json.dumps(payload)))
+    form_schema = FormSchema()
+    kwargs['response_dict'] = form_schema.dump(form)
     return True, kwargs
 
 
@@ -107,7 +111,8 @@ def list_all_users_forms(**kwargs) -> tuple:
             .filter(Form.form_type == form_type) \
             .filter(Form.user_guid == kwargs['username']) \
             .all()
-        kwargs['response'] = make_response(jsonify(Form.collection_to_dict(all_forms)))
+        form_schema = FormSchema(many=True)
+        kwargs['response'] = make_response(form_schema.jsonify(all_forms))
     except Exception as e:
         logging.warning(str(e))
         return False, kwargs
@@ -123,7 +128,8 @@ def get_a_form(**kwargs) -> tuple:
             .filter(Form.id == form_id) \
             .filter(Form.user_guid == kwargs['username']) \
             .first()
-        kwargs['response'] = make_response(jsonify(form), 200)
+        form_schema = FormSchema()
+        kwargs['response'] = make_response(jsonify(form_schema.dump(form)), 200)
     except Exception as e:
         logging.warning(str(e))
         return False, kwargs
@@ -137,7 +143,8 @@ def admin_list_all_forms_by_type(**kwargs) -> tuple:
         all_forms = db.session.query(Form) \
             .filter(Form.form_type == form_type) \
             .limit(Config.MAX_RECORDS_RETURNED).all()
-        kwargs['response'] = make_response(jsonify(Form.collection_to_dict(all_forms)))
+        form_schema = FormSchema(many=True)
+        kwargs['response'] = make_response(jsonify(form_schema.dump(all_forms)))
     except Exception as e:
         logging.warning(str(e))
         return False, kwargs

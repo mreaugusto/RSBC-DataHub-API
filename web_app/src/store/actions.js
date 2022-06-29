@@ -130,6 +130,9 @@ export const actions = {
                     if ("error" in data) {
                         reject("message" in data['error'] ? {"description": data['error'].message }: {"description": "No valid response"})
                     } else {
+                        // TODO - add call to action here to filter state.provinces with the driver's province
+                        //  as returned from ICBC then, if successful, mutate the driver's province with the
+                        //  object found
                         resolve(context.commit("populateDriverFromICBC", data ))
                     }
 
@@ -401,5 +404,7 @@ export const actions = {
                 })
             }
         })
-    }
+    },
+
+
 }

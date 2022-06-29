@@ -19,6 +19,9 @@ CORS(bp, resources={Config.URL_PREFIX + "/api/v1/users*": {"origins": Config.ACC
 
 @bp.route('/users', methods=['GET'])
 def index():
+    """
+    Get current user's details
+    """
     if request.method == 'GET':
         kwargs = middle_logic(
             keycloak_logic.get_keycloak_user() + [

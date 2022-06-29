@@ -79,7 +79,7 @@ def _get_agencies(**kwargs) -> tuple:
         kwargs['response'] = make_response(jsonify(ids), 200)
         return True, kwargs
     except Exception as e:
-        logging.warning("error getting static data")
+        logging.warning("error getting static data", e)
         return False, kwargs
 
 
@@ -120,8 +120,8 @@ def _get_resource(**kwargs) -> tuple:
     resource = kwargs.get('resource')
     try:
         data = helper.load_json_into_dict('python/prohibition_web_svc/data/{}.json'.format(resource))
-        kwargs['response'] = make_response(data, 200)
+        kwargs['response'] = make_response(jsonify(data), 200)
         return True, kwargs
     except Exception as e:
-        logging.warning("error getting {} data".format(resource))
+        logging.warning("error getting {} data: {}".format(resource, e))
         return False, kwargs
