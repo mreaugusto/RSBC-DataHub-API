@@ -10,5 +10,5 @@ RUN source /opt/app-root/etc/scl_enable && \
 
 COPY vips_mock_svc ${APP_ROOT}/src/python/vips_mock_svc
 
-CMD [ "gunicorn", "--error-logfile", "-", "--bind", "0.0.0.0:5000", "--pythonpath", "python/vips_mock_svc", "app:create_app()" ]
+CMD [ "gunicorn", "--error-logfile", "-", "--bind", "0.0.0.0:5000", "--pythonpath", "python/vips_mock_svc/vips_mock_svc", "app:create_app()" ]
 
