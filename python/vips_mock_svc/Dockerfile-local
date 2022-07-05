@@ -11,4 +11,8 @@ USER appuser
 
 COPY vips_mock_svc /home/appuser/python/vips_mock_svc
 
-CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "--pythonpath", "/home/appuser/python/vips_mock_svc/vips_mock_svc", "app:create_app()" ]
+RUN [ "ls", "-R" ]
+
+RUN ["python", "-m", "pytest"]
+
+CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "--pythonpath", "/home/appuser/python/vips_mock_svc", "vips_mock_svc.app:create_app()" ]

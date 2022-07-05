@@ -2,8 +2,9 @@
 from __future__ import absolute_import
 
 from flask import Flask
+import json
 
-import v1
+import python.vips_mock_svc.vips_mock_svc.v1 as v1
 
 
 def create_app():
