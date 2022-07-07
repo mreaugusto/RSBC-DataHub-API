@@ -33,7 +33,7 @@ def test_authorized_user_that_does_not_specify_document_type_get_400(as_guest, a
 
 
 def test_authorized_user_can_get_all_documents(as_guest, auth_header):
-    resp = as_guest.get("/v1/documents/123",
+    resp = as_guest.get("/v1/documents/list/123",
                         follow_redirects=True,
                         headers=auth_header,
                         content_type="application/json")
@@ -43,7 +43,7 @@ def test_authorized_user_can_get_all_documents(as_guest, auth_header):
 
 
 def test_authorized_can_create_a_new_document(as_guest, auth_header):
-    resp = as_guest.post("/v1/documents/123",
+    resp = as_guest.post("/v1/documents/list/123",
                          json={
                              "type_code": "string",
                              "mime_type": "string",
@@ -59,7 +59,7 @@ def test_authorized_can_create_a_new_document(as_guest, auth_header):
 
 
 def test_creating_a_new_document_without_required_fields_returns_400(as_guest, auth_header):
-    resp = as_guest.post("/v1/documents/123",
+    resp = as_guest.post("/v1/documents/list/123",
                          json={
                              "mime_type": "string",
                              "mime_sub_type": "string",

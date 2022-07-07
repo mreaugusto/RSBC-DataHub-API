@@ -10,10 +10,10 @@ from . import Resource
 class Prohibitions(Resource):
 
     @require_basic_authentication
-    def get(self, prohibitionId, correlationId):
+    def get(self, noticeNo, correlationId):
         data = self.get_json_data("prohibitions")
-        if prohibitionId in data:
-            return data[prohibitionId], 200
+        if noticeNo in data:
+            return data[noticeNo], 200
         else:
             return {"message": "not found"}, 404
 

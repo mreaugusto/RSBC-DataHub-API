@@ -10,10 +10,10 @@ from . import Resource
 class Impoundments(Resource):
 
     @require_basic_authentication
-    def get(self, impoundmentId, correlationId):
+    def get(self, noticeNo, correlationId):
         data = self.get_json_data("impoundments")
-        if impoundmentId in data:
-            return data[impoundmentId], 200
+        if noticeNo in data:
+            return data[noticeNo], 200
         else:
             return {"message": "not found"}, 404
 
