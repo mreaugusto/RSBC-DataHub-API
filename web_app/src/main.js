@@ -61,6 +61,7 @@ new Vue({
         store.dispatch("fetchStaticLookupTables", {"resource": "users", "admin": false, "static": false})
       }
       if (mutation.type === 'updateFormField' ||
+          mutation.type === 'updateFormAttribute' ||
           mutation.type === 'updateCheckBox' ||
           mutation.type === 'populateDriverFromICBC' ||
           mutation.type === 'populateVehicleFromICBC' ||

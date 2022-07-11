@@ -424,5 +424,29 @@ export const actions = {
                 })
             }
         })
+    },
+
+    // copy some driver fields to the registered owner fields
+    // in the event the driver field is null or does not exist, do not copy
+    populateOwnerFromDriver(context, form_path) {
+        // trigger the following mutation
+        context.commit("updateFormAttribute", [form_path, "corp_owner_false", {}])
+        context.dispatch("copyIfExists", [form_path, "last_name", "corp_owner_false/owners_last_name"])
+        context.dispatch("copyIfExists", [form_path, "first_name", "corp_owner_false/owners_first_name"])
+        context.dispatch("copyIfExists", [form_path, "address1", "owners_address1"])
+        context.dispatch("copyIfExists", [form_path, "city", "owners_city"])
+        context.dispatch("copyIfExists", [form_path, "province", "owners_province"])
+        context.dispatch("copyIfExists", [form_path, "postal", "owners_postal"])
+        context.dispatch("copyIfExists", [form_path, "dob", "owner_dob"])
+        context.commit("deleteFormAttribute", [form_path, "corp_owner_true" ])
+    },
+
+    copyIfExists(context, [form_path, source_attribute, destination_attribute]) {
+        if (context.getters.doesAttributeExist(form_path, source_attribute)) {
+            context.commit("updateFormAttribute", [
+                form_path,
+                destination_attribute,
+                context.getters.getAttributeValue(form_path, source_attribute)])
+        }
     }
 }
