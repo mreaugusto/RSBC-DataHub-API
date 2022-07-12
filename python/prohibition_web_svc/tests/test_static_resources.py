@@ -114,8 +114,7 @@ def test_unauthorized_user_gets_jurisdictions(as_guest, monkeypatch, roles):
                         follow_redirects=True,
                         content_type="application/json")
     assert resp.status_code == 200
-    assert "AB" in resp.json[2]['objectCd']
-    assert "Alberta" in resp.json[2]['objectDsc']
+    assert {"objectCd": "BC", "objectDsc": "BRITISH COLUMBIA"} in resp.json
     assert responses.calls[0].request.body.decode() == json.dumps({
         'event': {
             'event': 'get static resource',
@@ -157,8 +156,7 @@ def test_unauthorized_user_gets_cities(as_guest, monkeypatch, roles):
                         follow_redirects=True,
                         content_type="application/json")
     assert resp.status_code == 200
-    assert "VICTORIA" in resp.json
-    assert "100 MILE HOUSE" in resp.json
+    assert {'objectCd': 'OHMH', 'objectDsc': '100 MILE HOUSE'} in resp.json
     assert responses.calls[0].request.body.decode() == json.dumps({
         'event': {
             'event': 'get static resource',

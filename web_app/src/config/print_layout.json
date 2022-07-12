@@ -306,7 +306,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getStringValue",
-        "parameters": "offence_city",
+        "parameters": "offence_city/objectDsc",
         "start": {
           "x": 120,
           "y": 140
@@ -1359,7 +1359,7 @@
         "field_type": "text",
         "font_size": 8,
         "function": "getValuesConcatenatedWithCommas",
-        "parameters": ["offence_address","offence_city"],
+        "parameters": ["offence_address","offence_city/objectDsc"],
         "start": {
           "x": 30.7,
           "y": 89
@@ -2480,7 +2480,7 @@
         "field_type": "text",
         "font_size": 10,
         "function": "getValuesConcatenatedWithCommas",
-        "parameters": ["offence_address","offence_city"],
+        "parameters": ["offence_address","offence_city/objectDsc"],
         "start": {
           "x": 30.7,
           "y": 120.1

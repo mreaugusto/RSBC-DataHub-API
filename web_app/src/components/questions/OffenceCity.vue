@@ -5,10 +5,12 @@
       <span v-if="required" class="small text-danger"> *</span>
       <multiselect v-model="attribute"
                    :id="id"
+                   label="objectDsc"
+                   track-by="objectCd"
                    tag-placeholder="That's not an option"
                    :disabled="disabled || hasFormBeenPrinted"
                    placeholder="Search for a BC city or town name"
-                   :options="getArrayOfBCCityNames"></multiselect>
+                   :options="getArrayOfBCCityObjects"></multiselect>
       <div class="small text-danger">{{ errors[0] }}</div>
     </validation-provider>
   </div>
@@ -40,7 +42,13 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getAttributeValue", "hasFormBeenPrinted", "getArrayOfBCCityNames"]),
+    ...mapGetters(["getAttributeValue", "hasFormBeenPrinted", "getArrayOfBCCityObjects"]),
+    offenceCityRules() {
+      return {
+        required: true,
+        inCities: this.getArrayOfBCCityObjects.map( o => o.objectDsc)
+      }
+    },
   },
 }
 </script>

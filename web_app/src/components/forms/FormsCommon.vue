@@ -37,7 +37,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getArrayOfBCCityNames", "getFormData", "getCurrentlyEditedForm"]),
+    ...mapGetters(["getFormData", "getCurrentlyEditedForm"]),
     getPath() {
       return `forms/${this.name}/${this.id}/data`
     }

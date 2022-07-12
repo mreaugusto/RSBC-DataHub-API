@@ -82,7 +82,7 @@ export const getters = {
         return false
     },
 
-    getArrayOfBCCityNames: state => {
+    getArrayOfBCCityObjects: state => {
         return state.cities;
     },
 
