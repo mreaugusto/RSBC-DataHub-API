@@ -4,7 +4,7 @@
       <shadow-box>
         <form-row>
           <text-field id="offence_address" :path=path fg_class="col-sm-8" rules="required|max:22">Intersection or Address of Offence</text-field>
-          <offence-city :path=path fg_class="col-sm-4" :rules="offenceCityRules">City</offence-city>
+          <offence-city :path=path fg_class="col-sm-4">City</offence-city>
         </form-row>
         <form-row>
           <text-field id="file_number" :path=path fg_class="col-sm-3" rules="required">Agency File #</text-field>

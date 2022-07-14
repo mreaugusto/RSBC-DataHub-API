@@ -1,6 +1,6 @@
 <template>
   <div v-if="visible" class="form-group" :class="fg_class">
-    <validation-provider :rules="rules" :name="id" v-slot="{ errors, required }">
+    <validation-provider :rules="offenceCityRules" :name="id" v-slot="{ errors, required }">
       <label :for="id"><slot></slot></label>
       <span v-if="required" class="small text-danger"> *</span>
       <multiselect v-model="attribute"
