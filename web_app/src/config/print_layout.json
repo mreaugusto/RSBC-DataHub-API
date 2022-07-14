@@ -115,7 +115,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getFormattedDate",
-        "parameters": ["owner_dob", "YYYY-MM-DD"],
+        "parameters": ["corp_owner_false/owner_dob", "YYYY-MM-DD"],
         "start": {
           "x": 167,
           "y": 66

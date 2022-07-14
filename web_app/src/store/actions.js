@@ -439,7 +439,7 @@ export const actions = {
         context.dispatch("copyIfExists", [form_path, "city", "owners_city"])
         context.dispatch("copyIfExists", [form_path, "province", "owners_province"])
         context.dispatch("copyIfExists", [form_path, "postal", "owners_postal"])
-        context.dispatch("copyIfExists", [form_path, "dob", "owner_dob"])
+        context.dispatch("copyIfExists", [form_path, "dob", "corp_owner_false/owner_dob"])
         context.commit("deleteFormAttribute", [form_path, "corp_owner_true" ])
     },
 
