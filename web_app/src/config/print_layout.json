@@ -65,7 +65,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getJurisdictionCode",
-        "parameters": "drivers_licence_jurisdiction",
+        "parameters": "drivers_licence_jurisdiction/objectCd",
         "start": {
           "x": 115,
           "y": 46
@@ -196,7 +196,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getJurisdictionCode",
-        "parameters": "plate_province",
+        "parameters": "plate_province/objectCd",
         "start": {
           "x": 60,
           "y": 107
@@ -1269,7 +1269,7 @@
         "field_type": "text",
         "font_size": 10,
         "function": "getJurisdictionCode",
-        "parameters": "drivers_licence_jurisdiction",
+        "parameters": "drivers_licence_jurisdiction/objectCd",
         "start": {
           "x": 80,
           "y": 45
@@ -1459,7 +1459,7 @@
         "field_type": "text",
         "font_size": 8,
         "function": "getJurisdictionCode",
-        "parameters": "plate_province",
+        "parameters": "plate_province/objectCd",
         "start": {
           "x": 53.7,
           "y": 126
@@ -1873,7 +1873,7 @@
         "field_type": "checkbox",
         "font_size": 14,
         "function": "isExistsOr",
-        "parameters": ["prohibition_type_alcohol/test_administered_sfst", "prohibition_type_drugs/test_administered_sfst"],
+        "parameters": ["prohibition_type_alcohol/test_administered_sfst", "prohibition_type_drugs/test_administered_dre"],
         "start": {
           "x": 144.5,
           "y": 111.9
@@ -1933,7 +1933,7 @@
         "field_type": "checkbox",
         "font_size": 14,
         "function": "isExists",
-        "parameters": "drugs",
+        "parameters": "prohibition_type_drugs",
         "start": {
           "x": 144.5,
           "y": 136.3
@@ -2540,7 +2540,7 @@
         "field_type": "text",
         "font_size": 8,
         "function": "getJurisdictionCode",
-        "parameters": "plate_province",
+        "parameters": "plate_province/objectCd",
         "start": {
           "x": 94.7,
           "y": 149

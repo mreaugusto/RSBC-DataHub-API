@@ -47,7 +47,7 @@ export default {
         "hasFormBeenPrinted"
     ]),
     bcdlNumberRules() {
-      if (this.getAttributeValue(this.path, 'drivers_licence_jurisdiction') === "British Columbia") {
+      if (this.getAttributeValue(this.path + '/drivers_licence_jurisdiction', 'objectDsc') === "British Columbia") {
         return {
           'bcdlNumberRule': true
         }
