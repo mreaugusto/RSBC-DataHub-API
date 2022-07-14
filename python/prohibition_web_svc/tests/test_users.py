@@ -3,32 +3,9 @@ import responses
 import json
 import python.prohibition_web_svc.middleware.keycloak_middleware as middleware
 from python.prohibition_web_svc.models import db, User, UserRole
-from python.prohibition_web_svc.app import create_app
 from python.prohibition_web_svc.config import Config
 import logging
 from datetime import datetime
-
-
-@pytest.fixture
-def application():
-    return create_app()
-
-
-@pytest.fixture
-def as_guest(application):
-    application.config['TESTING'] = True
-    with application.test_client() as client:
-        yield client
-
-
-@pytest.fixture
-def database(application):
-    with application.app_context():
-        db.init_app(application)
-        db.create_all()
-        yield db
-        db.drop_all()
-        db.session.commit()
 
 
 @pytest.fixture
@@ -215,12 +192,17 @@ def test_user_with_keycloak_token_can_get_their_own_user_details(as_guest, monke
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     assert resp.status_code == 200
     assert resp.json == {
-        "username": 'john@idir',
-        "user_guid": "aaa-bbb-ccc",
         "agency": 'RCMP Terrace',
         "badge_number": "0234",
+        "business_guid": "",
         "first_name": "John",
-        "last_name": "Smith"
+        "last_name": "Smith",
+        "roles": [{
+            "role_name": "officer",
+            "user_guid": "aaa-bbb-ccc"
+        }],
+        "username": 'john@idir',
+        "user_guid": "aaa-bbb-ccc",
     }
     assert responses.calls[0].request.body.decode() == json.dumps({
         'event': {

@@ -148,6 +148,9 @@ services:
         ADMIN_USERNAME: "${ADMIN_USERNAME}"
         FLASK_BASIC_AUTH_USER: "${FLASK_BASIC_AUTH_USER}"
         FLASK_BASIC_AUTH_PASS: "${FLASK_BASIC_AUTH_PASS}"
+        DATABASE_URI: "sqlite:///:memory:"
+      volumes:
+        - myapp:/var/lib/sqlite/
       networks:
         - docker-network
       ports:
@@ -169,7 +172,9 @@ services:
       ports:
         - "5003:5000"
 
-
-
 networks:
   docker-network:
+
+volumes:
+  myapp:
+    external: true

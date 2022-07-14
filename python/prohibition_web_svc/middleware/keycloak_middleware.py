@@ -89,10 +89,10 @@ def check_user_is_authorized(**kwargs) -> tuple:
     required_permission = kwargs.get('required_permission', None)
     permissions = kwargs.get('permissions')
     user_roles = kwargs.get('user_roles')
-    logging.debug("inside check_user_is_authorized() {} {} {}".format(username, required_permission, "|".join(user_roles)))
+    logging.debug("inside check_user_is_authorized() {} {}".format(username, required_permission))
     for role in user_roles:
-        logging.debug("if {} in {}".format(required_permission, json.dumps(permissions[role])))
-        if required_permission in permissions[role]['permissions']:
+        logging.debug("if {} in {}".format(required_permission, permissions[role['role_name']]['permissions']))
+        if required_permission in permissions[role['role_name']]['permissions']:
             return True, kwargs
     return False, kwargs
 

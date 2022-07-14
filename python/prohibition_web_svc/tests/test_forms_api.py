@@ -1,35 +1,11 @@
 import pytest
-from datetime import datetime
 import logging
 import json
 import responses
 import python.prohibition_web_svc.middleware.keycloak_middleware as middleware
 from datetime import datetime, timedelta
-from python.prohibition_web_svc.models import Form, UserRole
-from python.prohibition_web_svc.app import db, create_app
+from python.prohibition_web_svc.models import Form, UserRole, db, User
 from python.prohibition_web_svc.config import Config
-
-
-@pytest.fixture
-def app():
-    return create_app()
-
-
-@pytest.fixture
-def as_guest(app):
-    app.config['TESTING'] = True
-    with app.test_client() as client:
-        yield client
-
-
-@pytest.fixture
-def database(app):
-    with app.app_context():
-        db.init_app(app)
-        db.create_all()
-        yield db
-        db.drop_all()
-        db.session.commit()
 
 
 @pytest.fixture
@@ -49,6 +25,30 @@ def forms(database):
 @pytest.fixture
 def roles(database):
     today = datetime.strptime("2021-07-21", "%Y-%m-%d")
+    users = [
+        User(
+            username='john@idir',
+            user_guid="john@idir",
+            agency='RCMP Terrace',
+            badge_number="0234",
+            first_name="John",
+            last_name="Smith"),
+        User(
+            username='larry@idir',
+            user_guid="larry@idir",
+            agency='RCMP Terrace',
+            badge_number="8808",
+            first_name="Larry",
+            last_name="Smith"),
+        User(
+            username='mo@idir',
+            user_guid="mo@idir",
+            agency='Victoria Police',
+            badge_number="1234",
+            first_name="Mo",
+            last_name="Smith")
+    ]
+    db.session.bulk_save_objects(users)
     user_role = [
         UserRole(user_guid='john@idir', role_name='officer', submitted_dt=today),
         UserRole(user_guid='larry@idir', role_name='officer', submitted_dt=today, approved_dt=today),
@@ -65,21 +65,20 @@ def test_authorized_user_gets_only_current_users_form_records(as_guest, monkeypa
     resp = as_guest.get(Config.URL_PREFIX + "/api/v1/forms/24Hour",
                         content_type="application/json",
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
-    assert len(resp.json) == 2
     assert resp.json == [
         {
-             'id': 'AA123332',
              'form_type': '24Hour',
+             'id': 'AA123332',
              'lease_expiry': '2021-07-21',
              'printed_timestamp': None,
-             'user_guid': 'larry@idir'
+             'user': 'larry@idir'
          },
         {
-            'id': 'AA-123333',
             'form_type': '24Hour',
+            'id': 'AA-123333',
             'lease_expiry': '2021-07-20',
             'printed_timestamp': None,
-            'user_guid': 'larry@idir'
+            'user': 'larry@idir'
         }
     ]
     assert resp.status_code == 200
@@ -126,7 +125,7 @@ def test_when_form_created_authorized_user_receives_unique_form_id_for_later_use
         'form_type': '24Hour',
         'lease_expiry': expected_lease_expiry,
         'printed_timestamp': None,
-        'user_guid': 'larry@idir'
+        'user': 'larry@idir'
     }
     assert responses.calls[0].request.body.decode() == json.dumps({
         'event': {
@@ -247,7 +246,7 @@ def test_when_form_updated_without_payload_user_receives_updated_lease_date(as_g
         'form_type': '24Hour',
         'lease_expiry': expected_lease_expiry,
         'printed_timestamp': None,
-        'user_guid': 'larry@idir'
+        'user': 'larry@idir'
     }
 
 

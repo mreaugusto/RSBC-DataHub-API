@@ -16,4 +16,10 @@ ENV PYTHONPATH /home/appuser/
 
 RUN ["python", "-m", "pytest"]
 
-CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "--pythonpath", "/home/appuser/python/prohibition_web_svc", "app:create_app()" ]
+ENV FLASK_APP /home/appuser/python/prohibition_web_svc
+
+#RUN ["flask", "cli", "create_db"]
+#RUN ["flask", "cli", "seed_form_ids"]
+#RUN ["flask", "cli", "seed_administrator", "${ADMIN_USERNAME}"]
+
+CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "--pythonpath", "/home/appuser/python/prohibition_web_svc", "wsgi:create_app()" ]

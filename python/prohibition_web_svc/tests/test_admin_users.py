@@ -1,35 +1,11 @@
 import pytest
 import responses
-import json
-from python.prohibition_web_svc.config import Config
+from python.prohibition_web_svc.config import Config, TestConfig
 from datetime import datetime
 import python.prohibition_web_svc.middleware.keycloak_middleware as middleware
 from python.prohibition_web_svc.models import db, UserRole, User
-from python.prohibition_web_svc.app import create_app
 import logging
 import json
-
-
-@pytest.fixture
-def application():
-    return create_app()
-
-
-@pytest.fixture
-def as_guest(application):
-    application.config['TESTING'] = True
-    with application.test_client() as client:
-        yield client
-
-
-@pytest.fixture
-def database(application):
-    with application.app_context():
-        db.init_app(application)
-        db.create_all()
-        yield db
-        db.drop_all()
-        db.session.commit()
 
 
 @pytest.fixture
@@ -77,7 +53,7 @@ def test_administrator_can_get_all_users(as_guest, monkeypatch, roles):
                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
     logging.debug("dump query response: " + json.dumps(resp.json))
     assert resp.status_code == 200
-    assert len(resp.json) == 4
+    assert len(resp.json) == 3
     assert resp.json[0]['user_guid'] == 'john@idir'
     assert responses.calls[0].request.body.decode() == json.dumps({
         'event': {
