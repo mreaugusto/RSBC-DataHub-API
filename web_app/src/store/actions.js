@@ -219,7 +219,8 @@ export const actions = {
             url = constants.API_ROOT_URL + "/api/v1/" + payload.resource
         }
         console.log("fetchStaticLookupTables()", url)
-        fetch(url, {
+        return await new Promise((resolve, reject) => {
+            fetch(url, {
             "method": 'GET',
             "headers": context.getters.apiHeader})
             .then( response => {
@@ -228,10 +229,14 @@ export const actions = {
             .then( data => {
                 const admin_prefix = payload.admin ? 'admin_' : ''
                 context.commit("populateStaticLookupTables", { "type": admin_prefix + payload.resource, "data": data })
+                resolve(data)
             })
-            .catch(() => {
+            .catch((error) => {
                 console.log("fetchStaticLookupTables network fetch failed")
+                reject(error)
             })
+        })
+
     },
 
     async deleteFormFromDB(context, form_id) {
@@ -273,9 +278,6 @@ export const actions = {
                             if (response.status === 201) {
                                 console.log("applyToUnlockApplication() - success", data)
                                 resolve(data)
-                                data.then((user_role) => {
-                                    context.commit("pushInitialUserRole", user_role)
-                                })
                             } else {
                                 reject(data)
                             }
@@ -448,5 +450,20 @@ export const actions = {
                 destination_attribute,
                 context.getters.getAttributeValue(form_path, source_attribute)])
         }
+    },
+
+    updateUserIsAuthenticated(context, payload) {
+        if (Array.isArray(payload)) {
+            for (const role of payload) {
+                if ('approved_dt' in role) {
+                    if (role.approved_dt) {
+                        context.commit("userIsAuthenticated", true)
+                    }
+                }
+            }
+        } else {
+            context.commit("userIsAuthenticated", false)
+        }
+
     }
 }

@@ -163,10 +163,6 @@ export const mutations = {
         state.admin_users.push(payload)
     },
 
-    pushInitialUserRole(state, payload) {
-        Vue.set(state, "user_roles", [payload])
-    },
-
     networkIsOnline(state) {
         Vue.set(state, "isOnline", true)
     },
@@ -186,6 +182,10 @@ export const mutations = {
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "dob", data['dob']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "first_name", data['name']['given']);
         Vue.set(state.forms[form_object.form_type][form_object.form_id].data, "last_name", data['name']['surname']);
+    },
+
+    userIsAuthenticated(state, boolean_payload) {
+        Vue.set(state, "isUserAuthorized", boolean_payload)
     }
 }
 

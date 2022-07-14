@@ -86,6 +86,7 @@ export const store = new Vuex.Store ({
     },
     icbc_vehicle_lookup: [],
     impound_lot_operators: [],
+    isUserAuthorized: null,
     isOnline: true,
     jurisdictions: [],
     keycloak: {},

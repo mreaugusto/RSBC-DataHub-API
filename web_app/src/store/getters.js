@@ -395,16 +395,7 @@ export const getters = {
     },
 
     isUserAuthorized: state => {
-        if (Array.isArray(state.user_roles)) {
-            for (const role of state.user_roles) {
-                if ('approved_dt' in role) {
-                    if (role.approved_dt) {
-                        return true
-                    }
-                }
-            }
-        }
-        return false
+        return state.isUserAuthorized;
     },
 
     getAllUsers: state => {
@@ -436,7 +427,7 @@ export const getters = {
     },
 
     isDisplayUserNotAuthorizedBanner: (state, getters) => {
-        return getters.isUserAuthenticated && ! getters.isUserAuthorized && state.keycloak.ready;
+        return getters.isUserAuthenticated && getters.isUserAuthorized === false && state.keycloak.ready;
     },
 
     isDisplayIssueProhibitions: (state, getters) => {

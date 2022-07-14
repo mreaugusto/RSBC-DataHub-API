@@ -58,6 +58,9 @@ new Vue({
         store.dispatch("getMoreFormsFromApiIfNecessary")
         // TODO - store.dispatch("renewFormLeasesFromApiIfNecessary")
         store.dispatch("fetchStaticLookupTables", {"resource": "user_roles", "admin": false, "static": false})
+            .then(data => {
+                store.dispatch("updateUserIsAuthenticated", data)
+            })
         store.dispatch("fetchStaticLookupTables", {"resource": "users", "admin": false, "static": false})
       }
       if (mutation.type === 'updateFormField' ||
