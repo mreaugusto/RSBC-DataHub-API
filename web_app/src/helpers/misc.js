@@ -18,6 +18,15 @@ export default {
     // otherwise return the number * 2
     timesTwo(number) {
         return parseInt(((number * 2).toString()).split()[0])
+    },
+
+
+    getAdminRootUrl(api_root, current_user, append_string)  {
+        if(current_user.roles.includes("agency_admin")) {
+            return api_root + "/api/v1/agency/" + current_user.business_guid + append_string
+        } else {
+            return api_root + "/api/v1/admin" + append_string
+        }
     }
 
 }

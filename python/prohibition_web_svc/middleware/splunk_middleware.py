@@ -75,16 +75,6 @@ def form_lease_renewed(**kwargs) -> tuple:
     return True, kwargs
 
 
-def officer_has_applied(**kwargs) -> tuple:
-    kwargs['splunk_data'] = {
-        "event": "officer has applied",
-        "user_guid": kwargs.get('user_guid', ''),
-        "username": kwargs.get('username'),
-        'badge_number': kwargs.get('payload')['badge_number']
-    }
-    return True, kwargs
-
-
 def get_user(**kwargs) -> tuple:
     kwargs['splunk_data'] = {
         "event": "get user",
@@ -94,52 +84,44 @@ def get_user(**kwargs) -> tuple:
     return True, kwargs
 
 
-def get_user_role(**kwargs) -> tuple:
+def get_users(**kwargs) -> tuple:
     kwargs['splunk_data'] = {
-        "event": "get user-role",
-        "user_guid": kwargs.get('user_guid', ''),
-        "username": kwargs.get('username')
+        "event": "get users",
+        "business_guid": kwargs.get('business_guid', ''),
+        "requesting_user_guid": kwargs.get('user_guid', ''),
+        "requesting_username": kwargs.get('username')
     }
     return True, kwargs
 
 
-def admin_get_users(**kwargs) -> tuple:
+def create_user(**kwargs) -> tuple:
     kwargs['splunk_data'] = {
-        "event": "admin get users",
-        "user_guid": kwargs.get('user_guid', ''),
-        "username": kwargs.get('username')
+        'event': 'create user',
+        'requesting_user_guid': kwargs.get('user_guid', ''),
+        'requesting_username': kwargs.get('username'),
+        'business_guid': kwargs.get('business_guid'),
+        'payload': kwargs.get('payload')
     }
     return True, kwargs
 
 
-def admin_get_user_role(**kwargs) -> tuple:
+def update_user(**kwargs) -> tuple:
     kwargs['splunk_data'] = {
-        "event": "admin get user-role",
-        "admin_user_guid": kwargs.get('user_guid', ''),
-        "admin_username": kwargs.get('username'),
-        "requested_user_guid": kwargs.get('requested_user_guid')
+        'event': 'update user',
+        'requesting_user_guid': kwargs.get('user_guid', ''),
+        'requesting_username': kwargs.get('username'),
+        'business_guid': kwargs.get('business_guid'),
+        'payload': kwargs.get('payload')
     }
     return True, kwargs
 
 
-def admin_update_user_role(**kwargs) -> tuple:
+def delete_user(**kwargs) -> tuple:
     kwargs['splunk_data'] = {
-        "event": "admin update user-role",
-        "admin_user_guid": kwargs.get('user_guid', ''),
-        "admin_username": kwargs.get('username'),
-        "requested_user_guid": kwargs.get('requested_user_guid'),
-        'role_name': kwargs.get('role_name')
-    }
-    return True, kwargs
-
-
-def admin_delete_user_role(**kwargs) -> tuple:
-    kwargs['splunk_data'] = {
-        "event": "admin delete user-role",
-        "admin_user_guid": kwargs.get('user_guid', ''),
-        "admin_username": kwargs.get('username'),
-        "requested_user_guid": kwargs.get('requested_user_guid'),
-        'role_name': kwargs.get('role_name')
+        'event': 'delete user',
+        'requesting_user_guid': kwargs.get('user_guid', ''),
+        'requesting_username': kwargs.get('username'),
+        'deleted_user_guid': kwargs.get('delete_user_guid'),
     }
     return True, kwargs
 

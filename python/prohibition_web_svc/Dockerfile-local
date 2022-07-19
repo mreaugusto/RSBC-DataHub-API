@@ -1,4 +1,5 @@
 FROM python:3.7.3-stretch
+ARG ADMIN_USERNAME
 
 COPY prohibition_web_svc/requirements.txt /tmp/
 
@@ -18,8 +19,8 @@ RUN ["python", "-m", "pytest"]
 
 ENV FLASK_APP /home/appuser/python/prohibition_web_svc
 
-#RUN ["flask", "cli", "create_db"]
-#RUN ["flask", "cli", "seed_form_ids"]
-#RUN ["flask", "cli", "seed_administrator", "${ADMIN_USERNAME}"]
+RUN ["flask", "rsbc", "create_db"]
+RUN ["flask", "rsbc", "seed_form_ids"]
+RUN flask rsbc seed_administrator $ADMIN_USERNAME
 
 CMD [ "gunicorn", "--bind", "0.0.0.0:5000", "--pythonpath", "/home/appuser/python/prohibition_web_svc", "wsgi:create_app()" ]

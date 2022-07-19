@@ -9,7 +9,11 @@
         <div>state.isOnline: {{ $store.state.isOnline }}</div>
         <div>state.keycloak.ready: {{ $store.state.keycloak.ready }}</div>
         <div>state.keycloak.authenticated: {{ $store.state.keycloak.authenticated}}</div>
+        <div>preferred_username: {{ $store.state.keycloak.tokenParsed.preferred_username }}</div>
+        <div>bceid_userid: {{ $store.state.keycloak.tokenParsed.bceid_userid }}</div>
+        <div>bceid_business_guid: {{ $store.state.keycloak.tokenParsed.bceid_business_guid }}</div>
       </div>
+
     </div>
 </template>
 

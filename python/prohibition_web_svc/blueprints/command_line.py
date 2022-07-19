@@ -6,7 +6,7 @@ import click
 import logging
 from python.prohibition_web_svc.models import db as database, Form, User, UserRole
 
-bp = Blueprint('cli', __name__)
+bp = Blueprint('rsbc', __name__)
 
 
 @bp.cli.command('create_db')
@@ -37,12 +37,12 @@ def seed_form_ids():
 def seed_initial_administrator(admin_username):
     vancouver_tz = pytz.timezone("America/Vancouver")
     current_dt = datetime.now(vancouver_tz)
-    user = User(username=admin_username,
-                user_guid=admin_username,
+    user = User(user_guid=admin_username,
                 badge_number='0000',
                 agency="RoadSafety",
                 first_name="Initial",
-                last_name="Administrator")
+                last_name="Administrator",
+                business_guid="IDIR")
     database.session.add(user)
     roles = [
         UserRole(user_guid=admin_username, role_name='officer', submitted_dt=current_dt, approved_dt=current_dt),

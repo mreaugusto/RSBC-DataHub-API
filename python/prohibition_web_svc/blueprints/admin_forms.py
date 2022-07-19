@@ -80,7 +80,7 @@ def create():
                 {"try": form_middleware.get_json_payload, "fail": [
                     {"try": http_responses.payload_missing, "fail": []},
                 ]},
-                {"try": form_middleware.validate_form_payload, "fail": [
+                {"try": form_middleware.validate_payload, "fail": [
                     {"try": http_responses.failed_validation, "fail": []},
                 ]},
                 {"try": splunk_middleware.admin_create_form, "fail": []},
@@ -89,6 +89,19 @@ def create():
                     {"try": http_responses.server_error_response, "fail": []},
                 ]}
             ],
+            validation_schema={
+                "form_id": {
+                    'type': 'string',
+                    'empty': False,
+                    'required': True
+                },
+                "form_type": {
+                    'type': 'string',
+                    'allowed': ['12Hour', '24Hour', 'IRP', 'VI'],
+                    'empty': False,
+                    'required': True
+                }
+            },
             request=request,
             config=Config)
         return kwargs.get('response')

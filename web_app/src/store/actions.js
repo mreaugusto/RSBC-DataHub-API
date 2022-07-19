@@ -1,7 +1,7 @@
 import constants from "../config/constants";
 import persistence from "../helpers/persistence";
-import moment from "moment-timezone";
 import fuzzysort from 'fuzzysort'
+import misc from "@/helpers/misc"
 
 
 export const actions = {
@@ -40,8 +40,14 @@ export const actions = {
                 context.dispatch("getFormIdsFromApiByType", form_type)
                     .then(data => {
                         if (data) {
-                            context.commit("pushFormToStore", data)
-                            context.dispatch("saveCurrentFormToDB", data)
+                            const form = {
+                                form_id: data.id,
+                                form_type: data.form_type,
+                                lease_expiry: data.lease_expiry,
+                                printed_timestamp: data.printed_timestamp
+                            }
+                            context.commit("pushFormToStore", form)
+                            context.dispatch("saveCurrentFormToDB", form)
                         }
                     })
                     .catch(function (error) {
@@ -54,22 +60,21 @@ export const actions = {
 
     async getFormIdsFromApiByType (context, form_type) {
         const url = constants.API_ROOT_URL + "/api/v1/forms/" + form_type
-        return await fetch(url, {
+        return await new Promise((resolve, reject) => {
+            fetch(url, {
             "method": "POST",
             "headers": context.getters.apiHeader,
             "credentials": "same-origin"})
-            .then(response => response.json())
-            .then(data => {
-                return {
-                    form_id: data.id,
-                    form_type: data.form_type,
-                    lease_expiry: data.lease_expiry,
-                    printed_timestamp: data.printed_timestamp
+            .then(response => {
+                if (response.status === 201) {
+                    return resolve(response.json())
                 }
+                reject(response)
             })
             .catch(function (error) {
                 console.log(error)
             });
+        })
     },
 
     async renewFormFromApiById (context, form_type, form_id) {
@@ -209,6 +214,113 @@ export const actions = {
                 })
     },
 
+    async adminFetchAllUsers(context, [current_user, last_name]) {
+        let url = misc.getAdminRootUrl(constants.API_ROOT_URL, current_user, "/users?")
+        if (last_name !== '') {
+            url = url + new URLSearchParams({
+                last_name: last_name
+            })
+        }
+        return await new Promise((resolve, reject) => {
+            fetch(url, {
+            "method": 'GET',
+            "headers": context.getters.apiHeader})
+            .then( response => {
+                if (response.status === 200) {
+                    return response.json()
+                }
+                reject({"error": response.status})
+            })
+            .then(data => {
+                resolve(data)
+            })
+            .catch((error) => {
+                console.log("fetchAllUsers() failed")
+                reject(error)
+            })
+        })
+    },
+
+    async adminDeleteUser(context, [current_user, user_guid]) {
+        const url = misc.getAdminRootUrl(constants.API_ROOT_URL, current_user, "/users/" + user_guid)
+        console.log("adminDeleteUser", user_guid, url)
+        return await new Promise((resolve, reject) => {
+            fetch(url, {
+            "method": 'DELETE',
+            "headers": context.getters.apiHeader
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        resolve(context.commit("adminDeleteUser", user_guid))
+                    }
+                    reject({"error": response.json(), "code": response.status})
+                })
+                .catch((error) => {
+                    console.log("error", error)
+                    if (error) {
+                        reject("message" in error ? {"description": error.message }: {"description": "No valid response"})
+                    }
+                    reject({"description": "Server did not respond"})
+                    });
+            })
+    },
+
+    async adminEditUser(context, [current_user, modified_user]) {
+        console.log("adminEditUser()", current_user, modified_user)
+        let url = misc.getAdminRootUrl(constants.API_ROOT_URL, current_user, "/users/" + modified_user.user_guid)
+        return await new Promise((resolve, reject) => {
+            fetch(url, {
+            "method": 'PATCH',
+            "body": JSON.stringify(modified_user),
+            "headers": context.getters.apiHeader
+            })
+                .then(response => {
+                    if (response.status === 200) {
+                        resolve(context.commit("createUpdateAdminUser", modified_user))
+                    }
+                    reject({"error": response.json(), "code": response.status})
+                })
+                .catch((error) => {
+                    console.log("error", error)
+                    if (error) {
+                        reject("message" in error ? {"description": error.message }: {"description": "No valid response"})
+                    }
+                    reject({"description": "Server did not respond"})
+                    });
+            })
+    },
+
+
+    async createUser(context, [current_user, new_user]) {
+        console.log("createUser", new_user)
+        const url = misc.getAdminRootUrl(constants.API_ROOT_URL, current_user, "/users")
+        return await new Promise((resolve, reject) => {
+            fetch(url, {
+            "method": 'POST',
+            "body": JSON.stringify(new_user),
+            "headers": context.getters.apiHeader
+            })
+                .then(response => {
+                    if (response.status === 201) {
+                        resolve(context.commit("createUpdateAdminUser", new_user))
+                    }
+                    return response.json()
+                })
+                .then( data => {
+                    if (data) {
+                        reject(data.errors)
+                    }
+                })
+                .catch((resp) => {
+                    console.log("createUser() catch", resp)
+                    if (resp) {
+                        reject(resp.errors)
+                    }
+                    reject({"description": "Server did not respond"})
+                    });
+            })
+    },
+
     async fetchStaticLookupTables(context, payload) {
         let url = ''
         if (payload.admin) {
@@ -224,7 +336,10 @@ export const actions = {
             "method": 'GET',
             "headers": context.getters.apiHeader})
             .then( response => {
-                return response.json()
+                if (response.status === 200) {
+                    return response.json()
+                }
+                reject(response.json())
             })
             .then( data => {
                 const admin_prefix = payload.admin ? 'admin_' : ''
@@ -236,7 +351,6 @@ export const actions = {
                 reject(error)
             })
         })
-
     },
 
     async deleteFormFromDB(context, form_id) {
@@ -260,128 +374,6 @@ export const actions = {
         }
     },
 
-
-    async applyToUnlockApplication(context, application) {
-        console.log("inside actions.js applyToUnlockApplication(): ")
-        const url = constants.API_ROOT_URL + "/api/v1/users"
-        return await new Promise((resolve, reject) => {
-            fetch(url, {
-                "method": 'POST',
-                "body": JSON.stringify(application),
-                "headers": context.getters.apiHeader,
-                    })
-                        .then(response => {
-                            return response
-                        })
-                        .then( (response) => {
-                            const data = response.json()
-                            if (response.status === 201) {
-                                console.log("applyToUnlockApplication() - success", data)
-                                resolve(data)
-                            } else {
-                                reject(data)
-                            }
-                        })
-                        .catch((error) => {
-                            console.log("error", error)
-                            if (error) {
-                                reject("message" in error ? {"description": error.message }: {"description": "No valid response"})
-                            }
-                            reject({"description": "Server did not respond"})
-                            });
-                    })
-    },
-
-    async adminApproveUserRole(context, new_user) {
-        console.log("inside actions.js adminApproveUserRole(): ")
-        const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + new_user.user_guid + "/roles/officer"
-        return await new Promise((resolve, reject) => {
-            fetch(url, {
-            "method": 'PATCH',
-            "headers": context.getters.apiHeader,
-                })
-                    .then(response => {
-                        if (response.status === 200) {
-                            return response.json()
-                        }
-                    })
-                    .then( data => {
-                        new_user.role_name = data.role_name
-                        new_user.approved_dt = data.approved_dt
-                        new_user.submitted_dt = data.submitted_dt
-                        resolve(context.commit("updateAdminUserRole", new_user))
-                    })
-                    .catch((error) => {
-                        console.log("error", error)
-                        if (error) {
-                            reject("message" in error ? {"description": error.message }: {"description": "No valid response"})
-                        }
-                        reject({"description": "Server did not respond"})
-                        });
-                })
-    },
-
-    async adminDeleteUserRole(context, payload) {
-        console.log("inside actions.js adminDeleteUserRole(): ", payload)
-        const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + payload.user_guid + "/roles/" + payload.role_name
-        return await new Promise((resolve, reject) => {
-            fetch(url, {
-            "method": 'DELETE',
-            "headers": context.getters.apiHeader,
-                })
-                    .then(response => {
-                        console.log(response)
-                        if (response.status === 200) {
-                            resolve(context.commit("deleteAdminUserRole", payload))
-                        }
-                    })
-                    .catch(error => {
-                        console.log("error", error)
-                        if (error) {
-                            reject("message" in error ? {"description": error.message }: {"description": "No valid response"})
-                        }
-                        reject({"description": "Server did not respond"})
-                        });
-                })
-    },
-
-    async adminAddUserRole(context, new_user) {
-        console.log("inside actions.js adminAddUserRole()", new_user)
-        const url = constants.API_ROOT_URL + "/api/v1/admin/users/" + new_user.user_guid + "/roles"
-        const payload = {"role_name": "administrator"}
-        return await new Promise((resolve, reject) => {
-            fetch(url, {
-                "method": 'POST',
-                "body": JSON.stringify(payload),
-                "headers": context.getters.apiHeader,
-                })
-                    .then(response => {
-                        if (response.status === 200) {
-                            return response.json()
-                        }
-                    })
-                    .then( () => {
-                        return resolve(context.commit("addAdminUserRole", {
-                            username: new_user.username,
-                            user_guid: new_user.user_guid,
-                            first_name: new_user.first_name,
-                            last_name: new_user.last_name,
-                            badge_number: new_user.badge_number,
-                            agency: new_user.agency,
-                            role_name: payload.role_name,
-                            approved_dt: moment().tz("America/Vancouver"),
-                            submitted_dt: moment().tz("America/Vancouver")
-                        }))
-                    })
-                    .catch((error) => {
-                        console.log("error", error)
-                        if (error) {
-                            return reject("message" in error ? {"description": error.message }: {"description": "No valid response"})
-                        }
-                        return reject({"description": "Server did not respond"})
-                        });
-                })
-    },
 
     async downloadLookupTables(context) {
 
@@ -453,17 +445,31 @@ export const actions = {
     },
 
     updateUserIsAuthenticated(context, payload) {
-        if (Array.isArray(payload)) {
-            for (const role of payload) {
-                if ('approved_dt' in role) {
-                    if (role.approved_dt) {
-                        context.commit("userIsAuthenticated", true)
-                    }
-                }
-            }
-        } else {
-            context.commit("userIsAuthenticated", false)
+        context.commit("userIsAuthenticated", true)
+        if (payload.roles.includes("administrator") || payload.roles.includes("agency_admin")) {
+            context.commit("setUserAsAnAdmin", true)
         }
+    },
 
-    }
+    async bceidUserLookup(context, username) {
+        let url = constants.API_ROOT_URL + "/api/v1/bceid?username=" + username
+        return await new Promise((resolve, reject) => {
+            fetch(url, {
+            "method": 'GET',
+            "headers": context.getters.apiHeader})
+            .then( response => {
+                if (response.status === 200) {
+                    return response.json()
+                }
+                reject({"error": response.status})
+            })
+            .then(data => {
+                resolve(data)
+            })
+            .catch((error) => {
+                console.log("bceidUserLookup() failed")
+                reject(error)
+            })
+        })
+    },
 }

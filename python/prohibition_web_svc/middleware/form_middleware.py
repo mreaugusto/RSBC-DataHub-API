@@ -162,30 +162,6 @@ def get_json_payload(**kwargs) -> tuple:
     return True, kwargs
 
 
-def validate_form_payload(**kwargs) -> tuple:
-    logging.debug("inside validate_form_payload()")
-    schema = {
-        "form_id": {
-            'type': 'string',
-            'empty': False,
-            'required': True
-        },
-        "form_type": {
-            'type': 'string',
-            'allowed': ['12Hour', '24Hour', 'IRP', 'VI'],
-            'empty': False,
-            'required': True
-        }
-    }
-    v = Validator(schema)
-    v.allow_unknown = False
-    if v.validate(kwargs.get('payload')):
-        return True, kwargs
-    logging.warning("validation error: " + json.dumps(v.errors))
-    kwargs['validation_errors'] = v.errors
-    return False, kwargs
-
-
 def admin_create_form(**kwargs) -> tuple:
     logging.debug("inside admin_create_form()")
     payload = kwargs.get('payload')
@@ -210,3 +186,14 @@ def convert_vancouver_to_utc(iso_datetime_string: str) -> datetime:
     utc_timezone = pytz.timezone("UTC")
     printed = iso8601.parse_date(iso_datetime_string)
     return printed.astimezone(utc_timezone).replace(tzinfo=None)
+
+
+def validate_payload(**kwargs) -> tuple:
+    logging.debug("inside validate_create_agency_admin_user_payload()")
+    v = Validator(kwargs.get('validation_schema'))
+    v.allow_unknown = False
+    if v.validate(kwargs.get('payload')):
+        return True, kwargs
+    logging.warning("validation error: " + json.dumps(v.errors))
+    kwargs['validation_errors'] = v.errors
+    return False, kwargs

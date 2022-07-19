@@ -7,17 +7,26 @@
             "forms-update",
             "driver-get",
             "vehicle-get",
-            "user_roles-index",
             "static-get"
         ]
     },
     "administrator": {
         "permissions": [
-            "admin_user_roles-index",
-            "admin_user_roles-update",
-            "admin_user_roles-delete",
-            "admin_user_roles-create",
-            "admin_users-index"
+            "get-all-users",
+            "admin-users-index",
+            "admin-users-create",
+            "admin-users-update",
+            "admin-users-delete",
+            "bceid-get-users"
+        ]
+    },
+    "agency_admin": {
+        "permissions": [
+            "agency_admin_users-index",
+            "agency_admin_users-create",
+            "agency_admin_users-update",
+            "agency_admin_users-delete",
+            "bceid-get-users"
         ]
     }
 }

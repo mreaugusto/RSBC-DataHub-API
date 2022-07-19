@@ -27,26 +27,26 @@ def roles(database):
     today = datetime.strptime("2021-07-21", "%Y-%m-%d")
     users = [
         User(
-            username='john@idir',
             user_guid="john@idir",
             agency='RCMP Terrace',
             badge_number="0234",
             first_name="John",
-            last_name="Smith"),
+            last_name="Smith",
+            business_guid='RCMP_GUID'),
         User(
-            username='larry@idir',
             user_guid="larry@idir",
             agency='RCMP Terrace',
             badge_number="8808",
             first_name="Larry",
-            last_name="Smith"),
+            last_name="Smith",
+            business_guid='RCMP_GUID'),
         User(
-            username='mo@idir',
             user_guid="mo@idir",
             agency='Victoria Police',
             badge_number="1234",
             first_name="Mo",
-            last_name="Smith")
+            last_name="Smith",
+            business_guid='VIC_POLICE_GUID')
     ]
     db.session.bulk_save_objects(users)
     user_role = [

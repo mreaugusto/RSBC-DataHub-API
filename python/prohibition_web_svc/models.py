@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from python.prohibition_web_svc import db, ma
+from marshmallow_sqlalchemy.fields import Nested, fields
 import logging
 
 
@@ -27,29 +28,9 @@ class Form(db.Model):
             self.user_guid, self.id, self.lease_expiry.strftime("%Y-%m-%d")))
 
 
-class User(db.Model):
-    user_guid = db.Column(db.String(120), primary_key=True)
-    business_guid = db.Column(db.String(120), nullable=True)
-    username = db.Column(db.String(80), nullable=False)
-    agency = db.Column(db.String(120), nullable=False)
-    badge_number = db.Column(db.String(12), nullable=False)
-    last_name = db.Column(db.String(40), nullable=False)
-    first_name = db.Column(db.String(40), nullable=True)
-
-    def __init__(self, username, user_guid, agency, badge_number, last_name, first_name, business_guid=''):
-        self.username = username
-        self.user_guid = user_guid
-        self.agency = agency
-        self.badge_number = badge_number
-        self.last_name = last_name
-        self.first_name = first_name
-        self.business_guid = business_guid
-
-
 class UserRole(db.Model):
     role_name = db.Column(db.String(20), primary_key=True)
     user_guid = db.Column(db.String(80), db.ForeignKey('user.user_guid'), primary_key=True)
-    user = db.relationship("User", backref="roles")
     submitted_dt = db.Column(db.DateTime, nullable=True)
     approved_dt = db.Column(db.DateTime, nullable=True)
 
@@ -66,8 +47,26 @@ class UserRole(db.Model):
             .filter(UserRole.approved_dt != None) \
             .all()
         user_role_schema = UserRoleSchema(many=True)
-        logging.warning("get_roles() {}".format(str(rows)))
         return user_role_schema.dump(rows)
+
+
+class User(db.Model):
+    user_guid = db.Column(db.String(120), primary_key=True)
+    business_guid = db.Column(db.String(120), nullable=True)
+    agency = db.Column(db.String(120), nullable=False)
+    badge_number = db.Column(db.String(12), nullable=False)
+    last_name = db.Column(db.String(40), nullable=False)
+    first_name = db.Column(db.String(40), nullable=True)
+    roles = db.relationship(UserRole, backref='roles', lazy='dynamic')
+
+    def __init__(self, user_guid, agency, badge_number, last_name, first_name, business_guid, roles=()):
+        self.user_guid = user_guid
+        self.agency = agency
+        self.badge_number = badge_number
+        self.last_name = last_name
+        self.first_name = first_name
+        self.business_guid = business_guid
+        self.roles = roles
 
 
 class FormSchema(ma.SQLAlchemySchema):
@@ -81,21 +80,22 @@ class FormSchema(ma.SQLAlchemySchema):
     lease_expiry = ma.auto_field()
 
 
-class UserSchema(ma.SQLAlchemySchema):
+class UserRoleSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = UserRole
+
+    role_name = ma.auto_field()
+    user_guid = ma.auto_field()
+
+
+class UserSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = User
 
-    username = ma.auto_field()
     user_guid = ma.auto_field()
     agency = ma.auto_field()
     badge_number = ma.auto_field()
     last_name = ma.auto_field()
     first_name = ma.auto_field()
     business_guid = ma.auto_field()
-    roles = ma.auto_field()
-
-
-class UserRoleSchema(ma.SQLAlchemyAutoSchema):
-    class Meta:
-        model = UserRole
-        include_fk = True
+    roles = fields.Pluck(UserRoleSchema, "role_name", many=True)

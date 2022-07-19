@@ -13,19 +13,19 @@ def roles(database):
     today = datetime.now()
     users = [
         User(
-            username='john@idir',
             user_guid="aaa-bbb-ccc",
             agency='RCMP Terrace',
             badge_number="0234",
             first_name="John",
-            last_name="Smith"),
+            last_name="Smith",
+            business_guid='RCMP_GUID'),
         User(
-            username='larry@idir',
             user_guid="ddd-eee-fff",
             agency='RCMP Terrace',
             badge_number="8808",
             first_name="Larry",
-            last_name="Smith"),
+            last_name="Smith",
+            business_guid='RCMP_GUID'),
     ]
     db.session.bulk_save_objects(users)
     user_role = UserRole(role_name="officer", user_guid="aaa-bbb-ccc", approved_dt=today, submitted_dt=today)
@@ -33,102 +33,8 @@ def roles(database):
     db.session.commit()
 
 
-def test_applying_user_must_supply_an_agency_name_of_at_least_4_characters(as_guest, monkeypatch, roles, database):
-    monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
-    monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_keycloak_user_who_has_not_applied)
-    resp = as_guest.post(Config.URL_PREFIX + "/api/v1/users",
-                         json={
-                             "agency": "AAA",
-                             "badge_number": "8044",
-                             "first_name": "New",
-                             "last_name": "Officer"
-                         },
-                         follow_redirects=True,
-                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
-    assert resp.status_code == 400
-    assert resp.json['message'] == "failed validation"
-    assert resp.json['errors'] == {'agency': ['min length is 4']}
-
-
 @responses.activate
-def test_user_without_authorization_can_apply_to_use_the_app(as_guest, monkeypatch, roles, database):
-    monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
-    monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_keycloak_user_who_has_not_applied)
-    resp = as_guest.post(Config.URL_PREFIX + "/api/v1/users",
-                         json={
-                             "agency": "RCMP Terrace",
-                             "badge_number": "8044",
-                             "first_name": "New",
-                             "last_name": "Officer"
-                         },
-                         follow_redirects=True,
-                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
-    assert resp.status_code == 201
-    assert database.session.query(User) \
-               .filter(User.user_guid == 'new-officer@idir') \
-               .filter(User.agency == 'RCMP Terrace') \
-               .filter(User.badge_number == "8044") \
-               .filter(User.first_name == "New") \
-               .filter(User.last_name == "Officer") \
-               .count() == 1
-    assert database.session.query(UserRole) \
-               .filter(UserRole.role_name == "officer") \
-               .filter(UserRole.user_guid == 'new-officer@idir') \
-               .filter(UserRole.submitted_dt != None) \
-               .filter(UserRole.approved_dt == None) \
-               .count() == 1
-    assert responses.calls[0].request.body.decode() == json.dumps({
-        'event': {
-            'event': 'officer has applied',
-            'user_guid': 'new-officer@idir',
-            'username': 'new-officer@idir',
-            'badge_number': '8044'
-        },
-        'source': 'be78d6'
-    })
-
-
-@responses.activate
-def test_bceid_user_can_apply_to_use_the_app(as_guest, monkeypatch, roles, database):
-    monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
-    monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_bceid_user_who_has_not_applied)
-    resp = as_guest.post(Config.URL_PREFIX + "/api/v1/users",
-                         json={
-                             "agency": "RCMP Terrace",
-                             "badge_number": "8044",
-                             "first_name": "New",
-                             "last_name": "Officer"
-                         },
-                         follow_redirects=True,
-                         headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
-    assert resp.status_code == 201
-    assert database.session.query(User) \
-               .filter(User.username == "new-officer@bceid") \
-               .filter(User.user_guid == 'aaa-bbb-ccc-fff') \
-               .filter(User.agency == 'RCMP Terrace') \
-               .filter(User.first_name == "New") \
-               .filter(User.last_name == "Officer") \
-               .filter(User.business_guid == "gggg-ffff-dddd-jjjj") \
-               .count() == 1
-    assert database.session.query(UserRole) \
-               .filter(UserRole.role_name == "officer") \
-               .filter(UserRole.user_guid == 'aaa-bbb-ccc-fff') \
-               .filter(UserRole.submitted_dt != None) \
-               .filter(UserRole.approved_dt == None) \
-               .count() == 1
-    assert responses.calls[0].request.body.decode() == json.dumps({
-        'event': {
-            'event': 'officer has applied',
-            'user_guid': 'aaa-bbb-ccc-fff',
-            'username': 'new-officer@bceid',
-            'badge_number': '8044'
-        },
-        'source': 'be78d6'
-    })
-
-
-@responses.activate
-def test_idir_user_can_apply_to_use_the_app(as_guest, monkeypatch, roles, database):
+def test_user_cannot_apply_to_use_the_app(as_guest, monkeypatch, roles, database):
     monkeypatch.setattr(middleware, "get_keycloak_certificates", _mock_keycloak_certificates)
     monkeypatch.setattr(middleware, "decode_keycloak_access_token", _get_idir_user_who_has_not_applied)
     resp = as_guest.post(Config.URL_PREFIX + "/api/v1/users",
@@ -140,29 +46,7 @@ def test_idir_user_can_apply_to_use_the_app(as_guest, monkeypatch, roles, databa
                          },
                          follow_redirects=True,
                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
-    assert resp.status_code == 201
-    assert database.session.query(User) \
-               .filter(User.username == "new-officer@idir") \
-               .filter(User.user_guid == 'aaa-bbb-ccc-fff') \
-               .filter(User.agency == 'RCMP Terrace') \
-               .filter(User.first_name == "New") \
-               .filter(User.last_name == "Officer") \
-               .count() == 1
-    assert database.session.query(UserRole) \
-               .filter(UserRole.role_name == "officer") \
-               .filter(UserRole.user_guid == 'aaa-bbb-ccc-fff') \
-               .filter(UserRole.submitted_dt != None) \
-               .filter(UserRole.approved_dt == None) \
-               .count() == 1
-    assert responses.calls[0].request.body.decode() == json.dumps({
-        'event': {
-            'event': 'officer has applied',
-            'user_guid': 'aaa-bbb-ccc-fff',
-            'username': 'new-officer@idir',
-            'badge_number': '8044'
-        },
-        'source': 'be78d6'
-    })
+    assert resp.status_code == 405
 
 
 def test_user_with_keycloak_token_cannot_apply_again_to_use_the_app(as_guest, monkeypatch, roles):
@@ -178,8 +62,7 @@ def test_user_with_keycloak_token_cannot_apply_again_to_use_the_app(as_guest, mo
                          follow_redirects=True,
                          content_type="application/json",
                          headers=_get_keycloak_auth_header(_get_keycloak_access_token()))
-    assert resp.status_code == 400
-    assert resp.json['error'] == 'role already exists'
+    assert resp.status_code == 405
 
 
 @responses.activate
@@ -194,14 +77,10 @@ def test_user_with_keycloak_token_can_get_their_own_user_details(as_guest, monke
     assert resp.json == {
         "agency": 'RCMP Terrace',
         "badge_number": "0234",
-        "business_guid": "",
+        "business_guid": "RCMP_GUID",
         "first_name": "John",
         "last_name": "Smith",
-        "roles": [{
-            "role_name": "officer",
-            "user_guid": "aaa-bbb-ccc"
-        }],
-        "username": 'john@idir',
+        "roles": ["officer"],
         "user_guid": "aaa-bbb-ccc",
     }
     assert responses.calls[0].request.body.decode() == json.dumps({

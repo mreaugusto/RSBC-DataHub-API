@@ -132,6 +132,8 @@ services:
       build:
         context: python
         dockerfile: prohibition_web_svc/Dockerfile-local
+        args:
+          ADMIN_USERNAME: "${ADMIN_USERNAME}"
       depends_on:
         - icbc_mock_svc
       environment:
@@ -148,7 +150,8 @@ services:
         ADMIN_USERNAME: "${ADMIN_USERNAME}"
         FLASK_BASIC_AUTH_USER: "${FLASK_BASIC_AUTH_USER}"
         FLASK_BASIC_AUTH_PASS: "${FLASK_BASIC_AUTH_PASS}"
-        DATABASE_URI: "sqlite:///:memory:"
+        DATABASE_URI: "${DATABASE_URI}"
+        ENABLE_SPLUNK: "false"
       volumes:
         - myapp:/var/lib/sqlite/
       networks:

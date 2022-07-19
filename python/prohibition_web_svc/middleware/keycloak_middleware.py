@@ -2,7 +2,7 @@ import logging
 import jwt
 import json
 from python.common.helper import load_json_into_dict
-from python.prohibition_web_svc.models import db, UserRole
+from python.prohibition_web_svc.models import UserRole
 from python.prohibition_web_svc.config import Config
 
 
@@ -63,12 +63,13 @@ def get_username_from_decoded_access_token(**kwargs) -> tuple:
 def get_user_guid_from_decoded_access_token(**kwargs) -> tuple:
     decoded_access_token = kwargs.get('decoded_access_token')
     if decoded_access_token.get('bceid_userid'):
-        logging.debug('BCeID user')
+        logging.warning('BCeID user')
         kwargs['business_guid'] = decoded_access_token.get('bceid_business_guid')
         kwargs['user_guid'] = decoded_access_token.get('bceid_userid')
         return True, kwargs
     if decoded_access_token.get('idir_guid'):
         logging.debug('IDIR user')
+        kwargs['business_guid'] = "IDIR"
         kwargs['user_guid'] = decoded_access_token.get('idir_guid')
         return True, kwargs
     logging.debug('Github user? - no user GUID')
@@ -90,6 +91,7 @@ def check_user_is_authorized(**kwargs) -> tuple:
     permissions = kwargs.get('permissions')
     user_roles = kwargs.get('user_roles')
     logging.debug("inside check_user_is_authorized() {} {}".format(username, required_permission))
+    logging.debug(" - user_roles: " + json.dumps(user_roles))
     for role in user_roles:
         logging.debug("if {} in {}".format(required_permission, permissions[role['role_name']]['permissions']))
         if required_permission in permissions[role['role_name']]['permissions']:
@@ -106,3 +108,16 @@ def query_database_for_users_permissions(**kwargs) -> tuple:
         return False, kwargs
     return True, kwargs
 
+
+def url_business_guid_matches_business_guid_in_token(**kwargs) -> tuple:
+    is_valid = kwargs.get('url_business_guid') == kwargs.get('business_guid')
+    if not is_valid:
+        logging.warning("business_guid: {} - {}".format(
+            kwargs.get('url_business_guid'),
+            kwargs.get('business_guid')
+        ))
+    return is_valid, kwargs
+
+
+def url_user_guid_matches_user_guid_in_token(**kwargs) -> tuple:
+    return kwargs.get('url_user_guid') == kwargs.get('user_guid'), kwargs

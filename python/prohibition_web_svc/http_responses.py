@@ -3,13 +3,17 @@ import logging
 
 
 def successful_create_response(**kwargs) -> tuple:
-    response_dict = kwargs.get('response_dict')
+    response_dict = kwargs.get('response_dict', {
+        "message": "create successful"
+    })
     kwargs['response'] = make_response(response_dict, 201)
     return True, kwargs
 
 
 def successful_update_response(**kwargs) -> tuple:
-    response_dict = kwargs.get('response_dict')
+    response_dict = kwargs.get('response_dict', {
+        "message": "update successful"
+    })
     kwargs['response'] = make_response(response_dict, 200)
     return True, kwargs
 
@@ -25,7 +29,7 @@ def bad_request_response(**kwargs) -> tuple:
 
 
 def record_not_found(**kwargs) -> tuple:
-    kwargs['response'] = make_response({'error': 'record not found'}, 400)
+    kwargs['response'] = make_response({'error': 'record not found'}, 404)
     return True, kwargs
 
 
@@ -85,4 +89,32 @@ def failed_validation(**kwargs) -> tuple:
 
 def no_payload(**kwargs) -> tuple:
     kwargs['response'] = make_response({'error': 'no payload'}, 400)
+    return True, kwargs
+
+
+def cannot_access_users_at_another_agency(**kwargs) -> tuple:
+    kwargs['response'] = make_response({'error': 'you cannot access or update users at a different agency'}, 400)
+    return True, kwargs
+
+
+def cannot_create_user_roles(**kwargs) -> tuple:
+    roles = kwargs.get('requested_roles')
+    kwargs['response'] = make_response({
+        'error': 'insufficient permissions to create user with these roles: {}'.format(", ".join(roles))
+    }, 400)
+    return True, kwargs
+
+
+def cannot_access_another_user_data(**kwargs) -> tuple:
+    kwargs['response'] = make_response({"error": "you cannot access another user's data"}, 400)
+    return True, kwargs
+
+
+def cannot_change_user_guid(**kwargs) -> tuple:
+    kwargs['response'] = make_response({"error": "You cannot change the user guid; create a new user instead"}, 400)
+    return True, kwargs
+
+
+def cannot_change_business_guid(**kwargs) -> tuple:
+    kwargs['response'] = make_response({"error": "You cannot change the business guid; create a new user instead"}, 400)
     return True, kwargs

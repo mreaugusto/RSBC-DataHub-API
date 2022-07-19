@@ -28,7 +28,7 @@ def index():
                 {"try": splunk_middleware.get_user, "fail": []},
                 {"try": splunk.log_to_splunk, "fail": []},
                 {"try": user_middleware.get_user, "fail": [
-                    {"try": http_responses.server_error_response, "fail": []}
+                    {"try": http_responses.record_not_found, "fail": []}
                 ]}
             ],
             request=request,
@@ -39,52 +39,16 @@ def index():
 @bp.route('/users', methods=['POST'])
 def create():
     """
-    New users apply by creating a user record
+    DEPRECATED - New users no longer apply by creating a user record
     """
     if request.method == 'POST':
-        kwargs = middle_logic(
-            keycloak_logic.get_keycloak_user() + [
-                {"try": user_middleware.request_contains_a_payload, "fail": [
-                    {"try": http_responses.no_payload, "fail": []}
-                ]},
-                {"try": user_middleware.validate_create_user_payload, "fail": [
-                    {"try": http_responses.failed_validation, "fail": []}
-                ]},
-                {"try": user_middleware.user_has_not_applied_previously, "fail": [
-                    {"try": user_middleware.update_the_user, "fail": [
-                        {"try": http_responses.server_error_response, "fail": []},
-                    ]},
-                    {"try": user_middleware.does_role_already_exist, "fail": [
-                        {"try": user_middleware.create_user_role, "fail": [
-                            {"try": http_responses.server_error_response, "fail": []},
-                        ]},
-                        # TODO - email admin with notice that user has applied
-                    ]},
-                    {"try": http_responses.role_already_exists, "fail": []},
-                ]},
-                {"try": splunk_middleware.officer_has_applied, "fail": []},
-                {"try": splunk.log_to_splunk, "fail": []},
-                {"try": user_middleware.create_a_user, "fail": [
-                    {"try": http_responses.server_error_response, "fail": []},
-                ]},
-                {"try": user_middleware.does_role_already_exist, "fail": [
-                    {"try": user_middleware.create_user_role, "fail": [
-                        {"try": http_responses.server_error_response, "fail": []},
-                    ]},
-                    # TODO - email admin with notice that user has applied
-                ]},
-                {"try": http_responses.role_already_exists, "fail": []},
-            ],
-            request=request,
-            config=Config)
-        return kwargs.get('response')
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/users/<string:user_guid>', methods=['GET'])
 def get(user_guid):
     if request.method == 'GET':
-        if request.method == 'GET':
-            return make_response({"error": "method not implemented"}, 405)
+        return make_response({"error": "method not implemented"}, 405)
 
 
 @bp.route('/users/<string:user_guid>', methods=['PATCH'])

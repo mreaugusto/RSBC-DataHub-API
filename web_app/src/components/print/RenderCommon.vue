@@ -1,7 +1,7 @@
 <script>
 
 import {mapGetters} from 'vuex';
-import checkDigit from "@/helpers/checkDigit";
+import checkDigit from "@/helpers/misc";
 
 export default {
   name: "RenderCommon",

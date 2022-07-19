@@ -149,20 +149,6 @@ export const mutations = {
         Vue.set(root, "printed_timestamp", payload.timestamp)
     },
 
-    updateAdminUserRole(state, p) {
-        const index = state.admin_users.findIndex( u => u.user_guid === p.user_guid && u.role_name === p.role_name)
-        Vue.set(state.admin_users, index, p)
-    },
-
-    deleteAdminUserRole(state, p) {
-        const index = state.admin_users.findIndex( u => u.user_guid === p.user_guid && u.role_name === p.role_name)
-        Vue.delete(state.admin_users, index)
-    },
-
-    addAdminUserRole(state, payload) {
-        state.admin_users.push(payload)
-    },
-
     networkIsOnline(state) {
         Vue.set(state, "isOnline", true)
     },
@@ -186,6 +172,24 @@ export const mutations = {
 
     userIsAuthenticated(state, boolean_payload) {
         Vue.set(state, "isUserAuthorized", boolean_payload)
+    },
+
+    setUserAsAnAdmin(state) {
+        Vue.set(state, "userIsAdmin", true)
+    },
+
+    updateAdminUsers(state, arrayOfUsers) {
+        let data = {}
+        arrayOfUsers.map(o => data[o.user_guid] = o);
+        Vue.set(state, "admin_users", data)
+    },
+
+    createUpdateAdminUser(state, user_data) {
+        Vue.set(state.admin_users, user_data.user_guid, user_data )
+    },
+
+    adminDeleteUser(state, user_guid) {
+        Vue.delete(state.admin_users, user_guid )
     }
 }
 

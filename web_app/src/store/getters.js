@@ -378,16 +378,7 @@ export const getters = {
     },
 
     isUserAnAdmin: state => {
-        if (Array.isArray(state.user_roles)) {
-            for (const role of state.user_roles) {
-                if ('role_name' in role) {
-                    if (role.role_name === 'administrator') {
-                        return true
-                    }
-                }
-            }
-        }
-        return false
+        return state.userIsAdmin;
     },
 
     isUserAuthenticated: state => {
@@ -400,16 +391,6 @@ export const getters = {
 
     getAllUsers: state => {
         return state.admin_users
-    },
-
-
-    hasUserApplied: state => {
-        if (Array.isArray(state.user_roles)) {
-            if (state.user_roles[0].approved_dt === null) {
-                return true
-            }
-        }
-        return false
     },
 
     isAppAvailableToWorkOffline: (state, getters) => {

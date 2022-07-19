@@ -17,13 +17,14 @@ class Config(BaseConfig):
     ICBC_API_USERNAME                   = os.getenv('ICBC_API_USERNAME', 'user1')
     ICBC_API_PASSWORD                   = os.getenv('ICBC_API_PASSWORD', 'secret')
 
+    BCEID_API_ROOT                      = os.getenv('BCEID_API_ROOT', "http://localhost:8080/api")
+    BCEID_API_USERNAME                  = os.getenv('BCEID_API_USERNAME', 'user1')
+    BCEID_API_PASSWORD                  = os.getenv('BCEID_API_PASSWORD', 'secret')
+
     # URL of requesting resource
     ACCESS_CONTROL_ALLOW_ORIGIN         = os.getenv('ACCESS_CONTROL_ALLOW_ORIGIN', '*')
 
-    SQLALCHEMY_DATABASE_URI             = os.getenv('DATABASE_URI')
-
-    # This user has the ability to add, edit and delete other users
-    ADMIN_USERNAME                      = os.getenv('ADMIN_USERNAME')
+    SQLALCHEMY_DATABASE_URI             = os.getenv('DATABASE_URI', 'sqlite:////tmp/test.db')
 
     KEYCLOAK_REALM                      = os.getenv("KEYCLOAK_REALM", "some-realm")
     KEYCLOAK_AUTH_URL                   = os.getenv("KEYCLOAK_AUTH_URL", "http://localhost/auth/")

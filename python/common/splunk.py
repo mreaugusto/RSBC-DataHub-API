@@ -14,7 +14,10 @@ def log_to_splunk(**kwargs) -> tuple:
     splunk_payload = dict({})
     splunk_payload['event'] = splunk_data
     splunk_payload['source'] = config.OPENSHIFT_PLATE
-    _post_to_splunk(splunk_payload, **kwargs)
+    if config.ENABLE_SPLUNK:
+        _post_to_splunk(splunk_payload, **kwargs)
+    else:
+        logging.warning('splunk logging is disable by ENV variable')
     return True, kwargs
 
 

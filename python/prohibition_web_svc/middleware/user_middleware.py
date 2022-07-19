@@ -1,45 +1,27 @@
 from flask import jsonify, make_response
-from cerberus import Validator
 import logging
 import json
 from datetime import datetime
 import pytz
-from python.prohibition_web_svc.models import db, User, UserRole, UserSchema, UserRoleSchema
-
-
-def user_has_not_applied_previously(**kwargs) -> tuple:
-    try:
-        user_count = db.session.query(User) \
-            .filter(User.user_guid == kwargs.get('user_guid')) \
-            .count()
-        logging.debug("inside user_has_not_applied_previously(): " + str(user_count))
-        if user_count:
-            logging.warning('user already exists: ' + str(user_count))
-    except Exception as e:
-        logging.warning(str(e))
-        return False, kwargs
-    return user_count == 0, kwargs
-
-
-def does_role_already_exist(**kwargs) -> tuple:
-    try:
-        user_role_count = db.session.query(UserRole) \
-            .filter(UserRole.user_guid == kwargs.get('user_guid')) \
-            .count()
-        logging.debug("inside does_role_already_exist(): " + str(user_role_count))
-    except Exception as e:
-        logging.warning(str(e))
-        return False, kwargs
-    return user_role_count != 0, kwargs
+from python.prohibition_web_svc.config import Config
+from python.prohibition_web_svc.models import db, User, UserRole, UserSchema
 
 
 def update_the_user(**kwargs) -> tuple:
     try:
+        new_roles = []
+        now = _get_now()
+        for role in kwargs.get('payload')['roles']:
+            new_roles.append(
+                UserRole(
+                    role_name=role,
+                    submitted_dt=now,
+                    approved_dt=now,
+                    user_guid=kwargs.get('payload')['user_guid']
+                ))
         user = db.session.query(User) \
-            .filter(User.user_guid == kwargs.get('user_guid')) \
+            .filter(User.user_guid == kwargs.get('payload')['user_guid']) \
             .first()
-        user.username = kwargs.get('username')
-        user.user_guid = kwargs.get('user_guid')
         user.badge_number = kwargs.get('payload')['badge_number']
         user.agency = kwargs.get('payload')['agency']
         user.first_name = kwargs.get('payload')['first_name']
@@ -52,15 +34,27 @@ def update_the_user(**kwargs) -> tuple:
 
 
 def create_a_user(**kwargs) -> tuple:
+    now = _get_now()
     try:
+        payload = kwargs.get('payload')
+
+        new_roles = []
+        for role in payload.get('roles'):
+            new_roles.append(
+                UserRole(
+                    role_name=role,
+                    submitted_dt=now,
+                    approved_dt=now,
+                    user_guid=payload.get('user_guid')
+                ))
         user = User(
-            username=kwargs.get('username'),
-            user_guid=kwargs.get('user_guid'),
-            business_guid=kwargs.get('business_guid'),
-            badge_number=kwargs.get('payload')['badge_number'],
-            agency=kwargs.get('payload')['agency'],
-            first_name=kwargs.get('payload')['first_name'],
-            last_name=kwargs.get('payload')['last_name']
+            user_guid=payload.get('user_guid'),
+            business_guid=payload.get('business_guid'),
+            badge_number=payload.get('badge_number'),
+            agency=payload.get('agency'),
+            first_name=payload.get('first_name'),
+            last_name=payload.get('last_name'),
+            roles=new_roles
         )
         db.session.add(user)
         db.session.commit()
@@ -70,19 +64,11 @@ def create_a_user(**kwargs) -> tuple:
     return True, kwargs
 
 
-def create_user_role(**kwargs) -> tuple:
-    tz = pytz.timezone("America/Vancouver")
-    now = datetime.now(tz)
+def delete_a_user(**kwargs) -> tuple:
     try:
-        requested_role = UserRole(
-            user_guid=kwargs.get('user_guid'),
-            role_name="officer",
-            submitted_dt=now
-        )
-        db.session.add(requested_role)
+        UserRole.query.filter_by(user_guid=kwargs.get('url_user_guid')).delete()
+        User.query.filter_by(user_guid=kwargs.get('url_user_guid')).delete()
         db.session.commit()
-        user_role_schema = UserRoleSchema()
-        kwargs['response'] = make_response(user_role_schema.jsonify(requested_role), 201)
     except Exception as e:
         logging.warning(str(e))
         return False, kwargs
@@ -101,48 +87,76 @@ def request_contains_a_payload(**kwargs) -> tuple:
     return payload is not None, kwargs
 
 
-def validate_create_user_payload(**kwargs) -> tuple:
-    schema = {
-        "badge_number": {
-            "type": "string",
-            'minlength': 2,
-            'maxlength': 8,
-            "required": True
-        },
-        "agency": {
-            "type": "string",
-            'minlength': 4,
-            'maxlength': 40,
-            "required": True
-        },
-        "first_name": {
-            "type": "string",
-            'minlength': 2,
-            'maxlength': 30,
-            "required": True
-        },
-        "last_name": {
-            "type": "string",
-            'minlength': 2,
-            'maxlength': 30,
-            "required": True
-        }
-    }
-    cerberus = Validator(schema)
-    cerberus.allow_unknown = False
-    if cerberus.validate(kwargs.get('payload')):
-        return True, kwargs
-    logging.warning("validation error: " + json.dumps(cerberus.errors))
-    kwargs['validation_errors'] = cerberus.errors
-    return False, kwargs
-
-
 def get_user(**kwargs) -> tuple:
     try:
         user = User.query.filter_by(user_guid=kwargs.get('user_guid')).first_or_404()
         user_schema = UserSchema(many=False)
         kwargs['response'] = make_response(user_schema.jsonify(user), 200)
     except Exception as e:
+        logging.debug(str(e))
+        return False, kwargs
+    return True, kwargs
+
+
+def query_all_users(**kwargs) -> tuple:
+    request = kwargs.get('request')
+    last_name = request.args.get('last_name')
+    try:
+        if last_name:
+            search = "%{}%".format(last_name)
+            users = User.query.filter(User.last_name.like(search)).limit(Config.MAX_RECORDS_RETURNED).all()
+        else:
+            users = User.query.limit(Config.MAX_RECORDS_RETURNED).all()
+        user_schema = UserSchema(many=True)
+        kwargs['response'] = user_schema.jsonify(users)
+    except Exception as e:
         logging.warning(str(e))
         return False, kwargs
     return True, kwargs
+
+
+def query_all_agency_users(**kwargs) -> tuple:
+    try:
+        users = User.query.filter_by(business_guid=kwargs.get('url_business_guid')).limit(Config.MAX_RECORDS_RETURNED).all()
+        user_schema = UserSchema(many=True)
+        kwargs['response'] = user_schema.jsonify(users)
+    except Exception as e:
+        logging.warning(str(e))
+        return False, kwargs
+    return True, kwargs
+
+
+def user_belongs_to_business(**kwargs) -> tuple:
+    try:
+        user_count = User.query.filter_by(business_guid=kwargs.get('url_business_guid'),
+                                          user_guid=kwargs.get('url_user_guid')).count()
+        logging.warning("user_count: " + str(user_count))
+    except Exception as e:
+        logging.debug(str(e))
+        return False, kwargs
+    return user_count == 1, kwargs
+
+
+def payload_user_matches_url_user_guid(**kwargs) -> tuple:
+    """
+    When updating a user, the user_guid cannot be changed.
+    Create a new user instead.
+    """
+    payload_user_guid = kwargs.get("payload")["user_guid"]
+    url_user_guid = kwargs.get("url_user_guid")
+    return payload_user_guid == url_user_guid, kwargs
+
+
+def payload_business_guid_matches_url_business_guid(**kwargs) -> tuple:
+    """
+    When updating a user, the business_guid cannot be changed.
+    Create a new user instead.
+    """
+    payload_business_guid = kwargs.get("payload")["business_guid"]
+    url_business_guid = kwargs.get("url_business_guid")
+    return payload_business_guid == url_business_guid, kwargs
+
+
+def _get_now() -> datetime:
+    tz = pytz.timezone("America/Vancouver")
+    return datetime.now(tz)

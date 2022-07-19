@@ -32,8 +32,7 @@ workbox.routing.registerRoute(
 // Cache frequently changing API resources using "StaleWhileRevalidate" method
 workbox.routing.registerRoute(({request, url}) =>
     url.pathname.includes('/api/v1/static/impound_lot_operators') ||
-    url.pathname.includes('/api/v1/users') ||
-    url.pathname.includes('/api/v1/user_roles'),
+    url.pathname.includes('/api/v1/users'),
   new workbox.strategies.StaleWhileRevalidate({
     cacheName: 'dynamic-api',
     plugins: [
