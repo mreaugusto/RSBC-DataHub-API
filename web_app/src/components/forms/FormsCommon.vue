@@ -9,7 +9,9 @@ import FormContainer from "@/components/forms/FormContainer";
 import FormRow from "@/components/forms/FormRow";
 import FormStep from "@/components/forms/FormStep";
 import GenderField from "@/components/questions/GenderField";
+import JurisdictionField from "@/components/questions/JurisdictionField";
 import PhoneField from "@/components/questions/PhoneField";
+import PrintDocuments from "@/components/forms/PrintDocuments";
 import PlateNumber from "@/components/questions/PlateNumber";
 import ProvinceField from "@/components/questions/ProvinceField";
 import RadioField from "@/components/questions/RadioField";
@@ -37,7 +39,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getFormData", "getCurrentlyEditedForm"]),
+    ...mapGetters(["getFormData", "getCurrentlyEditedForm", "getDocumentsToPrint"]),
     getPath() {
       return `forms/${this.name}/${this.id}/data`
     }
@@ -56,8 +58,10 @@ export default {
     FormRow,
     FormStep,
     GenderField,
+    JurisdictionField,
     PhoneField,
     PlateNumber,
+    PrintDocuments,
     ProvinceField,
     RadioField,
     ShadowBox,

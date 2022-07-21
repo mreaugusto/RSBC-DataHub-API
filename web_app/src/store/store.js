@@ -41,7 +41,8 @@ export const store = new Vuex.Store ({
               "variants": ['icbc', 'driver', 'police']
             }
           },
-          "disabled": false
+          "disabled": false,
+          "adminOnly": false
         },
         "24Hour": {
           "component": "TwentyFourHourProhibition",
@@ -56,7 +57,8 @@ export const store = new Vuex.Store ({
               "variants": ['icbc', 'driver', 'ilo', 'police']
             }
           },
-          "disabled": false
+          "disabled": false,
+          "adminOnly": false
         },
         "VI": {
           "component": "VehicleImpoundment",
@@ -71,7 +73,8 @@ export const store = new Vuex.Store ({
               "variants": ['driver', 'police', 'ilo', 'report']
             }
           },
-          "disabled": false
+          "disabled": false,
+          "adminOnly": false
         },
         "IRP": {
           "component": "ImmediateRoadsideProhibition",
@@ -79,8 +82,15 @@ export const store = new Vuex.Store ({
           "label": "IRP",
           "description": "Immediate Roadside Prohibition",
           "full_name": "MV2723",
-          "documents": {},
-          "disabled": true
+          "documents": {
+            "all": {
+              "name": "Print All Copies",
+              "reprint": true,
+              "variants": ['police', 'driver', 'report']
+            }
+          },
+          "disabled": false,
+          "adminOnly": true,
         }
       }
     },

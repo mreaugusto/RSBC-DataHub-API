@@ -5,7 +5,7 @@ import Admin from "@/components/Admin";
 import Login from "@/components/Login";
 import TwentyFourHourProhibition from "@/components/forms/TwentyFourHourProhibition/TwentyFourHourProhibition";
 import TwelveHourProhibition from "@/components/forms/TwelveHourSuspension/TwelveHourProhibition";
-import ImmediateRoadsideProhibition from "@/components/forms/ImmediateRoadsideProhibition";
+import ImmediateRoadsideProhibition from "@/components/forms/ImmediateRoadsideProhibition/main.vue";
 import VehicleImpoundment from "@/components/forms/VehicleImpoundment/VehicleImpoundment";
 import SVGPrint from "@/components/print/SvgPrint";
 import NotFound from "@/components/NotFound";

@@ -26,6 +26,7 @@ import VehicleYear from "@/components/questions/VehicleYear";
 import ReadOnlyElement from "@/components/questions/ReadOnlyElement";
 import InLineCheckBox from "@/components/questions/InLineCheckBox";
 import ImpoundLotOperator from "@/components/questions/ImpoundLotOperator";
+import DriverLicenceClass from "@/components/questions/DriverLicenceClass";
 import {mapGetters} from "vuex";
 
 
@@ -44,10 +45,12 @@ export default {
         "getAttributeValue",
         "getArrayOfAgencies",
         "doesAttributeExist",
-        "hasFormBeenPrinted"
+        "hasFormBeenPrinted",
+        "isLicenceJurisdictionBC",
+        "getCurrentUserObject"
     ]),
     bcdlNumberRules() {
-      if (this.getAttributeValue(this.path + '/drivers_licence_jurisdiction', 'objectDsc') === "British Columbia") {
+      if (this.getAttributeValue(this.path + '/drivers_licence_jurisdiction', 'objectCd') === "BC") {
         return {
           'bcdlNumberRule': true
         }
@@ -60,6 +63,7 @@ export default {
     DateField,
     DobField,
     DriverLicenceNumber,
+    DriverLicenceClass,
     EmailField,
     FormCard,
     FormRow,

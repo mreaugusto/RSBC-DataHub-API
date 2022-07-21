@@ -215,7 +215,7 @@ export const getters = {
         let root = state.forms[form_object.form_type][form_object.form_id].data;
         if ('plate_province' in root) {
             if ('objectDsc' in root['plate_province']) {
-                return root['plate_province'].objectDsc === "British Columbia" && getters.isUserAuthorized
+                return root['plate_province'].objectCd === "BC" && getters.isUserAuthorized
             }
         }
     },
@@ -229,7 +229,7 @@ export const getters = {
         let root = state.forms[form_object.form_type][form_object.form_id].data;
         if (root['drivers_licence_jurisdiction']) {
             if ("objectDsc" in root['drivers_licence_jurisdiction']) {
-                return root['drivers_licence_jurisdiction'].objectDsc === "British Columbia"
+                return root['drivers_licence_jurisdiction'].objectCd === "BC"
             }
         }
 
@@ -508,8 +508,34 @@ export const getters = {
 
     getCurrentUserObject: state => {
         return state.users
-    }
+    },
 
+    getArrayOfRecentViNumbers: state => {
+        const localViNumbers = Object.keys(state.forms.VI);
+        let optionsArray = []
+        localViNumbers.forEach( n => {
+            if ('data' in state.forms.VI[n]) {
+                optionsArray.push({
+                    vi_number: n,
+                    label: state.forms.VI[n].data.last_name +
+                        ", " + state.forms.VI[n].data.first_name + " (" + n + ")"
+                })
+            }
+        })
+        return optionsArray
+    },
+
+    getArrayOfUserRoles: state => {
+        let roles = []
+        if (Array.isArray(state.user_roles)) {
+            state.user_roles.forEach( r => {
+                if (r.approved_dt !== null) {
+                    roles.push(r.role_name)
+                }
+            })
+        }
+        return roles
+    }
 
 }
 

@@ -76,10 +76,6 @@ export default {
         "getCurrentlyEditedFormObject",
         "getCurrentlyEditedForm",
         "doesAttributeExist"]),
-
-    isPrescribedTestUsed() {
-      return this.getAttributeValue(this.getPath, 'prescribed_device') === "Yes";
-    }
   },
   props: {
     name: {

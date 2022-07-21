@@ -1,10 +1,14 @@
 import moment from 'moment-timezone';
 import {extend} from "vee-validate";
-import { oneOf, max } from 'vee-validate/dist/rules';
+import { max } from 'vee-validate/dist/rules';
 import constants from "@/config/constants";
 
 extend('inCities', {
-  ...oneOf,
+  validate(value, listOfBcCityNames) {
+    return {
+      valid: listOfBcCityNames.includes(value.objectDsc)
+    };
+  },
   message: 'Not a city in the list'
 });
 
