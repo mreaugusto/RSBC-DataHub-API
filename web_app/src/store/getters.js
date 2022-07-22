@@ -215,7 +215,7 @@ export const getters = {
         let root = state.forms[form_object.form_type][form_object.form_id].data;
         if ('plate_province' in root) {
             if ('objectDsc' in root['plate_province']) {
-                return root['plate_province'].objectDsc === "British Columbia" && getters.isUserAuthorized
+                return root['plate_province'].objectCd === "BC" && getters.isUserAuthorized
             }
         }
     },
@@ -229,7 +229,7 @@ export const getters = {
         let root = state.forms[form_object.form_type][form_object.form_id].data;
         if (root['drivers_licence_jurisdiction']) {
             if ("objectDsc" in root['drivers_licence_jurisdiction']) {
-                return root['drivers_licence_jurisdiction'].objectDsc === "British Columbia"
+                return root['drivers_licence_jurisdiction'].objectCd === "BC"
             }
         }
 

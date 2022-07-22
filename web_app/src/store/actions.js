@@ -118,10 +118,9 @@ export const actions = {
     // call to action that looks up the province code from the data that ICBC provides
     // if promise resolves successfully then mutate province field with jurisdiction object
     // if promise fails, do nothing
-    async lookupDriverProvince(context, [pathString, icbcPayload]) {
-        console.log("inside actions.js lookupDriverProvince(): ", pathString, icbcPayload)
-        const icbcProvince = icbcPayload['party']['addresses'][0]['region']
-        const jurisdictionArray = context.state.jurisdictions.filter(o => o.objectCd === icbcProvince)
+    async lookupDriverProvince(context, [pathString, provinceCode]) {
+        console.log("inside actions.js lookupDriverProvince(): ", pathString, provinceCode)
+        const jurisdictionArray = context.state.jurisdictions.filter(o => o.objectCd === provinceCode)
         return await new Promise((resolve, reject) => {
             if (jurisdictionArray.length > 0) {
                 const event = {
@@ -133,7 +132,7 @@ export const actions = {
                 }
                 resolve(context.commit("updateFormField", event))
             } else {
-                reject({"error": "Can't find " + icbcProvince + " in list of jurisdictions"})
+                reject({"error": "Can't find " + provinceCode + " in list of jurisdictions"})
             }
         })
     },
@@ -153,7 +152,8 @@ export const actions = {
                     if ("error" in data) {
                         reject("message" in data['error'] ? {"description": data['error'].message }: {"description": "No valid response"})
                     } else {
-                        context.dispatch("lookupDriverProvince", [pathString, data])
+                        const provinceCode = data['party']['addresses'][0]['region']
+                        context.dispatch("lookupDriverProvince", [pathString, provinceCode])
                         resolve(context.commit("populateDriverFromICBC", data ))
                     }
                 })
