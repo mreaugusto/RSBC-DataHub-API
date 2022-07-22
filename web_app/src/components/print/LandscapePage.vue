@@ -1,4 +1,8 @@
 <template>
+  <div>
+    <div id="mark-as-printed-reminder" class="alert alert-warning">
+      Don't forget to return to the previous tab and mark this document as printed
+    </div>
     <svg v-if="formData" class="svg-wrapper" :viewBox="viewbox">
       <image :href="baseURL + page.image.filename" :height="page.image.height + 'px'" :width="page.image.width + 'px'"/>
       <component
@@ -14,6 +18,8 @@
       </component>
      Sorry, your browser does not support inline SVG.
     </svg>
+  </div>
+
 </template>
 
 <script>

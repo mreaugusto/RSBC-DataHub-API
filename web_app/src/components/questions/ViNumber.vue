@@ -53,7 +53,7 @@ export default {
   },
   methods: {
     typeAheadUpdate(e) {
-      const payload = {target: {value: e, path: this.path, id: this.id }}
+      const payload = {target: {value: e.vi_number, path: this.path, id: this.id }}
       this.updateFormField(payload)
       this.query = ''
     }

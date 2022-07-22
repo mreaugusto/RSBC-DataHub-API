@@ -141,6 +141,11 @@ export const getters = {
         return "Not Printed"
     },
 
+    isDocumentServed: (state, getters) => path => {
+        const rootPath = path.replace("/data", '')
+        return getters.getAttributeValue(rootPath, "printed_timestamp") !== null;
+    },
+
     getPdfFileNameString: state => (form_object, document_type) => {
         let file_extension = ".pdf"
         let root = state.forms[form_object.form_type][form_object.form_id]
@@ -535,6 +540,48 @@ export const getters = {
             })
         }
         return roles
+    },
+
+    getPrintedDate: (state, getters) => path => {
+        const rootPath = path.replace("/data", "")
+        const isoDateString = getters.getAttributeValue(rootPath, "printed_timestamp")
+        console.log(isoDateString)
+        const date_time = moment.tz(isoDateString, 'YYYY-MM-DDTHH:mm:ss', false, constants.TIMEZONE)
+
+        return date_time.format("Do of MMMM YYYY")
+    },
+
+    // At present the printed date and certified date are the same
+    // but if the prohibition is served around midnight, we might
+    // need to separate the date served from the date certified
+    getCertifiedDate: (state, getters) => path => {
+        const rootPath = path.replace("/data", "")
+        const isoDateString = getters.getAttributeValue(rootPath, "printed_timestamp")
+        console.log(isoDateString)
+        const date_time = moment.tz(isoDateString, 'YYYY-MM-DDTHH:mm:ss', false, constants.TIMEZONE)
+
+        return date_time.format("YYYY-MM-DD")
+    },
+
+    formattedNoticeNumber: (state, getters) => path => {
+        const rootPath = path.replace("/data", "")
+        const form_id = getters.getAttributeValue(rootPath, "form_id")
+        return form_id.substr(0,2) + "-" + form_id.substr(2);
+    },
+
+    concatenateDriverName: (state, getters) => path => {
+        return getters.getAttributeValue(path, "last_name") + ", " +
+            getters.getAttributeValue(path, "first_name")
+    },
+
+    getOfficialFormName: (state, getters) => path => {
+        const rootPath = path.replace("/data", "")
+        return getters.getAttributeValue(rootPath, "description")
+    },
+
+    isCertificateOfServiceEnabled: (state, getters) => path => {
+        const rootPath = path.replace("/data", "")
+        return getters.getAttributeValue(rootPath, "showCertificate")
     }
 
 }

@@ -8,6 +8,7 @@ import TwelveHourProhibition from "@/components/forms/TwelveHourSuspension/Twelv
 import ImmediateRoadsideProhibition from "@/components/forms/ImmediateRoadsideProhibition/main.vue";
 import VehicleImpoundment from "@/components/forms/VehicleImpoundment/VehicleImpoundment";
 import SVGPrint from "@/components/print/SvgPrint";
+import ServiceCertificate from "@/components/print/ServiceCertificate";
 import NotFound from "@/components/NotFound";
 
 Vue.use(Router)
@@ -65,6 +66,12 @@ const router = new Router({
       path: '/:form_type/:id/print',
       name: 'print',
       component: SVGPrint,
+      props: true
+    },
+    {
+      path: '/:form_type/:id/certificate-of-service',
+      name: 'cos',
+      component: ServiceCertificate,
       props: true
     },
     {

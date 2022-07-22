@@ -7,7 +7,6 @@ import EmailField from "@/components/questions/EmailField";
 import FormCard from "@/components/forms/FormCard";
 import FormContainer from "@/components/forms/FormContainer";
 import FormRow from "@/components/forms/FormRow";
-import FormStep from "@/components/forms/FormStep";
 import GenderField from "@/components/questions/GenderField";
 import JurisdictionField from "@/components/questions/JurisdictionField";
 import PhoneField from "@/components/questions/PhoneField";
@@ -39,7 +38,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["getFormData", "getCurrentlyEditedForm", "getDocumentsToPrint"]),
+    ...mapGetters(["getFormData", "getCurrentlyEditedForm", "getDocumentsToPrint", "isCertificateOfServiceEnabled"]),
     getPath() {
       return `forms/${this.name}/${this.id}/data`
     }
@@ -56,7 +55,6 @@ export default {
     FormCard,
     FormContainer,
     FormRow,
-    FormStep,
     GenderField,
     JurisdictionField,
     PhoneField,

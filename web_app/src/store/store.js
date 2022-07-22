@@ -42,7 +42,8 @@ export const store = new Vuex.Store ({
             }
           },
           "disabled": false,
-          "adminOnly": false
+          "adminOnly": false,
+          "showCertificate": false
         },
         "24Hour": {
           "component": "TwentyFourHourProhibition",
@@ -58,7 +59,8 @@ export const store = new Vuex.Store ({
             }
           },
           "disabled": false,
-          "adminOnly": false
+          "adminOnly": false,
+          "showCertificate": false
         },
         "VI": {
           "component": "VehicleImpoundment",
@@ -74,7 +76,8 @@ export const store = new Vuex.Store ({
             }
           },
           "disabled": false,
-          "adminOnly": false
+          "adminOnly": false,
+          "showCertificate": false
         },
         "IRP": {
           "component": "ImmediateRoadsideProhibition",
@@ -91,6 +94,7 @@ export const store = new Vuex.Store ({
           },
           "disabled": false,
           "adminOnly": true,
+          "showCertificate": true
         }
       }
     },

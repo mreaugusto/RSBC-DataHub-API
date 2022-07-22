@@ -15,7 +15,6 @@ import RadioField from "@/components/questions/RadioField";
 import RadioDescription from "@/components/questions/RadioDescription";
 import CheckField from "@/components/questions/CheckField";
 import ShadowBox from "@/components/forms/ShadowBox";
-import FormStep from "@/components/forms/FormStep";
 import FormCard from "@/components/forms/FormCard";
 import FormRow from "@/components/forms/FormRow";
 import TimeField from "@/components/questions/TimeField";
@@ -67,7 +66,6 @@ export default {
     EmailField,
     FormCard,
     FormRow,
-    FormStep,
     GenderField,
     InLineCheckBox,
     ImpoundLotOperator,
