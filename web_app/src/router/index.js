@@ -14,8 +14,8 @@ import NotFound from "@/components/NotFound";
 Vue.use(Router)
 
 const router = new Router({
-  mode: 'hash',
-  base: process.env.BASE_URL,
+  history: 'hash',
+  base: process.env.VUE_APP_PUBLIC_PATH,
   routes: [
     {
       path: '/',
