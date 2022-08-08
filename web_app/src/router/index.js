@@ -14,7 +14,6 @@ import NotFound from "@/components/NotFound";
 Vue.use(Router)
 
 const router = new Router({
-  history: 'hash',
   base: process.env.VUE_APP_PUBLIC_PATH,
   routes: [
     {
@@ -73,6 +72,11 @@ const router = new Router({
       name: 'cos',
       component: ServiceCertificate,
       props: true
+    },
+    {
+      path: '/&state*',
+      name: 'Home',
+      component: Home
     },
     {
       path: '/:pathMatch(.*)*',
