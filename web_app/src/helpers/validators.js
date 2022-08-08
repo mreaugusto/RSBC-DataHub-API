@@ -238,3 +238,14 @@ extend('vehicleYear', {
   },
   message: "That's not a valid year"
 });
+
+extend('excessiveSpeed', {
+  params: ['speedLimit'],
+  validate(vehicleSpeed, {speedLimit}) {
+    return {
+      valid: vehicleSpeed - speedLimit >= 41
+    }
+  },
+  hasTarget: true,
+  message: "Must be at least 41 km/h over speed limit"
+});
