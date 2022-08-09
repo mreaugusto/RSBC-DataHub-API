@@ -316,7 +316,7 @@
         "field_type": "checkbox",
         "font_size": 12,
         "function": "isExists",
-        "parameters": "impound_duration_3_true",
+        "parameters": "irp_yes/duration_3-day",
         "start": {
           "x": 18,
           "y": 163
@@ -326,7 +326,7 @@
         "field_type": "checkbox",
         "font_size": 12,
         "function": "isExists",
-        "parameters": "impound_duration_7_true",
+        "parameters": "irp_yes/duration_7-day",
         "start": {
           "x": 60,
           "y": 163
@@ -336,7 +336,7 @@
         "field_type": "checkbox",
         "font_size": 12,
         "function": "isExists",
-        "parameters": "impound_duration_30_true",
+        "parameters": "irp_yes/duration_30-day",
         "start": {
           "x": 105,
           "y": 163
@@ -346,7 +346,7 @@
         "field_type": "text",
         "font_size": 12,
         "function": "getStringValue",
-        "parameters": "ipr_number",
+        "parameters": "irp_yes/ipr_number",
         "start": {
           "x": 162,
           "y": 164
