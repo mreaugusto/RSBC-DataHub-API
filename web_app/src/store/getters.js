@@ -508,8 +508,11 @@ export const getters = {
 
     getCurrentUserObject: state => {
         return state.users
-    }
+    },
 
+    getEnvironment: state => {
+        return state.configuration.environment;
+    }
 
 }
 

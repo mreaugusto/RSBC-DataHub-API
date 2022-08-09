@@ -393,6 +393,7 @@ export const actions = {
         await context.dispatch("fetchStaticLookupTables", {"resource": "cities", "admin": false, "static": true})
         await context.dispatch("fetchStaticLookupTables", {"resource": "vehicles", "admin": false, "static": true})
         await context.dispatch("fetchStaticLookupTables", {"resource": "vehicle_styles", "admin": false, "static": true})
+        await context.dispatch("fetchStaticLookupTables", {"resource": "configuration", "admin": false, "static": true})
 
     },
 

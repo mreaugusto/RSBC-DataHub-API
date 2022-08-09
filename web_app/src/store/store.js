@@ -16,6 +16,9 @@ export const store = new Vuex.Store ({
     db_ready: false,
     cities: [],
     countries: [],
+    configuration: {
+      environment: 'prod'
+    },
     currently_editing_form_object: {
       "form_type": null,
       "form_id": null
