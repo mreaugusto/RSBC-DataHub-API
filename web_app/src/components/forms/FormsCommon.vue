@@ -40,6 +40,12 @@ export default {
     ...mapGetters(["getFormData", "getCurrentlyEditedForm"]),
     getPath() {
       return `forms/${this.name}/${this.id}/data`
+    },
+    formObject() {
+      return {
+        form_id: this.id,
+        form_type: this.name
+      }
     }
   },
   methods: {

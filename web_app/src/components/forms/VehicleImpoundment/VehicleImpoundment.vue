@@ -1,5 +1,5 @@
 <template>
-  <form-container title="Vehicle Impoundment" v-if="isMounted">
+  <form-container title="Vehicle Impoundment" :form_object="formObject" v-if="isMounted">
     <validation-observer v-slot="{handleSubmit, validate}">
       <form @submit.prevent="handleSubmit(onSubmit(validate))">
         <drivers-information-card :path="getPath"></drivers-information-card>

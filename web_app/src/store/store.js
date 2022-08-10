@@ -44,7 +44,8 @@ export const store = new Vuex.Store ({
               "variants": ['icbc', 'driver', 'police']
             }
           },
-          "disabled": false
+          "disabled": false,
+          "check_digit": false
         },
         "24Hour": {
           "component": "TwentyFourHourProhibition",
@@ -59,7 +60,8 @@ export const store = new Vuex.Store ({
               "variants": ['icbc', 'driver', 'ilo', 'police']
             }
           },
-          "disabled": false
+          "disabled": false,
+          "check_digit": false
         },
         "VI": {
           "component": "VehicleImpoundment",
@@ -74,7 +76,8 @@ export const store = new Vuex.Store ({
               "variants": ['driver', 'police', 'ilo', 'report']
             }
           },
-          "disabled": false
+          "disabled": false,
+          "check_digit": true
         },
         "IRP": {
           "component": "ImmediateRoadsideProhibition",
@@ -83,7 +86,8 @@ export const store = new Vuex.Store ({
           "description": "Immediate Roadside Prohibition",
           "full_name": "MV2723",
           "documents": {},
-          "disabled": true
+          "disabled": true,
+          "check_digit": true
         }
       }
     },

@@ -1,6 +1,7 @@
 import moment from "moment";
 import constants from "../config/constants";
 import nestedFunctions from "@/helpers/nestedFunctions";
+import checkDigit from "@/helpers/checkDigit";
 
 export const getters = {
 
@@ -512,6 +513,15 @@ export const getters = {
 
     getEnvironment: state => {
         return state.configuration.environment;
+    },
+
+    getFormIdCheckDigit: state => form_object => {
+        if (state.form_schemas.forms[form_object.form_type].check_digit) {
+            const sixDigitString = form_object.form_id.substr(2,7)
+            return checkDigit.checkDigit(sixDigitString).toString()
+        } else {
+            return ''
+        }
     }
 
 }
