@@ -9,7 +9,7 @@ import {plugins} from "@/store/plugins";
 Vue.use(Vuex)
 
 
-export const store = new Vuex.Store ({
+export const rsiStore = new Vuex.Store ({
   state: {
     admin_users: {},
     agencies: [],
