@@ -53,8 +53,10 @@ new Vue({
     // download lookup tables while offline
     await store.dispatch("downloadLookupTables")
 
-    this.$store.subscribe((mutation) => {
+    store.subscribe((mutation, state) => {
+      console.log("$store.subscribe()", mutation.type, mutation.payload, state)
       if (mutation.type === 'setKeycloak') {
+        console.log("setKeycloak mutation observed")
         store.dispatch("getMoreFormsFromApiIfNecessary")
         // TODO - store.dispatch("renewFormLeasesFromApiIfNecessary")
         store.dispatch("fetchStaticLookupTables", {"resource": "user_roles", "admin": false, "static": false})
