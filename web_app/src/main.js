@@ -58,10 +58,8 @@ new Vue({
 }).$mount('#app')
 
 
-rsiStore.subscribe((mutation, state) => {
-      console.log("$store.subscribe()", mutation.type, mutation.payload, state)
+rsiStore.subscribe((mutation) => {
       if (mutation.type === 'setKeycloak') {
-        console.log("setKeycloak mutation observed")
         rsiStore.dispatch("getMoreFormsFromApiIfNecessary")
         // TODO - store.dispatch("renewFormLeasesFromApiIfNecessary")
         rsiStore.dispatch("fetchStaticLookupTables", {"resource": "user_roles", "admin": false, "static": false})
