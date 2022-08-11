@@ -141,6 +141,8 @@ export const mutations = {
     },
 
     setKeycloak(state, keycloak_object) {
+        // TODO - remove before flight
+        console.log("setKeycloak()", keycloak_object)
         Vue.set(state, "keycloak", keycloak_object)
     },
 
