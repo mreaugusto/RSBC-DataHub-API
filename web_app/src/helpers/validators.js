@@ -1,12 +1,7 @@
 import moment from 'moment-timezone';
 import {extend} from "vee-validate";
-import { oneOf, max } from 'vee-validate/dist/rules';
+import { max } from 'vee-validate/dist/rules';
 import constants from "@/config/constants";
-
-extend('inCities', {
-  ...oneOf,
-  message: 'Not a city in the list'
-});
 
 extend('max', {
   ...max,
@@ -249,3 +244,16 @@ extend('excessiveSpeed', {
   hasTarget: true,
   message: "Must be at least 41 km/h over speed limit"
 });
+
+extend("offenceCityRules", {
+  params: ['arrayOfCityObjects'],
+  validate(value, {arrayOfCityObjects}) {
+    const arrayOfCityCodes = arrayOfCityObjects.map( o => o.objectCd)
+    return {
+      required: true,
+      valid: arrayOfCityCodes.includes(value.objectCd)
+    }
+  },
+  message: 'Not a city in the list!'
+});
+
