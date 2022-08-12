@@ -1,12 +1,12 @@
 <template>
-  <div v-if=" ! allResourcesLoaded" class="card mb-3">
+  <div class="card mb-3">
     <div class="card-body">
-      <div class="text-dark text-left small font-weight-bold">Loading resources ...</div>
-      <resource-item v-for="(status, index) in getLoadingStatus"
-                     v-bind:key="index"
-                     :is-loaded="status"
-                     :resource="index">
-      </resource-item>
+        <div class="row small alert text-dark py-0 my-0">
+        <div class="col-1 my-0">
+          <b-spinner v-if=" ! allResourcesLoaded" small></b-spinner>
+        </div>
+        <div class="col-11 text-left">Loading resources ...</div>
+      </div>
     </div>
   </div>
 </template>
@@ -14,14 +14,11 @@
 
 <script>
 import {mapGetters} from "vuex";
-import ResourceItem from "@/components/loading/ResourceItem";
-
 
 export default {
   name: "LoadingResources",
-  components: {ResourceItem},
   computed: {
-  ...mapGetters(["getLoadingStatus", "allResourcesLoaded", "getFirstNotLoaded"])
+  ...mapGetters(["allResourcesLoaded"])
   }
 }
 </script>

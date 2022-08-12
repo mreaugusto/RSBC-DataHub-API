@@ -414,7 +414,7 @@ export const getters = {
     },
 
     isAppAvailableToWorkOffline: (state, getters) => {
-        return getters.isUserHasAtLeastOneFormId && getters.getArrayOfVehicleStyles.length > 0;
+        return getters.isUserHasAtLeastOneFormId;
     },
 
     isUserHasAtLeastOneFormId: (state, getters) => {
@@ -432,7 +432,7 @@ export const getters = {
     },
 
     isDisplayIssueProhibitions: (state, getters) => {
-        return getters.isUserAuthorized || getters.isAppAvailableToWorkOffline;
+        return getters.allResourcesLoaded  && (getters.isUserAuthorized || getters.isAppAvailableToWorkOffline);
     },
 
     isDisplayFeedbackBanner: (state, getters) => {
@@ -524,10 +524,6 @@ export const getters = {
         }
     },
 
-    getLoadingStatus: state => {
-        return state.loaded;
-    },
-
     allResourcesLoaded: state => {
         let status = true;
         for (const key in state.loaded) {
@@ -537,18 +533,6 @@ export const getters = {
         }
         return status;
     },
-
-    getFirstNotLoaded: state => {
-        for (const key in state.loaded) {
-            if ( ! state.loaded[key]) {
-                return {
-                    key: key,
-                    status: state.loaded[key]
-                }
-            }
-        }
-        return null;
-    }
 
 }
 
