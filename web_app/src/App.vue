@@ -12,10 +12,11 @@
               </div>
 
               <div class="mt-auto small">
-                <router-link to="/admin" v-if="isUserAnAdmin" class="text-white font-weight-bold" id="admin">
+                <router-link to="/admin" v-if="isUserAnAdmin && isUserAnAdmin" class="text-white font-weight-bold" id="admin">
                   <span>Admin</span>
                 </router-link>
-                <span v-if="! isUserAnAdmin && isUserAuthenticated">User</span> {{ getKeycloakUsername }}
+                {{ getKeycloakUsername }}
+                <div v-if="isUserAuthenticated" class="btn btn-light btn-sm ml-3" @click="$store.state.keycloak.logoutFn()">Logout</div>
               </div>
             </div>
           </div>
