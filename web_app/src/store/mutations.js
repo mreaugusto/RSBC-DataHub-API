@@ -185,6 +185,10 @@ export const mutations = {
 
     userIsAuthenticated(state, boolean_payload) {
         Vue.set(state, "isUserAuthorized", boolean_payload)
+    },
+
+    resourceLoaded(state, resource) {
+        Vue.set(state.loaded, resource, true)
     }
 }
 

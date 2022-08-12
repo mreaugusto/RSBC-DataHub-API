@@ -383,17 +383,44 @@ export const actions = {
                 })
     },
 
-    async downloadLookupTables(context) {
+    downloadLookupTables(context) {
 
-        await context.dispatch("fetchStaticLookupTables", {"resource": "agencies", "admin": false, "static": true})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "impound_lot_operators", "admin": false, "static": true})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "countries", "admin": false, "static": true})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "jurisdictions", "admin": false, "static": true})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "provinces", "admin": false, "static": true})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "cities", "admin": false, "static": true})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "vehicles", "admin": false, "static": true})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "vehicle_styles", "admin": false, "static": true})
-        await context.dispatch("fetchStaticLookupTables", {"resource": "configuration", "admin": false, "static": true})
+        context.dispatch("fetchStaticLookupTables", {"resource": "agencies", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "agencies")
+            })
+        context.dispatch("fetchStaticLookupTables", {"resource": "impound_lot_operators", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "impound_lot_operators")
+            })
+        context.dispatch("fetchStaticLookupTables", {"resource": "countries", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "countries")
+            })
+        context.dispatch("fetchStaticLookupTables", {"resource": "jurisdictions", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "jurisdictions")
+            })
+        context.dispatch("fetchStaticLookupTables", {"resource": "provinces", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "provinces")
+            })
+        context.dispatch("fetchStaticLookupTables", {"resource": "cities", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "cities")
+            })
+        context.dispatch("fetchStaticLookupTables", {"resource": "vehicles", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "vehicles")
+            })
+        context.dispatch("fetchStaticLookupTables", {"resource": "vehicle_styles", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "vehicle_styles")
+            })
+        context.dispatch("fetchStaticLookupTables", {"resource": "configuration", "admin": false, "static": true})
+            .then(() => {
+                context.commit("resourceLoaded", "configuration")
+            })
 
     },
 

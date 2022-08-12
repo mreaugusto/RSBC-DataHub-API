@@ -522,6 +522,32 @@ export const getters = {
         } else {
             return ''
         }
+    },
+
+    getLoadingStatus: state => {
+        return state.loaded;
+    },
+
+    allResourcesLoaded: state => {
+        let status = true;
+        for (const key in state.loaded) {
+            if ( ! state.loaded[key]) {
+                status = false
+            }
+        }
+        return status;
+    },
+
+    getFirstNotLoaded: state => {
+        for (const key in state.loaded) {
+            if ( ! state.loaded[key]) {
+                return {
+                    key: key,
+                    status: state.loaded[key]
+                }
+            }
+        }
+        return null;
     }
 
 }

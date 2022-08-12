@@ -1,5 +1,6 @@
 <template>
   <div>
+    <LoadingResources></LoadingResources>
     <user-not-permitted-banner v-if="isDisplayUserNotAuthorizedBanner"></user-not-permitted-banner>
     <welcome-login-card v-if="isDisplayWelcomeLoginCard"></welcome-login-card>
     <issue-prohibitions v-if="isDisplayIssueProhibitions"></issue-prohibitions>
@@ -16,10 +17,12 @@ import RecentProhibitions from "@/components/RecentProhibitions";
 import UserNotPermittedBanner from "@/components/UserNotPermittedBanner";
 import {mapGetters} from "vuex";
 import WelcomeLoginCard from "@/components/WelcomeLoginCard";
+import LoadingResources from "@/components/loading/LoadingResources";
 
 export default {
   name: "Home",
   components: {
+    LoadingResources,
      WelcomeLoginCard,
      UserNotPermittedBanner,
      RecentProhibitions,

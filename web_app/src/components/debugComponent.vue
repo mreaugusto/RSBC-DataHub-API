@@ -1,8 +1,9 @@
 <template>
     <div id="debug-component" class="card-footer bg-transparent border-0 text-muted small">
-      Version: {{ getAppVersion }} - Environment: {{ getEnvironment.toUpperCase() }}
+      Version: {{ getAppVersion }}
       <span @click="toggleVisible" class="small text-muted">*</span>
       <div class="small text-muted" v-if="showDetails">
+        <div>Environment: {{ getEnvironment.toUpperCase() }}</div>
         <div>isUserHasAtLeastOneFormId: {{ isUserHasAtLeastOneFormId }}</div>
         <div>getArrayOfVehicleStyles.length: {{ getArrayOfVehicleStyles.length }}</div>
         <div>isUserAuthenticated: {{ isUserAuthenticated }}</div>
