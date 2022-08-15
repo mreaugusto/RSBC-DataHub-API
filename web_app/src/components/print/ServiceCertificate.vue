@@ -1,5 +1,15 @@
 <template>
   <div v-if="isDocumentServed(getPath)">
+    <div id="print-instructions" class="card text-dark mb-2">
+      <div class="card-header text-left">
+        <div class="font-weight-bold">Print this page</div>
+        <div class="small text-muted">If you need it for your records</div>
+        <div class="text-right">
+          <div class="btn btn-primary btn-sm"  @click="goHome">Close and return to Home</div>
+      </div>
+      </div>
+
+    </div>
     <service-certificate-wording
       :form_full_name="getOfficialFormName(getPath)"
       :served_date="getPrintedDate(getPath)"
@@ -44,6 +54,11 @@ export default {
     },
     components: {
       ServiceCertificateWording
+    },
+    methods: {
+      goHome() {
+        this.$router.replace({name: 'Home'})
+      }
     }
 }
 </script>
@@ -72,15 +87,19 @@ export default {
   }
 
   @media print {
-     #roadsafety-header {
-       display: none;
-     }
-     #debug-component {
-       display: none;
-     }
-     #not-authenticated-banner {
-       display: none;
-     }
+    #roadsafety-header {
+     display: none;
+    }
+    #debug-component {
+     display: none;
+    }
+    #not-authenticated-banner {
+     display: none;
+    }
+
+    #print-instructions {
+      display: none;
+    }
 
     #certificate-of-service {
       margin-top: 25mm;

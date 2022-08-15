@@ -545,7 +545,6 @@ export const getters = {
     getPrintedDate: (state, getters) => path => {
         const rootPath = path.replace("/data", "")
         const isoDateString = getters.getAttributeValue(rootPath, "printed_timestamp")
-        console.log(isoDateString)
         const date_time = moment.tz(isoDateString, 'YYYY-MM-DDTHH:mm:ss', false, constants.TIMEZONE)
 
         return date_time.format("Do of MMMM YYYY")
@@ -557,7 +556,6 @@ export const getters = {
     getCertifiedDate: (state, getters) => path => {
         const rootPath = path.replace("/data", "")
         const isoDateString = getters.getAttributeValue(rootPath, "printed_timestamp")
-        console.log(isoDateString)
         const date_time = moment.tz(isoDateString, 'YYYY-MM-DDTHH:mm:ss', false, constants.TIMEZONE)
 
         return date_time.format("YYYY-MM-DD")

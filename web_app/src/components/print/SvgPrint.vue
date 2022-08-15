@@ -1,5 +1,6 @@
 <template>
   <div>
+    <print-confirmation :form_type="form_type" :id="id" :show_certificate="true"></print-confirmation>
     <variant v-for="(value, name) in getVariants"
        v-bind:key="name"
        :document="document"
@@ -15,6 +16,7 @@
 import print_layout from "../../config/print_layout.json";
 import variant from "./variant"
 import {mapGetters} from "vuex";
+import PrintConfirmation from "@/components/print/PrintConfirmation";
 
 export default {
     name: "SvgPrint",
@@ -46,8 +48,21 @@ export default {
     }
     },
     components: {
-      variant
+      variant,
+      PrintConfirmation
     }
 }
 </script>
+
+<style scoped>
+
+  @media print {
+
+     #is-served {
+       display: none;
+     }
+
+  }
+
+</style>
 
