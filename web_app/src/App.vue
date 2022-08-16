@@ -1,29 +1,38 @@
 <template>
   <div id="app" class="card border-0 ml-4 mr-4">
-    <div id="roadsafety-header" class="card-header">
-      <div class="d-flex justify-content-between">
-        <a :href="`${publicPath}`" id="home"><img width="300px" :src="`${publicPath}assets/BCID_RoadSafetyBC_logo_transparent.png`" ></a>
-        <div class="d-flex align-items-end flex-column">
-          <div class="font-weight-bold text-warning">
-            PILOT <span class="text-light small" id="app-version">{{ getAppVersion }}</span>
-          </div>
+    <div class="container-fluid">
+      <div id='primary-content' :class="primaryContentClass">
 
-          <div class="mt-auto small">
-            <router-link to="/admin" v-if="isUserAnAdmin" class="text-white font-weight-bold" id="admin">
-              <span>Admin</span>
-            </router-link>
-            <span v-if="! isUserAnAdmin && isUserAuthenticated">User</span> {{ getKeycloakUsername }}
+        <div id="roadsafety-header" class="card-header">
+          <div class="d-flex justify-content-between">
+            <a :href="`${publicPath}`" id="home"><img width="300px" :src="`${publicPath}assets/BCID_RoadSafetyBC_logo_transparent.png`" ></a>
+            <div class="d-flex align-items-end flex-column">
+              <div class="font-weight-bold text-warning">
+                PILOT <span class="text-light small" id="app-version">{{ getAppVersion }}</span>
+              </div>
+
+              <div class="mt-auto small">
+                <b-navbar type="dark" class="p-0">
+                  <b-navbar-nav class="ml-auto">
+                    <b-nav-item v-if="isUserAnAdmin && isUserAuthenticated" @click="$router.replace('admin')">Admin</b-nav-item>
+                    <b-nav-item-dropdown v-if="isUserAuthenticated" text="User" right>
+                      <b-dropdown-item @click="$store.state.keycloak.logoutFn()">Logout</b-dropdown-item>
+                    </b-nav-item-dropdown>
+                  </b-navbar-nav>
+                </b-navbar>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-    </div>
-    <not-logged-in-banner v-if="isDisplayNotLoggedInBanner"></not-logged-in-banner>
-    <update-available></update-available>
-    <div class="card-body">
-      <offline-banner v-if="! $store.state.isOnline"></offline-banner>
-      <router-view></router-view>
-      <debug-component></debug-component>
+      <not-logged-in-banner v-if="isDisplayNotLoggedInBanner"></not-logged-in-banner>
+      <update-available></update-available>
+      <div class="card-body">
+        <offline-banner v-if="! $store.state.isOnline"></offline-banner>
+        <router-view></router-view>
+        <debug-component></debug-component>
+      </div>
     </div>
   </div>
 </template>
