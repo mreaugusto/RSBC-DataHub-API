@@ -14,7 +14,7 @@
               <div class="mt-auto small">
                 <b-navbar type="dark" class="p-0">
                   <b-navbar-nav class="ml-auto">
-                    <b-nav-item v-if="isUserAnAdmin && isUserAuthenticated" @click="$router.replace('admin')">Admin</b-nav-item>
+                    <b-nav-item v-if="isUserAnAdmin && isUserAuthenticated" @click="$router.replace({name: 'Admin'})">Admin</b-nav-item>
                     <b-nav-item-dropdown v-if="isUserAuthenticated" text="User" right>
                       <b-dropdown-item @click="$store.state.keycloak.logoutFn()">Logout</b-dropdown-item>
                     </b-nav-item-dropdown>
