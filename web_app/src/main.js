@@ -45,8 +45,11 @@ Vue.use(VueKeyCloak, {
           store: rsiStore,
           async created() {
 
-            await rsiStore.dispatch("getAllFormsFromDB");
-            await rsiStore.dispatch("downloadLookupTables")
+            await rsiStore.dispatch("getAllFormsFromDB")
+                .then( () => {
+                    rsiStore.dispatch("getMoreFormsFromApiIfNecessary")
+                });
+            await rsiStore.dispatch("downloadLookupTables");
 
           },
           render: h => h(App),
@@ -70,13 +73,8 @@ Vue.use(VueKeyCloak, {
 });
 
 
-
-
-
 rsiStore.subscribe((mutation) => {
       if (mutation.type === 'setKeycloak') {
-        rsiStore.dispatch("getMoreFormsFromApiIfNecessary")
-        // TODO - store.dispatch("renewFormLeasesFromApiIfNecessary")
         rsiStore.dispatch("fetchStaticLookupTables", {"resource": "user_roles", "admin": false, "static": false})
             .then(data => {
                 rsiStore.dispatch("updateUserIsAuthenticated", data)
