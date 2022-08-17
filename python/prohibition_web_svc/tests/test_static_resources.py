@@ -225,6 +225,26 @@ def test_unauthorized_user_can_get_keycloak_config(as_guest):
     })
 
 
+@responses.activate
+def test_unauthorized_user_can_get_configuration(as_guest):
+    resp = as_guest.get(Config.URL_PREFIX + "/api/v1/static/configuration",
+                        follow_redirects=True,
+                        content_type="application/json")
+    assert resp.status_code == 200
+    assert resp.json == {
+        "environment": "dev"
+    }
+    assert responses.calls[0].request.body.decode() == json.dumps({
+        'event': {
+            'event': 'get static resource',
+            'resource': 'configuration',
+            'user_guid': '',
+            'username': ''
+        },
+        'source': 'be78d6'
+    })
+
+
 def _get_unauthorized_user(**kwargs) -> tuple:
     logging.warning("inside _get_unauthorized_user()")
     kwargs['decoded_access_token'] = {'preferred_username': 'john@idir'}  # keycloak username

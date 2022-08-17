@@ -40,9 +40,7 @@
 
         <div v-if="hasUserApplied">
           <p>
-            <span class="font-weight-bold">Application received.</span>
-            If you do not receive a response within 1 business day, please contact us at:
-            <a href="mailto:RSIOpsSupport@gov.bc.ca">RSIOpsSupport@gov.bc.ca</a>
+            <span class="font-weight-bold">Application received.</span> Thank you!
           </p>
         </div>
     </div>

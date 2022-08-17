@@ -49,8 +49,23 @@ export default {
   name: 'App',
   components: {DebugComponent, NotLoggedInBanner, OfflineBanner, UpdateAvailable},
   computed: {
-    ...mapGetters(['getAppVersion', "getKeycloakUsername", "isUserAnAdmin", "isUserAuthenticated",
-    "isDisplayNotLoggedInBanner"]),
+    ...mapGetters([
+        'getEnvironment',
+        'getAppVersion',
+        "getKeycloakUsername",
+        "isUserAnAdmin",
+        "isUserAuthenticated",
+        "isDisplayNotLoggedInBanner"
+    ]),
+    primaryContentClass() {
+      const env = this.getEnvironment;
+      const contentClass = {
+        "dev": 'dev-banner',
+        "test": 'test-banner',
+        "prod": ''
+      }
+      return contentClass[env]
+    }
   },
   data () {
     return {
@@ -62,6 +77,14 @@ export default {
 </script>
 
 <style>
+.dev-banner {
+  border-left: hotpink 12px solid;
+}
+
+.test-banner {
+  border-left: yellow 12px solid;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   font-size: large;

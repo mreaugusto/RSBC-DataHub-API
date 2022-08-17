@@ -9,13 +9,16 @@ import {plugins} from "@/store/plugins";
 Vue.use(Vuex)
 
 
-export const store = new Vuex.Store ({
+export const rsiStore = new Vuex.Store ({
   state: {
     admin_users: {},
     agencies: [],
     db_ready: false,
     cities: [],
     countries: [],
+    configuration: {
+      environment: 'prod'
+    },
     currently_editing_form_object: {
       "form_type": null,
       "form_id": null
@@ -43,7 +46,8 @@ export const store = new Vuex.Store ({
           },
           "disabled": false,
           "adminOnly": false,
-          "showCertificate": false
+          "showCertificate": false,
+          "check_digit": false
         },
         "24Hour": {
           "component": "TwentyFourHourProhibition",
@@ -60,7 +64,8 @@ export const store = new Vuex.Store ({
           },
           "disabled": false,
           "adminOnly": false,
-          "showCertificate": false
+          "showCertificate": false,
+          "check_digit": false
         },
         "VI": {
           "component": "VehicleImpoundment",
@@ -77,7 +82,8 @@ export const store = new Vuex.Store ({
           },
           "disabled": false,
           "adminOnly": false,
-          "showCertificate": false
+          "showCertificate": false,
+          "check_digit": true
         },
         "IRP": {
           "component": "ImmediateRoadsideProhibition",
@@ -94,7 +100,8 @@ export const store = new Vuex.Store ({
           },
           "disabled": false,
           "adminOnly": true,
-          "showCertificate": true
+          "showCertificate": true,
+          "check_digit": true
         }
       }
     },
@@ -104,6 +111,17 @@ export const store = new Vuex.Store ({
     isOnline: true,
     jurisdictions: [],
     keycloak: {},
+    loaded: {
+      "agencies": false,
+      "impound_lot_operators": false,
+      "countries": false,
+      "jurisdictions": false,
+      "provinces": false,
+      "cities": false,
+      "vehicles": false,
+      "vehicle_styles": false,
+      "configuration": false,
+    },
     pickup_locations: [],
     provinces: [],
     user_roles: {},

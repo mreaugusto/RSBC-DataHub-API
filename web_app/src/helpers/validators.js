@@ -3,14 +3,6 @@ import {extend} from "vee-validate";
 import { max } from 'vee-validate/dist/rules';
 import constants from "@/config/constants";
 
-extend('inCities', {
-  validate(value, listOfBcCityNames) {
-    return {
-      valid: listOfBcCityNames.includes(value.objectDsc)
-    };
-  },
-  message: 'Not a city in the list'
-});
 
 extend('max', {
   ...max,
@@ -242,3 +234,27 @@ extend('vehicleYear', {
   },
   message: "That's not a valid year"
 });
+
+extend('excessiveSpeed', {
+  params: ['speedLimit'],
+  validate(vehicleSpeed, {speedLimit}) {
+    return {
+      valid: vehicleSpeed - speedLimit >= 41
+    }
+  },
+  hasTarget: true,
+  message: "Must be at least 41 km/h over speed limit"
+});
+
+extend("offenceCityRules", {
+  params: ['arrayOfCityObjects'],
+  validate(value, {arrayOfCityObjects}) {
+    const arrayOfCityCodes = arrayOfCityObjects.map( o => o.objectCd)
+    return {
+      required: true,
+      valid: arrayOfCityCodes.includes(value.objectCd)
+    }
+  },
+  message: 'Not a city in the list!'
+});
+

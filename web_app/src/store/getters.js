@@ -1,6 +1,7 @@
 import moment from "moment";
 import constants from "../config/constants";
 import nestedFunctions from "@/helpers/nestedFunctions";
+import checkDigit from "@/helpers/checkDigit";
 
 export const getters = {
 
@@ -418,7 +419,7 @@ export const getters = {
     },
 
     isAppAvailableToWorkOffline: (state, getters) => {
-        return getters.isUserHasAtLeastOneFormId && getters.getArrayOfVehicleStyles.length > 0;
+        return getters.isUserHasAtLeastOneFormId;
     },
 
     isUserHasAtLeastOneFormId: (state, getters) => {
@@ -436,7 +437,7 @@ export const getters = {
     },
 
     isDisplayIssueProhibitions: (state, getters) => {
-        return getters.isUserAuthorized || getters.isAppAvailableToWorkOffline;
+        return getters.allResourcesLoaded  && (getters.isUserAuthorized || getters.isAppAvailableToWorkOffline);
     },
 
     isDisplayFeedbackBanner: (state, getters) => {
@@ -580,7 +581,31 @@ export const getters = {
     isCertificateOfServiceEnabled: (state, getters) => path => {
         const rootPath = path.replace("/data", "")
         return getters.getAttributeValue(rootPath, "showCertificate")
-    }
+    },
+
+    getEnvironment: state => {
+        return state.configuration.environment;
+    },
+
+    getFormIdCheckDigit: state => form_object => {
+        if (state.form_schemas.forms[form_object.form_type].check_digit) {
+            const sixDigitString = form_object.form_id.substr(2,7)
+            return checkDigit.checkDigit(sixDigitString).toString()
+        } else {
+            return ''
+        }
+    },
+
+    allResourcesLoaded: state => {
+        let status = true;
+        for (const key in state.loaded) {
+            if ( ! state.loaded[key]) {
+                status = false
+            }
+        }
+        return status;
+    },
+
 
 }
 

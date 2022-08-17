@@ -19,28 +19,6 @@
         </form-row>
       </shadow-box>
       <shadow-box>
-        <p>3, 7  or 30 Day Impoundment <span class="text-muted">In accordance
-          with Section 215.46 and 253 of the Motor Vehicle Act</span>
-        </p>
-        <form-row>
-          <in-line-check-box id="impound_duration_3" :path=path fg_class="col-sm-2" :option=true>
-          3-Day
-          </in-line-check-box>
-          <in-line-check-box id="impound_duration_7" :path=path fg_class="col-sm-2" :option=true>
-            7-Day
-          </in-line-check-box>
-          <in-line-check-box id="impound_duration_30" :path=path fg_class="col-sm-2" :option=true>
-            30-Day
-          </in-line-check-box>
-          <div v-if="(this.getAttributeValue(this.path, 'impound_duration_3_true') ||
-          this.getAttributeValue(this.path, 'impound_duration_7_true') ||
-          this.getAttributeValue(this.path, 'impound_duration_30_true'))">
-            <text-field id="ipr_number" :path="path" fg_class="col-sm-6">IRP Number</text-field>
-          </div>
-
-        </form-row>
-      </shadow-box>
-      <shadow-box>
         <p>7-Day Impoundment for the following reason(s)
             <span class="text-muted">Section 251 and 253 of the Motor Vehicle Act</span>
         </p>
