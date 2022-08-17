@@ -1,6 +1,10 @@
 <template>
   <div>
-    <print-confirmation :form_type="form_type" :id="id" :show_certificate="true"></print-confirmation>
+    <print-confirmation
+        :form_type="form_type"
+        :id="id"
+        :show_certificate="isCertificateOfServiceEnabled(getPath)">
+    </print-confirmation>
     <variant v-for="(value, name) in getVariants"
        v-bind:key="name"
        :document="document"
@@ -29,7 +33,7 @@ export default {
       },
     },
     computed: {
-      ...mapGetters(['getFormData', "isVehicleImpounded"]),
+      ...mapGetters(['getFormData', "isVehicleImpounded", "isCertificateOfServiceEnabled"]),
       document() {
         return print_layout[this.form_type]
       },
