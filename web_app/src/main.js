@@ -38,24 +38,39 @@ Vue.use(VueKeyCloak, {
   },
   config: constants.API_ROOT_URL + '/api/v1/static/keycloak',
   onReady: () => {
-    rsiStore.commit("setKeycloak", Vue.prototype.$keycloak)
+      rsiStore.commit("setKeycloak", Vue.prototype.$keycloak)
+
+      new Vue({
+          router,
+          store: rsiStore,
+          async created() {
+
+            await rsiStore.dispatch("getAllFormsFromDB");
+            await rsiStore.dispatch("downloadLookupTables")
+
+          },
+          render: h => h(App),
+        }).$mount('#app')
+  },
+
+  onInitError: () => {
+      new Vue({
+          router,
+          store: rsiStore,
+          async created() {
+
+            await rsiStore.dispatch("getAllFormsFromDB");
+            // download lookup tables from service worker
+            await rsiStore.dispatch("downloadLookupTables")
+
+          },
+          render: h => h(App),
+        }).$mount('#app')
   }
 });
 
 
-new Vue({
-  router,
-  store: rsiStore,
-  async created() {
 
-    await rsiStore.dispatch("getAllFormsFromDB");
-
-    // download lookup tables while offline
-    await rsiStore.dispatch("downloadLookupTables")
-
-  },
-  render: h => h(App),
-}).$mount('#app')
 
 
 rsiStore.subscribe((mutation) => {

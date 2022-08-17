@@ -24,14 +24,14 @@
             </div>
           </div>
         </div>
-      </div>
 
-      <not-logged-in-banner v-if="isDisplayNotLoggedInBanner"></not-logged-in-banner>
-      <update-available></update-available>
-      <div class="card-body">
-        <offline-banner v-if="! $store.state.isOnline"></offline-banner>
-        <router-view></router-view>
-        <debug-component></debug-component>
+        <not-logged-in-banner v-if="isDisplayNotLoggedInBanner"></not-logged-in-banner>
+        <update-available></update-available>
+        <div class="card-body">
+          <offline-banner v-if="! $store.state.isOnline"></offline-banner>
+          <router-view></router-view>
+          <debug-component></debug-component>
+        </div>
       </div>
     </div>
   </div>
