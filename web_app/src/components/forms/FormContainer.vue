@@ -34,7 +34,7 @@ export default {
 <style scoped>
 
 #check-digit {
-  background: lightblue;
+  background: lightgrey;
   padding: 0 2px 0 2px;
 }
 
