@@ -13,7 +13,7 @@ import OffenceCity from "@/components/questions/OffenceCity";
 import PlateNumber from "@/components/questions/PlateNumber";
 import RadioField from "@/components/questions/RadioField";
 import RadioDescription from "@/components/questions/RadioDescription";
-import CheckField from "@/components/questions/CheckField";
+import CheckField from "@/components/questions/CheckField/CheckField";
 import ShadowBox from "@/components/forms/ShadowBox";
 import FormCard from "@/components/forms/FormCard";
 import FormRow from "@/components/forms/FormRow";

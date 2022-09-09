@@ -1,5 +1,5 @@
 <script>
-import CheckField from "@/components/questions/CheckField";
+import CheckField from "@/components/questions/CheckField/CheckField";
 import DateField from "@/components/questions/DateField";
 import DobField from "@/components/questions/DoBField";
 import DriverLicenceNumber from "@/components/questions/DriverLicenceNumber";
