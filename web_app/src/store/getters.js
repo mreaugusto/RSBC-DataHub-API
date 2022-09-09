@@ -188,6 +188,14 @@ export const getters = {
         return {}
     },
 
+    getProvinceObjectByCode: state => code => {
+        const results =  state.provinces.filter( o => o.objectCd === code);
+        if (results.length > 0) {
+            return results[0]
+        }
+        return {}
+    },
+
     getImpoundLotOperatorObject: state => ilo_string => {
         const results = state.impound_lot_operators.filter( o =>
             (o.name + ", " + o.lot_address + ", " + o.city + ", " + o.phone) === ilo_string
