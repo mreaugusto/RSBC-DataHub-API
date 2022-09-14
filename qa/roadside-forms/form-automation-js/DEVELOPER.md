@@ -1,10 +1,10 @@
-I arrived at an answer without looking at the Vue.js or Cypress source code, though that was my next step, and doing so may yield a better solution. For now, this works well on complex Vuex elements on the forms I'm working with, and allows individual sections or the entire form to be filled out programmatically.
+I arrived at an answer without looking at the Vue.js or Cypress source code, though that was my next step, and doing so may yield a better solution. For now, this works well on complex Vuex elements on the forms I'm working with, and allows individual sections or the entire form to be filled out programmatically with JavaScript, using the browser's own rendering engine.
 
 ## How it works
 
-The form is a single-page Vue app, and the [Requestly browser extension](https://requestly.io/) injects JavaScript onto the page after it loads. There are many ways to inject code onto a page using extensions (eg. [TamperMonkey](https://www.tampermonkey.net/)/[ViolentMonkey](https://violentmonkey.github.io/), [Autofill](https://chrome.google.com/webstore/detail/autofill/nlmmgnhgdeffjkdckmikfpnddkbbfkkk)) or proxies (eg. [Fiddler](https://www.telerik.com/fiddler), or [mitmproxy](https://mitmproxy.org/)). Requestly seems good because it has a nice interface and can also mock API calls. The code injected by Requestly sits on the local file system (checked out from git, but could be loaded raw from GitHub) and but currently served by a simple [PowerShell local web server](https://github.com/MScholtes/WebServer).
+The form is a single-page Vue app, and the [Requestly browser extension](https://requestly.io/) injects JavaScript onto the page after it loads. There are many ways to inject code onto a page using extensions (eg. [TamperMonkey](https://www.tampermonkey.net/)/[ViolentMonkey](https://violentmonkey.github.io/), [Autofill](https://chrome.google.com/webstore/detail/autofill/nlmmgnhgdeffjkdckmikfpnddkbbfkkk)) or proxies (eg. [Fiddler](https://www.telerik.com/fiddler), or [mitmproxy](https://mitmproxy.org/)). Requestly seems good because it has a nice interface and can also mock API calls. The code injected by Requestly sits on the local file system (checked out from git, but could be loaded raw from GitHub?) and is currently served by a [PowerShell local web server](https://github.com/MScholtes/WebServer).
 
-This setup is ideal because it allows the automation to be used by a tester, developer, or product owner in a browser while manually working with the form, and also used in an automated system to run end-to-end regression test (eg. Cypress, TestCafe, Power Automate, and maybe even Selenium WebDriver). Previously, I was maintaining two separate automations: one for human use, one for end-to-end testing.
+This setup is ideal because it allows the automation to be used by a tester, developer, or product owner in a browser while manually working with the form, and also used in an automated system to run end-to-end regression test (eg. Cypress, TestCafe, Power Automate, maybe even Selenium WebDriver). Previously, I was maintaining two separate automations: one for human use, one for end-to-end testing.
 
 The inspiration comes from my observation that modern test frameworks and tools run in the browser engine as JavaScript, rather than simulating user interface events with the WebDriver protocol.
 
@@ -12,9 +12,9 @@ The inspiration comes from my observation that modern test frameworks and tools 
 
 There are three JavaScript files injected onto the page when it loads:
 
-1. Model: test record objects, one object for each scenario. Each object is broken down by form section (e.g. driver section, vehicle section, registration section).
-2. View: Buttons and labels overlaid on the page, giving a visual indication that the script has loaded, and allowing different actions to be triggered either with a click or hotkey.
-3. Controller: code for simulating events for filling out the form.
+1. A model: test objects, one object for each scenario. Each object is broken down by form section (e.g. driver section, vehicle section, registration section), with values for each field in a section.
+2. A view: Buttons and labels overlaid on the page, giving a visual indication that the script has loaded, and allowing different actions to be triggered either with a click or hotkey.
+3. A controller: code for simulating events for filling out the form.
 
 ## Automating Vuex element interactions
 
@@ -40,7 +40,7 @@ document.getElementById(field_id).click();
 
 ### Checkboxes
 
-Checkboxes are toggles and like radio buttons, there is no need need to trigger an event after toggling. You do need to check the state beforehand though, and toggle only when needed:
+Checkboxes are toggles and like radio buttons, there is no need need to trigger an event after toggling. You need to check the state beforehand though, and toggle only when needed:
 
 ```javascript
 checkbox = document.getElementsById(field_id);
@@ -77,9 +77,9 @@ There's no need to send an update or input event after the click.
 
 ## Niceties
 
-A few extras ease maintenance and usability.
+The following extras improve maintenance and usability.
 
-## Form data
+### Form data
 
 The form data is broken up into sections just like the form is, where each section has multiple elements (text boxes, radio buttons, multiselects, checkboxes). The test scenarios are organised into sections where the key is the page element id, and the value is the expected value. For example, in the section `drivers_information` below, we want the value of object  id `drivers_number` to be set to `1234567`:
 
@@ -118,7 +118,7 @@ As the sections are iterated, each object is inspected to determine if it's a ch
 
 Breaking the fields up by section allows for sections to be filled individually. Multiple test records can be injected onto the page and mix-and-matched as needed.
 
-## Basic UI
+### Basic UI
 
 A very basic set of labels and buttons are overlaid on top of the web page like this:
 
@@ -146,7 +146,7 @@ btn.addEventListener('click', () => {
 document.body.insertAdjacentElement("afterbegin", btn);
 ```
 
-The page content is moved over by a 140 pixels to make room for the buttons and labels. The form is responsive, so it doesn't impact the content, but it has to be done after the page has rendered. To do this, I added an observer to trigger a DOM update after the page finishes rendering:
+The page content is moved over by a 140 pixels to make room for the buttons and labels. The form is responsive, so it doesn't impact content, but the move has to be done after the page has rendered. To do this, I added an observer to trigger a DOM update after the page finishes rendering:
 
 ```javascript
 // Select the entire DOM for observing:
@@ -167,9 +167,9 @@ const config = {childList: true};
 observer.observe(target, config);
 ```
 
-## Hot keys
+### Hot keys
 
-As a convenience, the sections can be filled by pressing Alt+1, Alt+2, et cetera:
+As a convenience for humans, sections can be filled by pressing Alt+1, Alt+2, et cetera:
 
 ```javascript
 // Set up hotkeys to fill form sections (Alt+1 to fill driver information, etc)
@@ -185,12 +185,12 @@ document.onkeyup = function () {
 }
 ```
 
-There's also a hotkey to iterate through all the sections of the form and fill each one, plus another to iterate through the form and erase each entry (form clear).
+There's also a hotkey to iterate through all the sections of the form and fill each one, plus another to iterate through the form and erase each entry.
 
-## Random and generated records
+### Random and generated records
 
-When a multiselect is used, you can easily pick a value at random. This can be useful to introduce a variety to the test records.
+When a multiselect is used, you can easily pick a value at random. This can be useful to introduce variety to the test records.
 
 At some point I will also introduce randomly-generated field values from [Change.js](https://chancejs.com/).
 
-It's clear that I'm not a JavaScript expert or web developer. This solution is probably not the most elegant, but it gets the job done without any fuss and can be iterated upon.
+It's clear that I'm not a JavaScript expert or web developer. This solution is probably not the most elegant, but it gets the job done without fuss, and can be iterated upon.

@@ -58,7 +58,7 @@ This animated capture illustrates how quickly the form is filled:
 
 ## Research
 
-While working on this ticket, I created a question on [government Stack Overflow](https://stackoverflow.developer.gov.bc.ca/questions/809/826) and the [Vue.js](https://forum.vuejs.org/t/how-to-simulate-user-interaction-in-a-vuex-single-page-web-app-using-javascript/132345/2) forums. You may wish to review the question and answer for more detail about how this works. There may be a new useful answer posted that suggests an alternative method to automate these forms.
+While working on this ticket in Setptember 2022, I requested help on [government Stack Overflow](https://stackoverflow.developer.gov.bc.ca/questions/809/826) and the [Vue.js forums](https://forum.vuejs.org/t/how-to-simulate-user-interaction-in-a-vuex-single-page-web-app-using-javascript/132345/2). You may wish to review any answers there in case an alternative method has been suggested.
 
 
 ## Future
