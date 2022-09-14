@@ -14,7 +14,7 @@
 #  2. Log in to OpenShift/Kubernetes:
 #     $ oc login --token=TOKEN --server=SERVER
 #  3. Run Robot Framework script:
-#     $ robot --loglevel DEBUG --debugfile dfapi.log --outputdir results --exitonfailure dfapi.robot
+#     $ robot --loglevel DEBUG --debugfile robot.log --outputdir results --exitonfailure robot.robot
 
 
 *** Settings ***
@@ -28,17 +28,17 @@ Library      DateTime         # https://robotframework.org/robotframework/latest
 # Load URLs, credentials, and settings from a resource table. To create a resource table, copy the file
 # env/template.resource to a new file, add the appropriate values. Files ending in .resource are ignored by git. See:
 # http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#resource-and-variable-files
-#Resource     env/dfapi-dev-ocp4.resource
+#Resource     env/robot-dev-ocp4.resource
 Resource     env/dfapi-test-ocp4.resource
 
 Suite Setup  Create DFAPI session
 
 
 *** Variables ***
-# See Resource file env/dfapi-*-ocp4.resource for variables.
+# See Resource file env/robot-*-ocp4.resource for variables.
 
 *** Keywords ***
-# See Resource file env/dfapi-*-ocp4.resource for keywords.
+# See Resource file env/robot-*-ocp4.resource for keywords.
 
 
 

@@ -1,0 +1,81 @@
+From: Millar, Shaun P AG:EX <Shaun.Millar@gov.bc.ca>
+Sent: Friday, September 02, 2022 10:32
+To: Forsyth, Steve PSSG:EX <Steve.1.Forsyth@gov.bc.ca>
+Subject: RE: VI-IRP prohibitions POST request example
+
+Hello again Steve.
+
+I’ve attached a json file which will provide the basis for your testing. The only thing you need to do is increment the attribute, “prohibitionNoticeNo”. I just created a successful prohibition with 21900604 so you should set this to 21900605 for the next test. The rest of the values are those required for prohibition submission. Also note that I have not associated any documents in this submission (vipsDocumentIdArray is empty). If you wish to associate a document(s), you could use 605 and/or 606.
+
+I’ve attempted to clarify some of your questions regarding fields below:
+
+-	dreEvaluationsCds: There are no DRE evaluations on this form, so should I leave the value blank, or omit the field from the request? blank
+-	noticeSubjectCd: The Open API schema says this should be “PERS” so I’ll use that. yes
+-	originalCauseCd: for a “3 days WARN” IRP, should the code be “BACWARN3” instead of code “IRP3” is that right? The schema says this should be a single value, I’m just not sure which value to use. Jaime instructed me to use “IRPINDEF”.
+-	policeDetachmentId: The IRP form says “Chilliwack Rural” but I could only find “Chilliwack (M)” and “Chilliwack (P)” in the code tables. What do we do when there is a mismatch? I’m not sure about the mapping here but this will have to equate to an id (e.g. 304 in the attached body). This may be a question for RSBC as they set the detachment Id values.
+-	tempDlEffectiveDt: Is this for a temporary licence? Should I omit this field, or leave the value blank, or set it to nil if this is a normal DL? Null as in the attached)
+-	tempDlExpiryDt: Is this for a temporary licence? Should I omit this field or leave the value blank? Again null as attached.
+-	dataSourceCd: Should this be “ICBC” as described in the schema, or is there a new code for DF? This is either ICBC or VIPS. Signifies the source of the licence and vehicle information. Typically ICBC in your case.
+-	registrationRoleCd: The code table contains “DRVR”, “LESE”, and “REGOWN” but none of these are on the printed form. Should I omit this field or leave it blank, or use null? Use DRVR
+-	additionalDeliveryLineTxt, addressSecondLineTxt, addressThirdLineTxt: Should I leave these blank or omit them? Up to you.
+
+
+Also bear in mind that the underlying VIPS webservice in DEV is currently broken. ISB has been doing some moving of applications to the newer JBOSS 7.4 server and in doing so have broken dev at the moment. I’m working with them to restore this service but because it’s broken currently, a POST to the service will result in:
+"status_message": "404 Not Found from POST https://wsgw.dev.jag.gov.bc.ca/digitalforms/vips/api/cases/prohibitions"
+
+I’ll let you know once it’s back up again.
+
+Enjoy the long weekend,
+-Shaun
+
+From: Millar, Shaun P AG:EX
+Sent: September 2, 2022 8:59 AM
+To: Forsyth, Steve PSSG:EX <Steve.1.Forsyth@gov.bc.ca>
+Subject: RE: VI-IRP prohibitions POST request example
+
+Good morning Steve.
+
+I’ll have the information to you shortly regarding a valid POST prohibition request.
+
+I’ll send you what I used for testing the operation and provide additional details on how to mock these calls on your own.
+
+Back to you soon.
+-Shaun
+
+From: Forsyth, Steve PSSG:EX <Steve.1.Forsyth@gov.bc.ca>
+Sent: September 1, 2022 3:15 PM
+To: Millar, Shaun P AG:EX <Shaun.Millar@gov.bc.ca>
+Subject: VI-IRP prohibitions POST request example
+
+Hi Shaun,
+
+I’ve been getting into the nitty-gritty stuff with the prohibitions POST endpoint in the VI-IRP API. I feel so close to being able to create a prohibition with the API. I need a bit of your help to get all the way there though.
+
+I was wondering if you might be able to send me some examples of realistic (or test) field values please.  In the mean time, I tried to come up with my own values by cross-referencing an IRP form, the Open API spec and schema, and the code tables from the API. Below is what I did to try and figure them out for myself.
+
+In the screenshot below, you will see how I approached this. There are four columns:
+
+Column 1	Column 2	Column 3	Column 4
+A printed IRP form	IRP JSON	VI-IRP API prohibitions POST request	VI-IRP code tables
+This is what the officer fills out, prints, and hands to the driver.	This is the information from the IRP form in column 1 in JSON format. This is what the server received after printing the form shown in column 1.	This is me crafting a POST request to create a prohibition using the fields in column 2 and column 4.	This JSON document contains the code tables from the VI-IRP API “codetables” endpoint.
+
+By looking at the form fields in column 2 and the code tables in column 4, I am trying to build a POST request to create a prohibition in column 3. I also referenced the excellent Open API doc and schema you provided, but I’m not sure about what values to put in some fields (highlighted in the screenshot). Do you have advice on how I should best fill (or omit/empty/nullify) these fields please?
+
+-	dreEvaluationsCds: There are no DRE evaluations on this form, so should I leave the value blank, or omit the field from the request?
+-	noticeSubjectCd: The Open API schema says this should be “PERS” so I’ll use that.
+-	originalCauseCd: for a “3 days WARN” IRP, should the code be “BACWARN3” instead of code “IRP3” is that right? The schema says this should be a single value, I’m just not sure which value to use.
+-	policeDetachmentId: The IRP form says “Chilliwack Rural” but I could only find “Chilliwack (M)” and “Chilliwack (P)” in the code tables. What do we do when there is a mismatch?
+-	tempDlEffectiveDt: Is this for a temporary licence? Should I omit this field, or leave the value blank, or set it to nil if this is a normal DL?
+-	tempDlExpiryDt: Is this for a temporary licence? Should I omit this field or leave the value blank?
+-	dataSourceCd: Should this be “ICBC” as described in the schema, or is there a new code for DF?
+-	registrationRoleCd: The code table contains “DRVR”, “LESE”, and “REGOWN” but none of these are on the printed form. Should I omit this field or leave it blank, or use null?
+-	additionalDeliveryLineTxt, addressSecondLineTxt, addressThirdLineTxt: Should I leave these blank or omit them?
+
+Below is the screenshot. I’m hoping it will make it clear what I am doing and where I am finding values for the API.
+
+Thank-you Shaun,
+
+
+Steve.
+
+

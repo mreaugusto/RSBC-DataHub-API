@@ -1,0 +1,53 @@
+{
+  "vipsProhibitionCreate": {
+    "cityNm": "VICTORIA",
+    "driverLicenceSeizedYN": "N",
+    "dreEvaluations": [],
+    "effectiveDt": "2018-10-11T00:00:00.000-07:00",
+    "expiryDt": null,
+    "incidentDtm": "2018-11-05T00:00:00.000-07:00",
+    "noticeServedDt": "2018-10-07T00:00:00.000-07:00",
+    "noticeSubjectCd": "PERS",
+    "noticeTypeCd": "IRP",
+    "originalCauseCd": "IRPINDEF",
+    "policeDetatchmentId": 304,
+    "policeFileNo": "802",
+    "policeOfficerNm": "Police Officer Jones",
+    "policeOfficerNo": "420",
+    "prohibitionNoticeNo": 21900604,
+    "provinceCd": "BC",
+    "streetDetailsTxt": "Some street details",
+    "tempDlEffectiveDt": null,
+    "tempDlExpiryDt": null
+  },
+  "vipsRegistrationCreate": {
+    "dataSourceCd": "ICBC",
+    "firstGivenNm": "Jeffery",
+    "icbcEnterpriseId": "1",
+    "organizationNm": null,
+    "registrationRoleCd": "DRVR",
+    "secondGivenNm": "Michael",
+    "surnameNm": "Gordon",
+    "thirdGivenNm": null,
+    "vipsAddressArray": [
+      {
+        "additionalDeliveryLineTxt": null,
+        "addressFirstLineTxt": "2018 Warner Bros. Pl",
+        "addressSecondLineTxt": null,
+        "addressThirdLineTxt": null,
+        "cityNm": "Burbank",
+        "countryNm": "USA",
+        "postalCodeTxt": "96321",
+        "provinceCd": "CA",
+        "registrationAddressTypeCd": "MAIL"
+      }
+    ],
+    "vipsLicenceCreateObj": {
+      "birthDt": "1971-04-08T00:00:00.000-07:00",
+      "driverLicenceNo": "6400717",
+      "dlJurisdictionCd": "BC"
+    }
+  },
+  "vipsDocumentIdArray": [
+  ]
+}

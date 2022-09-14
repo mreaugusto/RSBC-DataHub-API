@@ -28,13 +28,13 @@ Create TTF sessions
     Set suite variable  ${DFTTF_AUTHENTICATED_SESSION}  authenticated_session
 
     # Set up an authenticated session with a Keykloak admin token (Authorization header with Bearer token, 
-    # harvested from a browser and stored in the environment file, like dfttf-dev.resource).
+    # harvested from a browser and stored in the environment file, like robot-dev.resource).
     ${headers}=  Create dictionary   Content-Type=application/json; charset=utf-8  Accept-Charset=utf-8  Authorization=${ADMIN_BEARER_TOKEN}
     Create Session      admin_token_session    url=${DFTTF_WEB_SERVICE_URL}  verify=True  headers=${headers}
     Set suite variable  ${DFTTF_ADMIN_TOKEN_SESSION}  admin_token_session
 
     # Set up an authenticated session with a Keykloak officer token (Authorization header with Bearer token, 
-    # harvested from a browser and stored in the environment file, like dfttf-dev.resource).
+    # harvested from a browser and stored in the environment file, like robot-dev.resource).
     ${headers}=  Create dictionary   Content-Type=application/json; charset=utf-8  Accept-Charset=utf-8  Authorization=${OFFICER_BEARER_TOKEN}
     Create Session      officer_token_session    url=${DFTTF_WEB_SERVICE_URL}  verify=True  headers=${headers}
     Set suite variable  ${DFTTF_OFFICER_TOKEN_SESSION}  officer_token_session

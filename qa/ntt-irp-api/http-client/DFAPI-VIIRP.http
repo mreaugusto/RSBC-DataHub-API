@@ -1,0 +1,103 @@
+# Digital Forms API for VIPS-ICBC integration for immediate roadside prohibition (DFAPI-VIIRP)
+# Exploratory testing
+# See code at: https://github.com/bcgov/jag-rsbc-digital-forms-viirp-integration
+# Documentation:
+# High level design:
+#  - https://justice.gov.bc.ca/wiki/pages/viewpage.action?pageId=343835390
+# Requirements document:
+#  - https://justice.gov.bc.ca/wiki/download/attachments/343835390/IRP-VI%20Interfaces%2031Mar22.estimate%20removed.docx?version=1&modificationDate=1653673345000&api=v2
+#
+#  - https://justice.gov.bc.ca/wiki/display/RDFP/VIPS+integration
+#
+# FOLLOW SERVICE LOGS:
+# oc --namespace=c220ad-dev logs svc/digitalforms-viirp-api-svc --follow
+# oc --namespace=c220ad-test logs svc/digitalforms-viirp-api-svc --follow
+
+
+### OpenAPI specification
+GET https://{{host}}{{api_path}}/v3/api-docs
+
+### Healthcheck
+GET https://{{host}}{{api_path}}/utility/ords/ping/steve-test-{{$uuid}}
+
+### Code tables
+GET https://{{host}}{{api_path}}/codetables/steve-test-{{$uuid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Accept: application/json
+
+### Prohibitions GET
+GET https://{{host}}{{api_path}}/prohibitions/00345667/steve-test-{{$uuid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Accept: application/json
+
+### Prohibitions POST
+POST https://{{host}}{{api_path}}/prohibitions/steve-test-{{$uuid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Content-Type: application/json
+
+{
+  "vipsDocumentIdArray": [
+  ],
+  "vipsProhibitionCreate": {
+    "cityNm": "BOSTON BAR",
+    "dreEvaluationCds": [],
+    "driverLicenceSeizedYN": "Y",
+    "effectiveDt": "2022-09-01T09:00:00.000-07:00",
+    "expiryDt": "2022-09-01T09:00:00.000-07:00",
+    "incidentDtm": "2022-09-01T09:00:00.000-07:00",
+    "noticeServedDt": "2022-09-01T09:05:00.000-07:00",
+    "noticeSubjectCd": "PERS",
+    "noticeTypeCd": "IRP",
+    "originalCauseCd": "IRPINDEF",
+    "policeDetatchmentId": 138,
+    "policeFileNo": "RSI-1234",
+    "policeOfficerNm": "Lungpayne",
+    "policeOfficerNo": "RSI111",
+    "prohibitionNoticeNo": "20100030",
+    "provinceCd": "BC",
+    "streetDetailsTxt": "CAT ST / RAT ROAD",
+    "tempDlEffectiveDt": null,
+    "tempDlExpiryDt": null
+  },
+  "vipsRegistrationCreate": {
+    "dataSourceCd": "ICBC",
+    "firstGivenNm": "Odwyn",
+    "icbcEnterpriseId": "1",
+    "organizationNm": null,
+    "registrationRoleCd": "DRVR",
+    "secondGivenNm": "Oddity",
+    "surnameNm": "O'Drivername 24",
+    "thirdGivenNm": null,
+    "vipsAddressArray": [
+      {
+        "additionalDeliveryLineTxt": null,
+        "addressFirstLineTxt": "77 Seventh Street South",
+        "addressSecondLineTxt": null,
+        "addressThirdLineTxt": null,
+        "cityNm": "ENDERBY",
+        "countryNm": "CANADA",
+        "postalCodeTxt": "V1V1V1",
+        "provinceCd": "BC",
+        "registrationAddressTypeCd": "MAIL"
+      }
+    ],
+    "vipsLicenceCreateObj": {
+      "birthDt": "1999-01-01T00:00:00.000-07:00",
+      "dlJurisdictionCd": "BC",
+      "driverLicenceNo": "1234567"
+    }
+  }
+}
+
+### Code tables
+GET https://{{host}}{{api_path}}/codetables/steve-test-{{$uuid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Accept: application/json
+
+### DF payloads
+@noticeNo = 00011122
+GET https://{{host}}{{api_path}}/dfpayloads/{{noticeNo}}/steve-test-{{$uuid}}
+Authorization: Basic {{api_username}} {{api_password}}
+Accept: application/json
+
+###

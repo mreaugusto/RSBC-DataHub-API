@@ -1,0 +1,2235 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "VIPS Integration API",
+    "description": "VIPS Integration API",
+    "version": "v1.0.2"
+  },
+  "servers": [
+    {
+      "url": "https://digitalforms-viirp-api-c220ad-dev.apps.silver.devops.gov.bc.ca/digitalforms-viirp/v1",
+      "description": "Generated server url"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Codetables",
+      "description": "the Codetables API"
+    },
+    {
+      "name": "DfPayloads",
+      "description": "the DfPayloads API"
+    },
+    {
+      "name": "Prohibitions",
+      "description": "the Prohibitions API"
+    },
+    {
+      "name": "Documents",
+      "description": "the Documents API"
+    },
+    {
+      "name": "Utility",
+      "description": "the Utility API"
+    },
+    {
+      "name": "Impoundments",
+      "description": "the Impoundments API"
+    }
+  ],
+  "paths": {
+    "/prohibitions/{correlationId}": {
+      "post": {
+        "tags": [
+          "Prohibitions"
+        ],
+        "summary": "Create Prohibition",
+        "operationId": "prohibitionsCorrelationIdPost",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProhibition"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateProhibitionServiceResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The requester is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/impoundments/{correlationId}": {
+      "post": {
+        "tags": [
+          "Impoundments"
+        ],
+        "summary": "Create impoundment",
+        "operationId": "impoundmentsCorrelationIdPost",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateImpoundment"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateImpoundmentServiceResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The requester is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/documents/{correlationId}": {
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Store VIPS document",
+        "operationId": "documentsCorrelationIdPost",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StoreVIPSDocument"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VipsDocumentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The requester is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/documents/association/notice/{documentId}/{correlationId}": {
+      "post": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Create document notice association",
+        "operationId": "documentsAssociationNoticeDocumentIdCorrelationIdPost",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentId",
+            "in": "path",
+            "description": "documentId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VipsNoticeObj"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssociateDocumentToNoticeServiceResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The requester is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/utility/ords/ping/{correlationId}": {
+      "get": {
+        "tags": [
+          "Utility"
+        ],
+        "summary": "ORDS Health Check Ping",
+        "operationId": "utilityOrdsPingCorrelationIdGet",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "description": "correlation id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PingResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The requester is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/prohibitions/{noticeNo}/{correlationId}": {
+      "get": {
+        "tags": [
+          "Prohibitions"
+        ],
+        "summary": "Retrieve prohibition",
+        "operationId": "prohibitionsNoticeNoCorrelationIdGet",
+        "parameters": [
+          {
+            "name": "noticeNo",
+            "in": "path",
+            "description": "notice number",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetProhibitionServiceResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The requester is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/impoundments/{noticeNo}/{correlationId}": {
+      "get": {
+        "tags": [
+          "Impoundments"
+        ],
+        "summary": "Retrieve impoundment",
+        "operationId": "impoundmentsNoticeNoCorrelationIdGet",
+        "parameters": [
+          {
+            "name": "noticeNo",
+            "in": "path",
+            "description": "notice number",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetImpoundmentServiceResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The requester is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/documents/{documentId}/{correlationId}": {
+      "get": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Retrieve VIPS document (Base64 or PDF)",
+        "operationId": "documentsDocumentIdCorrelationIdGet",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "documentId",
+            "in": "path",
+            "description": "documentId",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VipsGetDocumentByIdResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The requester is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/documents/list/{noticeNo}/{correlationId}": {
+      "get": {
+        "tags": [
+          "Documents"
+        ],
+        "summary": "Retrieve documents meta data (list)",
+        "operationId": "documentsListNoticeNoCorrelationIdGet",
+        "parameters": [
+          {
+            "name": "noticeNo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDocumentsListServiceResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The requester is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/dfpayloads/{noticeNo}/{correlationId}": {
+      "get": {
+        "tags": [
+          "DfPayloads"
+        ],
+        "summary": "Retrieve a Digital Forms JSON payload (Impoundment or Prohibition). Response likely to change depending on content in DF schema.",
+        "operationId": "dfpayloadsNoticeNoCorrelationIdGet",
+        "parameters": [
+          {
+            "name": "noticeNo",
+            "in": "path",
+            "description": "Digital Forms access key to Impoundment or Prohibition",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDFPayloadServiceResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The requester is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    },
+    "/codetables/{correlationId}": {
+      "get": {
+        "tags": [
+          "Codetables"
+        ],
+        "summary": "Get code table values",
+        "operationId": "codetablesCorrelationIdGet",
+        "parameters": [
+          {
+            "name": "correlationId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Status 200",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCodetablesServiceResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "The requester is unauthorized.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "basicAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CreateProhibitionServiceResponse": {
+        "type": "object",
+        "properties": {
+          "respMsg": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorMessage": {
+        "required": [
+          "status_message"
+        ],
+        "type": "object",
+        "properties": {
+          "status_message": {
+            "type": "string",
+            "description": "failure message"
+          }
+        }
+      },
+      "CreateProhibition": {
+        "required": [
+          "vipsDocumentIdArray",
+          "vipsProhibitionCreate",
+          "vipsRegistrationCreate"
+        ],
+        "type": "object",
+        "properties": {
+          "vipsDocumentIdArray": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "vipsProhibitionCreate": {
+            "$ref": "#/components/schemas/VipsProhibitionCreate"
+          },
+          "vipsRegistrationCreate": {
+            "$ref": "#/components/schemas/VipsRegistrationCreate"
+          }
+        },
+        "description": "body"
+      },
+      "VipsAddressCreateObj": {
+        "required": [
+          "registrationAddressTypeCd"
+        ],
+        "type": "object",
+        "properties": {
+          "additionalDeliveryLineTxt": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressFirstLineTxt": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressSecondLineTxt": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressThirdLineTxt": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "cityNm": {
+            "maxLength": 35,
+            "minLength": 0,
+            "type": "string"
+          },
+          "countryNm": {
+            "maxLength": 3,
+            "minLength": 0,
+            "type": "string",
+            "description": "code table value"
+          },
+          "postalCodeTxt": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string"
+          },
+          "provinceCd": {
+            "maxLength": 2,
+            "minLength": 0,
+            "type": "string",
+            "description": "code table value"
+          },
+          "registrationAddressTypeCd": {
+            "type": "string",
+            "description": "Must be one of \"RES\", \"MAIL\", or \"BUSI\""
+          }
+        }
+      },
+      "VipsLicenceCreate": {
+        "required": [
+          "birthDt",
+          "dlJurisdictionCd",
+          "driverLicenceNo"
+        ],
+        "type": "object",
+        "properties": {
+          "birthDt": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}-\\d{2}:\\d{2}$",
+            "type": "string",
+            "description": "ISO-8601. Date only with offset",
+            "example": "2021-01-30T00:00:00.000-07:00"
+          },
+          "dlJurisdictionCd": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string",
+            "description": "code table value"
+          },
+          "driverLicenceNo": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string"
+          }
+        }
+      },
+      "VipsProhibitionCreate": {
+        "required": [
+          "driverLicenceSeizedYN",
+          "effectiveDt",
+          "noticeServedDt",
+          "noticeSubjectCd",
+          "noticeTypeCd",
+          "originalCauseCd",
+          "policeDetatchmentId"
+        ],
+        "type": "object",
+        "properties": {
+          "cityNm": {
+            "maxLength": 35,
+            "minLength": 0,
+            "type": "string"
+          },
+          "dreEvaluationCds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "driverLicenceSeizedYN": {
+            "maxLength": 1,
+            "minLength": 0,
+            "type": "string"
+          },
+          "effectiveDt": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}-\\d{2}:\\d{2}$",
+            "type": "string",
+            "description": "ISO-8601. Date only with offset",
+            "example": "2021-01-30T00:00:00.000-07:00"
+          },
+          "expiryDt": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}-\\d{2}:\\d{2}$",
+            "type": "string",
+            "description": "ISO-8601. Date only with offset",
+            "example": "2021-01-30T00:00:00.000-07:00"
+          },
+          "incidentDtm": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}-\\d{2}:\\d{2}$",
+            "type": "string",
+            "description": "ISO-8601. Date and time with offset",
+            "example": "2021-01-30T00:00:00.000-07:00"
+          },
+          "noticeServedDt": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}-\\d{2}:\\d{2}$",
+            "type": "string",
+            "description": "ISO-8601. Date only with offset",
+            "example": "2021-01-30T00:00:00.000-07:00"
+          },
+          "noticeSubjectCd": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string",
+            "description": "For prohibitions, this value is always \"PERS\""
+          },
+          "noticeTypeCd": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string",
+            "description": "For prohibitions this value is always \"UL\", \"IRP\", or \"ADP\""
+          },
+          "originalCauseCd": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string",
+            "description": "For prohibitions this is a single value."
+          },
+          "policeDetatchmentId": {
+            "type": "integer",
+            "description": "code table value",
+            "format": "int64"
+          },
+          "policeFileNo": {
+            "maxLength": 15,
+            "minLength": 0,
+            "type": "string"
+          },
+          "policeOfficerNm": {
+            "maxLength": 60,
+            "minLength": 0,
+            "type": "string"
+          },
+          "policeOfficerNo": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string"
+          },
+          "prohibitionNoticeNo": {
+            "maxLength": 12,
+            "minLength": 0,
+            "type": "string",
+            "description": "Notice Number beginning with 21 or 22 for Prohibitions."
+          },
+          "provinceCd": {
+            "maxLength": 2,
+            "minLength": 0,
+            "type": "string"
+          },
+          "streetDetailsTxt": {
+            "maxLength": 4000,
+            "minLength": 0,
+            "type": "string"
+          },
+          "tempDlEffectiveDt": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}-\\d{2}:\\d{2}$",
+            "type": "string",
+            "description": "ISO-8601. Date only with offset",
+            "example": "2021-01-30T00:00:00.000-07:00"
+          },
+          "tempDlExpiryDt": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}-\\d{2}:\\d{2}$",
+            "type": "string",
+            "description": "ISO-8601. Date only with offset",
+            "example": "2021-01-30T00:00:00.000-07:00"
+          }
+        }
+      },
+      "VipsRegistrationCreate": {
+        "required": [
+          "dataSourceCd",
+          "registrationRoleCd",
+          "vipsLicenceCreateObj"
+        ],
+        "type": "object",
+        "properties": {
+          "dataSourceCd": {
+            "maxLength": 4,
+            "minLength": 0,
+            "type": "string",
+            "description": "Current values are \"VIPS\" (manual), \"ICBC\" (coming from divers). May need a new code for DF??",
+            "example": "VIPS"
+          },
+          "firstGivenNm": {
+            "maxLength": 35,
+            "minLength": 0,
+            "type": "string",
+            "description": "Minamally one of firstGivenNm, secondGivenNm, surnameNm, or organizationNm required."
+          },
+          "icbcEnterpriseId": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string",
+            "description": "May not be fillable in the field."
+          },
+          "organizationNm": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "description": "Minamally one of firstGivenNm, secondGivenNm, surnameNm, or organizationNm required."
+          },
+          "registrationRoleCd": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string"
+          },
+          "secondGivenNm": {
+            "maxLength": 35,
+            "minLength": 0,
+            "type": "string",
+            "description": "Minamally one of firstGivenNm, secondGivenNm, surnameNm, or organizationNm required."
+          },
+          "surnameNm": {
+            "maxLength": 35,
+            "minLength": 0,
+            "type": "string",
+            "description": "Minamally one of firstGivenNm, secondGivenNm, surnameNm, or organizationNm required."
+          },
+          "thirdGivenNm": {
+            "maxLength": 35,
+            "minLength": 0,
+            "type": "string"
+          },
+          "vipsAddressArray": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsAddressCreateObj"
+            }
+          },
+          "vipsLicenceCreateObj": {
+            "$ref": "#/components/schemas/VipsLicenceCreate"
+          }
+        }
+      },
+      "CreateImpoundmentServiceResponse": {
+        "type": "object",
+        "properties": {
+          "respMsg": {
+            "type": "string"
+          }
+        }
+      },
+      "CreateImpoundment": {
+        "required": [
+          "vipsDocumentIdArray",
+          "vipsImpoundCreate",
+          "vipsImpoundmentArray",
+          "vipsRegistrationCreateArray",
+          "vipsVehicleCreate"
+        ],
+        "type": "object",
+        "properties": {
+          "vipsDocumentIdArray": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "vipsImpoundCreate": {
+            "$ref": "#/components/schemas/VipsImpoundmentCreate"
+          },
+          "vipsImpoundmentArray": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          "vipsRegistrationCreateArray": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsRegistrationCreate"
+            }
+          },
+          "vipsVehicleCreate": {
+            "$ref": "#/components/schemas/VipsVehicleCreate"
+          }
+        },
+        "description": "body"
+      },
+      "VipsImpoundmentCreate": {
+        "required": [
+          "impoundmentDt",
+          "impoundmentNoticeNo",
+          "noticeSubjectCd",
+          "noticeTypeCd",
+          "originalCauseCds",
+          "policeDetatchmentId",
+          "policeFileNo"
+        ],
+        "type": "object",
+        "properties": {
+          "dlJurisdictionCd": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string",
+            "description": "code table value"
+          },
+          "driverLicenceNo": {
+            "maxLength": 8,
+            "minLength": 0,
+            "type": "string",
+            "description": "DB max length is 20 to account for future expansion"
+          },
+          "impoundLotOperatorId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "impoundmentDt": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}-\\d{2}:\\d{2}$",
+            "type": "string",
+            "description": "ISO-8601. Date only with offset",
+            "example": "2021-01-30T00:00:00.000-07:00"
+          },
+          "impoundmentNoticeNo": {
+            "maxLength": 12,
+            "minLength": 0,
+            "type": "string",
+            "description": "Notice Number beginning with 00 for impoundments."
+          },
+          "noticeSubjectCd": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string",
+            "description": "For impoundments, this value is always \"VEHI\""
+          },
+          "noticeTypeCd": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string",
+            "description": "For impoundments, this value is always \"IMP\""
+          },
+          "originalCauseCds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "policeDetatchmentId": {
+            "type": "integer",
+            "description": "code table value",
+            "format": "int64"
+          },
+          "policeFileNo": {
+            "maxLength": 15,
+            "minLength": 0,
+            "type": "string"
+          },
+          "policeOfficerNm": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "policeOfficerNo": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string"
+          },
+          "projectedReleaseDt": {
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}-\\d{2}:\\d{2}$",
+            "type": "string",
+            "description": "ISO-8601. Date only with offset",
+            "example": "2021-01-30T00:00:00.000-07:00"
+          },
+          "seizureLocationTxt": {
+            "maxLength": 4000,
+            "minLength": 0,
+            "type": "string"
+          }
+        }
+      },
+      "VipsVehicleCreate": {
+        "required": [
+          "registrationNo"
+        ],
+        "type": "object",
+        "properties": {
+          "commercialMotorCarrierId": {
+            "maxLength": 15,
+            "minLength": 0,
+            "type": "string"
+          },
+          "licencePlateNo": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string"
+          },
+          "lpDecalValidYy": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lpJurisdictionCd": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string",
+            "description": "code table value"
+          },
+          "manufacturedYy": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nscJurisdictionTxt": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string"
+          },
+          "registrationNo": {
+            "maxLength": 15,
+            "minLength": 0,
+            "type": "string"
+          },
+          "vehicleColourTxt": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "vehicleIdentificationNo": {
+            "maxLength": 35,
+            "minLength": 0,
+            "type": "string"
+          },
+          "vehicleMakeTxt": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "vehicleModelTxt": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "vehicleStyleTxt": {
+            "maxLength": 50,
+            "minLength": 0,
+            "type": "string"
+          },
+          "vehicleTypeCd": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string",
+            "description": "code table value"
+          }
+        }
+      },
+      "VipsDocumentResponse": {
+        "type": "object",
+        "properties": {
+          "document_id": {
+            "type": "string",
+            "description": "Doc id to be attached to impoundment or prohibition."
+          }
+        }
+      },
+      "StoreVIPSDocument": {
+        "required": [
+          "file_object",
+          "mime_sub_type",
+          "mime_type",
+          "type_code"
+        ],
+        "type": "object",
+        "properties": {
+          "type_code": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string",
+            "description": "type code, example MV2687"
+          },
+          "mime_type": {
+            "maxLength": 30,
+            "minLength": 0,
+            "type": "string",
+            "description": "mime type, example application"
+          },
+          "mime_sub_type": {
+            "maxLength": 20,
+            "minLength": 0,
+            "type": "string",
+            "description": "mime sub type, example pdf"
+          },
+          "file_object": {
+            "type": "array",
+            "description": "base64-encoded file content",
+            "items": {
+              "type": "string",
+              "description": "base64-encoded file content",
+              "format": "byte"
+            }
+          },
+          "notice_type_code": {
+            "maxLength": 3,
+            "minLength": 0,
+            "type": "string",
+            "description": "notice type code. One of IRP, ADP, UL, or IMP."
+          },
+          "notice_subject_code": {
+            "maxLength": 4,
+            "minLength": 0,
+            "type": "string",
+            "description": "notice subject code. One of PERS or VEHI"
+          },
+          "pageCount": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "description": "body"
+      },
+      "AssociateDocumentToNoticeServiceResponse": {
+        "type": "object",
+        "properties": {
+          "status_message": {
+            "type": "string"
+          }
+        }
+      },
+      "VipsNoticeObj": {
+        "required": [
+          "noticeNo",
+          "noticeTypeCd"
+        ],
+        "type": "object",
+        "properties": {
+          "noticeNo": {
+            "type": "string"
+          },
+          "noticeTypeCd": {
+            "type": "string"
+          }
+        },
+        "description": "body"
+      },
+      "PingResponse": {
+        "type": "object",
+        "properties": {
+          "responseMessage": {
+            "type": "object"
+          }
+        }
+      },
+      "GetProhibitionServiceResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "$ref": "#/components/schemas/VipsProhibitionObj"
+          }
+        }
+      },
+      "VipsAddressObj": {
+        "required": [
+          "registrationAddressTypeCd"
+        ],
+        "type": "object",
+        "properties": {
+          "additionalDeliveryLineTxt": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressFirstLineTxt": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressSecondLineTxt": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "addressThirdLineTxt": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "cityNm": {
+            "maxLength": 35,
+            "minLength": 0,
+            "type": "string"
+          },
+          "countryNm": {
+            "maxLength": 3,
+            "minLength": 0,
+            "type": "string",
+            "description": "code table value"
+          },
+          "postalCodeTxt": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string"
+          },
+          "provinceCd": {
+            "maxLength": 2,
+            "minLength": 0,
+            "type": "string",
+            "description": "code table value"
+          },
+          "registrationAddressTypeCd": {
+            "maxLength": 10,
+            "minLength": 0,
+            "type": "string",
+            "description": "code table value"
+          }
+        }
+      },
+      "VipsDocumentObj": {
+        "type": "object",
+        "properties": {
+          "addToFileDtm": {
+            "type": "string"
+          },
+          "disclosedToClientDtm": {
+            "type": "string"
+          },
+          "disclosureDocumentYN": {
+            "type": "string"
+          },
+          "documentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "documentTypeCd": {
+            "type": "string"
+          },
+          "documentTypeDsc": {
+            "type": "string"
+          },
+          "impoundmentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "pageCount": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "prohibitionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "receivedDtm": {
+            "type": "string"
+          }
+        }
+      },
+      "VipsLicenceObj": {
+        "type": "object",
+        "properties": {
+          "birthDt": {
+            "type": "string"
+          },
+          "dlJurisdictionCd": {
+            "type": "string",
+            "description": "code table value"
+          },
+          "driverLicenceNo": {
+            "type": "string"
+          },
+          "licenceId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "VipsProhibitionObj": {
+        "type": "object",
+        "properties": {
+          "cancelled": {
+            "type": "boolean"
+          },
+          "cityNm": {
+            "type": "string"
+          },
+          "documents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsDocumentObj"
+            }
+          },
+          "dreEvaluationCds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "driverLicenceSeizedYN": {
+            "type": "string"
+          },
+          "effectiveDt": {
+            "type": "string"
+          },
+          "expiryDt": {
+            "type": "string"
+          },
+          "icbcTransmissionCd": {
+            "type": "string"
+          },
+          "incidentDtm": {
+            "type": "string"
+          },
+          "licenceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "noticeServedDt": {
+            "type": "string"
+          },
+          "noticeSubjectCd": {
+            "type": "string"
+          },
+          "noticeTypeCd": {
+            "type": "string"
+          },
+          "originalCauseCd": {
+            "type": "string"
+          },
+          "policeDetatchmentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "policeFileNo": {
+            "type": "string"
+          },
+          "policeOfficerNm": {
+            "type": "string"
+          },
+          "policeOfficerNo": {
+            "type": "string"
+          },
+          "prohibitionId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "prohibitionNoticeNo": {
+            "type": "string"
+          },
+          "provinceCd": {
+            "type": "string"
+          },
+          "registration": {
+            "$ref": "#/components/schemas/VipsRegistrationObj"
+          },
+          "streetDetailsTxt": {
+            "type": "string"
+          },
+          "tempDlEffectiveDt": {
+            "type": "string"
+          },
+          "tempDlExpiryDt": {
+            "type": "string"
+          }
+        }
+      },
+      "VipsRegistrationObj": {
+        "type": "object",
+        "properties": {
+          "dataSourceCd": {
+            "type": "string"
+          },
+          "firstGivenNm": {
+            "type": "string"
+          },
+          "icbcEnterpriseId": {
+            "type": "string"
+          },
+          "licenceId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "organizationNm": {
+            "type": "string"
+          },
+          "registrationId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "registrationRoleCd": {
+            "type": "string"
+          },
+          "secondGivenNm": {
+            "type": "string"
+          },
+          "surnameNm": {
+            "type": "string"
+          },
+          "thirdGivenNm": {
+            "type": "string"
+          },
+          "vehicleId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "vipsAddressArray": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsAddressObj"
+            }
+          },
+          "vipsLicenceObj": {
+            "$ref": "#/components/schemas/VipsLicenceObj"
+          }
+        }
+      },
+      "GetImpoundmentServiceResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "$ref": "#/components/schemas/VipsImpoundObj"
+          }
+        }
+      },
+      "VipsImpoundObj": {
+        "type": "object",
+        "properties": {
+          "cancelled": {
+            "type": "boolean"
+          },
+          "dlJurisdictionCd": {
+            "type": "string",
+            "description": "code table value"
+          },
+          "documents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsDocumentObj"
+            }
+          },
+          "driverLicenceNo": {
+            "type": "string"
+          },
+          "icbcTransmissionCd": {
+            "type": "string"
+          },
+          "impoundLotOperatorId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "impoundmentDt": {
+            "type": "string"
+          },
+          "impoundmentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "impoundmentNoticeNo": {
+            "type": "string"
+          },
+          "noticeSubjectCd": {
+            "type": "string"
+          },
+          "noticeTypeCd": {
+            "type": "string"
+          },
+          "originalCauseCds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "policeDetatchmentId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "policeFileNo": {
+            "type": "string"
+          },
+          "policeOfficerNm": {
+            "type": "string"
+          },
+          "policeOfficerNo": {
+            "type": "string"
+          },
+          "projectedReleaseDt": {
+            "type": "string"
+          },
+          "registrations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsRegistrationObj"
+            }
+          },
+          "seizureLocationTxt": {
+            "type": "string"
+          },
+          "vehicle": {
+            "$ref": "#/components/schemas/VipsVehicleObj"
+          },
+          "vehicleId": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "VipsVehicleObj": {
+        "type": "object",
+        "properties": {
+          "commercialMotorCarrierId": {
+            "type": "string"
+          },
+          "licencePlateNo": {
+            "type": "string"
+          },
+          "lpDecalValidYy": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "lpJurisdictionCd": {
+            "type": "string",
+            "description": "code table value"
+          },
+          "manufacturedYy": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nscJurisdictionTxt": {
+            "type": "string"
+          },
+          "registrationNo": {
+            "type": "string"
+          },
+          "vehicleColourTxt": {
+            "type": "string"
+          },
+          "vehicleId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "vehicleIdentificationNo": {
+            "type": "string"
+          },
+          "vehicleMakeTxt": {
+            "type": "string"
+          },
+          "vehicleModelTxt": {
+            "type": "string"
+          },
+          "vehicleStyleTxt": {
+            "type": "string"
+          },
+          "vehicleTypeCd": {
+            "type": "string"
+          }
+        }
+      },
+      "VipsGetDocumentByIdResponse": {
+        "type": "object",
+        "properties": {
+          "document": {
+            "type": "string",
+            "description": "The Document returned as a base64 string for the given documentId."
+          }
+        }
+      },
+      "GetDocumentsListServiceResponse": {
+        "type": "object",
+        "properties": {
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsDocumentObj"
+            }
+          }
+        }
+      },
+      "GetDFPayloadServiceResponse": {
+        "type": "object",
+        "properties": {
+          "noticeNo": {
+            "type": "string"
+          },
+          "noticeType": {
+            "type": "string"
+          },
+          "payload": {
+            "type": "string"
+          }
+        },
+        "description": "Digital Forms Schema Payload Response. Likely to change depending on requirements of RSI Processors"
+      },
+      "GetCodetablesServiceResponse": {
+        "type": "object",
+        "properties": {
+          "configuration": {
+            "$ref": "#/components/schemas/VipsConfigurationObj"
+          },
+          "respMsg": {
+            "type": "string"
+          }
+        }
+      },
+      "VipsCodeDescAbbrByNoticeObj": {
+        "type": "object",
+        "properties": {
+          "codes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescAbbrevObj"
+            }
+          },
+          "noticeActiveYN": {
+            "type": "string"
+          },
+          "noticeTypeCd": {
+            "type": "string"
+          },
+          "noticeTypeDsc": {
+            "type": "string"
+          }
+        }
+      },
+      "VipsCodeDescAbbrevObj": {
+        "type": "object",
+        "properties": {
+          "activeYN": {
+            "type": "string"
+          },
+          "objectAbbrev": {
+            "type": "string"
+          },
+          "objectCd": {
+            "type": "string"
+          },
+          "objectDsc": {
+            "type": "string"
+          }
+        }
+      },
+      "VipsCodeDescByDocObj": {
+        "type": "object",
+        "properties": {
+          "codes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          },
+          "documentActiveYN": {
+            "type": "string"
+          },
+          "documentTypeCd": {
+            "type": "string"
+          },
+          "documentTypeDsc": {
+            "type": "string"
+          }
+        }
+      },
+      "VipsCodeDescByNoticeObj": {
+        "type": "object",
+        "properties": {
+          "codes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          },
+          "noticeActiveYN": {
+            "type": "string"
+          },
+          "noticeTypeCd": {
+            "type": "string"
+          },
+          "noticeTypeDsc": {
+            "type": "string"
+          }
+        }
+      },
+      "VipsCodeDescByRVWAppObj": {
+        "type": "object",
+        "properties": {
+          "codes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          },
+          "reviewAppActiveYN": {
+            "type": "string"
+          },
+          "reviewAppTypeCd": {
+            "type": "string"
+          },
+          "reviewAppTypeDsc": {
+            "type": "string"
+          }
+        }
+      },
+      "VipsCodeDescriptionObj": {
+        "type": "object",
+        "properties": {
+          "activeYN": {
+            "type": "string"
+          },
+          "internalYN": {
+            "type": "string"
+          },
+          "objectCd": {
+            "type": "string"
+          },
+          "objectDsc": {
+            "type": "string"
+          }
+        }
+      },
+      "VipsConfigurationObj": {
+        "type": "object",
+        "properties": {
+          "addresses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          },
+          "contactMethods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          },
+          "countries": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          },
+          "data_sources": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          },
+          "decisionOutcomes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescByNoticeObj"
+            }
+          },
+          "disposalActs": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          },
+          "disposalDecisions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          },
+          "documentNotices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescByDocObj"
+            }
+          },
+          "documents": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescByNoticeObj"
+            }
+          },
+          "dreEvaluations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescByNoticeObj"
+            }
+          },
+          "driverLicenceOffices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsIdNameObj"
+            }
+          },
+          "groundsDecisions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescByRVWAppObj"
+            }
+          },
+          "impoundLotOperators": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsIdNameObj"
+            }
+          },
+          "jurisdictions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          },
+          "noticePrefixNos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescByNoticeObj"
+            }
+          },
+          "noticeTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          },
+          "originalCauses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescAbbrByNoticeObj"
+            }
+          },
+          "policeDetachments": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsIdNameObj"
+            }
+          },
+          "provinces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          },
+          "registration_roles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          },
+          "releaseReasons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          },
+          "reviewApplications": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescByNoticeObj"
+            }
+          },
+          "reviewRoles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescByNoticeObj"
+            }
+          },
+          "reviewStatuses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          },
+          "reviewTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescByNoticeObj"
+            }
+          },
+          "scheduleAppTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsIdNameObj"
+            }
+          },
+          "unavailabilityReasons": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          },
+          "vehicleTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/VipsCodeDescriptionObj"
+            }
+          }
+        }
+      },
+      "VipsIdNameObj": {
+        "type": "object",
+        "properties": {
+          "activeYN": {
+            "type": "string"
+          },
+          "identityId": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "identityNm": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

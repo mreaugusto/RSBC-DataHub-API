@@ -25,7 +25,7 @@ SCRIPT_TO_RUN=${REMOTE_FOLDER_DESTINATION}/dfapi.robot
 oc rsync ${LOCAL_FOLDER_SOURCE} ${POD}:${REMOTE_FOLDER_DESTINATION}
 
 # Run test script on pod, but STOP after an error or test failure.
-#kubectl exec ${POD} -- robot --loglevel DEBUG --debugfile dfapi.log --outputdir ${REMOTE_FOLDER_TO_COPY_BACK_TO_LOCAL} --exitonfailure --exitonerror ${SCRIPT_TO_RUN}
+#kubectl exec ${POD} -- robot --loglevel DEBUG --debugfile robot.log --outputdir ${REMOTE_FOLDER_TO_COPY_BACK_TO_LOCAL} --exitonfailure --exitonerror ${SCRIPT_TO_RUN}
 
 # Run test script on pod, but CONTINUE after errors or failures.
 kubectl exec ${POD} -- robot --loglevel DEBUG --debugfile dfapi.log --outputdir ${REMOTE_FOLDER_TO_COPY_BACK_TO_LOCAL} ${SCRIPT_TO_RUN}
