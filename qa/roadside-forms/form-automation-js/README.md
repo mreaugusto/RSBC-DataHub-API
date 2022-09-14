@@ -38,7 +38,7 @@ These scripts can be injected onto the form page using a proxy like [Requestly](
 
 ## Configuration
 
-Inject the scripts in Requestly by going to **HTTP Rules** > **+ New Rule** > **Insert Scripts**. On the **Insert Scripts Rule** page, configure three JavaScripts to load from URL and be inserted after page load if request URL contains `roadside-forms`. For example:
+Inject the scripts in Requestly by going to **HTTP Rules** > **+ New Rule** > **Insert Scripts**. On the **Insert Scripts Rule** page, configure three JavaScripts to load from URL and be inserted after page load if request URL contains `jag.gov.bc.ca/roadside-forms`. For example:
 
 ![Requestly configuration](images/requestly-config.png "Requestly configuration")
 
@@ -59,3 +59,13 @@ This animated capture illustrates how quickly the form is filled:
 ## Research
 
 While working on this ticket, I created a question on [government Stack Overflow](https://stackoverflow.developer.gov.bc.ca/questions/809/826) and the [Vue.js](https://forum.vuejs.org/t/how-to-simulate-user-interaction-in-a-vuex-single-page-web-app-using-javascript/132345/2) forums. You may wish to review the question and answer for more detail about how this works. There may be a new useful answer posted that suggests an alternative method to automate these forms.
+
+
+## Future
+
+In the near future, better randomisation will be added using [Change.js](https://chancejs.com/).
+
+
+## Implementation details
+
+See [DEVELOPER.md](DEVELOPER.md).
