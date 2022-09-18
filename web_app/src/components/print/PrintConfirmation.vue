@@ -21,15 +21,20 @@
           </div>
       </div>
 
-      <div class="text-right mt-3">
-          <b-button variant="success" @click="onSuccessfulServe">{{ servedWording }}</b-button>
-          <b-button class="ml-3 mr-3" variant="danger" @click="onUnsuccessfulServe">Not {{ servedWording }}</b-button>
+      <div class="float-container">
+          <div class="text-left float-child">
+              <button class="btn btn-primary mr-3" id="btn_print_form" @click="printWindow">Print</button>
+          </div>
+          <div class="text-right float-child">
+              <b-button variant="success" @click="onSuccessfulServe">{{ servedWording }}</b-button>
+              <b-button class="ml-3 mr-3" variant="danger" @click="onUnsuccessfulServe">Not {{ servedWording }}</b-button>
+          </div>
       </div>
 
     </div>
 
-
   </div>
+
 </template>
 
 <script>
@@ -131,7 +136,11 @@ export default {
             "id": this.id
           }
         })
-    }
+    },
+
+    printWindow() {
+        window.print();
+    },
 
   }
 
@@ -139,5 +148,14 @@ export default {
 </script>
 
 <style scoped>
+.float-container {
+    padding: 5px;
+}
 
+.float-child {
+    width: 50%;
+    float: left;
+    padding: 10px;
+
+}
 </style>
