@@ -19,6 +19,7 @@ GET https://{{host}}{{api_path}}/v3/api-docs
 
 ### Healthcheck
 GET https://{{host}}{{api_path}}/utility/ords/ping/steve-test-{{$uuid}}
+Authorization: Basic {{api_username}} {{api_password}}
 
 ### Code tables
 GET https://{{host}}{{api_path}}/codetables/steve-test-{{$uuid}}

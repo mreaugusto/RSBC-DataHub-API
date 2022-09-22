@@ -64,11 +64,38 @@ async function SetField(field_id, value)
         minuteString = String (minutes).padStart(2, '0')
         el.value = `${hourString}${minuteString}`;
     }
+    else if (value == "**phone**")
+    {
+        el.value = chance.phone().replace("(", "").replace(") ", "-")
+    }
+    else if (value == "**address**")
+    {
+        el.value = chance.address();
+    }
+    else if (value == "**birthdate**")
+    {
+        el.value = dateToYMD(chance.birthday({type: "adult"}));
+    }
+    else if (value == "**postal**")
+    {
+        el.value = chance.postal();
+    }
+    else if (value == "**email**")
+    {
+        el.value = chance.email();
+    }
     else
     {
         el.value  = value;
     }
     await el.dispatchEvent(new Event('input'));
+}
+
+function dateToYMD(date) {
+    var d = date.getDate();
+    var m = date.getMonth() + 1; //Month from 0 to 11
+    var y = date.getFullYear();
+    return '' + y + (m<=9 ? '0' + m : m) + (d <= 9 ? '0' + d : d);
 }
 
 // Set a Vue.js multiselect/drop-down value

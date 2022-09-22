@@ -4,8 +4,6 @@ Jonathan Longe wrote this script as a test tool, so he could verify that the ICB
 
 He sent it to me to use as part of my testing with Brenda. See DF-2153.
 
-Planning to test with Brenda on Monday, 29th August.
-
 Steps to run this script:
  
 1. Create venv folder:
