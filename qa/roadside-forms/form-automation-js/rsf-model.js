@@ -15,12 +15,15 @@ var form2 = {
         drivers_licence_jurisdiction: "ALBERTA",
         last_name:       "Catgurgles",
         first_name:      "Katie",
-        dob:             "19990909",
+        dob:             "**birthdate**",
         address1:        "77 Seventh St South",
-        driver_phone:    "111-000-2222",
+        driver_phone:    "**phone**",
         city:            "Boston Bar",
-        postal:          "V1V 2V2",
-        province:        "Alberta"
+        postal:          "**postal**",
+        province:        "Alberta",
+        driver_gender:   "Female",
+        expiry_year:     "2025",
+        dl_class:        "5"
     },
     vehicle_information: {
         plate_number:   "AA057A",
@@ -39,13 +42,15 @@ var form2 = {
     owner: {
         owners_last_name: "Bathbottom",
         owners_first_name: "Barry B.",
-        owners_address1: "1, One Way West",
+        owners_address1: "**address**",
         owners_city: "CALGARY",
         owners_province: "ALBERTA",
-        owners_postal: "A1A 1A1",
-        owners_phone: "403-000-6789"
+        owners_postal: "**postal**",
+        owners_phone: "**phone**",
+        owners_email: "**email**"
     },
     vehicle_disposition: {
+        impounded_dt: "**today**",
 //    "vehicle_impounded_no,No": true,
         "vehicle_impounded_yes,Yes": true,
         "location_of_keys_driver,With driver": true,  // 12-hour form
@@ -69,7 +74,12 @@ var form2 = {
         offence_city: "random",
         file_number: "RSI-1234",
         prohibition_start_date: "**today**",
-        prohibition_start_time: "**now**"
+        prohibition_start_time: "**now**",
+        "prohibition_type_3-days-warn,3 days WARN": false,
+        "prohibition_type_7-days-warn,7 days WARN": true,
+        "prohibition_type_30-days-warn,30 days WARN": false,
+        "prohibition_type_90-days-fail,90 days FAIL": false,
+        "prohibition_type_90-days-refuse,90 days REFUSAL": false
     },
     reasonable_grounds: {
         officer: true,
@@ -83,7 +93,18 @@ var form2 = {
         "reason_prescribed_test_not_used_refused,Refused by driver": true,
         //"reason_prescribed_test_not_used_opinion,Opinion formed the driver was affected by alcohol and/or drugs": true,
         test_date: "**today**",
-        test_time: "**now**"
+        test_time: "**now**",
+        reason_excessive_speed: false,
+        reason_prohibited: true,
+        reason_suspended: false,
+        reason_racing: true,
+        reason_stunt: false,
+        reason_motorcycle_seating: true,
+        reason_motorcycle_restrictions: false,
+        reason_unlicensed: true,
+        ul_prohibition_number: "00123456",
+        "suspected_bc_resident_yes,Yes": false,
+        "suspected_bc_resident_no,No": true
     },
     test_administered: {  // Only appears on 24-hour form
 
@@ -121,12 +142,15 @@ var form = {
         drivers_licence_jurisdiction: "British Columbia",
         last_name:       "Dogsneeze",
         first_name:      "Davey",
-        dob:             "20000101",
-        address1:        "88 Eigth Avenue East",
-        driver_phone:    "250-000-1111",
+        dob:             "**birthdate**",
+        address1:        "**address**",
+        driver_phone:    "**phone**",
         city:            "Ashcroft",
-        postal:          "V2V 9V9",
-        province:        "British Columbia"
+        postal:          "**postal**",
+        province:        "British Columbia",
+        driver_gender:   "Male",
+        expiry_year:     "2025",
+        dl_class:        "5"
     },
     vehicle_information: {
         plate_number:   "888 HHH",
@@ -145,13 +169,15 @@ var form = {
     owner: {
         owners_last_name: "Tottenham",
         owners_first_name: "Terry T.",
-        owners_address1: "99 Ninth Lane North",
+        owners_address1: "**address**",
         owners_city: "PRINCETON",
         owners_province: "BRITISH COLUMBIA",
-        owners_postal: "V3V 3V3",
-        owners_phone: "250-111-9999"
+        owners_postal: "**postal**",
+        owners_phone: "**phone**",
+        owners_email: "**email**"
     },
     vehicle_disposition: {
+        impounded_dt: "**today**",
     "vehicle_impounded_no,No": true,
 //        "vehicle_impounded_yes,Yes": true,
         "location_of_keys_driver,With driver": true,  // 12-hour form
@@ -172,11 +198,16 @@ var form = {
         "prohibition_type_alcohol,Alcohol 215(2)": true,       // 24-hour
         //"prohibition_type_drugs,Drugs 215(3)": true,           // 24-hour
 
-        offence_address: "ELEPHANT WALK @ LAMA LANE",
+        offence_address: "ANT AVE @ LAMA LANE",
         offence_city: "random",
         file_number: "RSI-1234",
         prohibition_start_date: "**today**",
-        prohibition_start_time: "**now**"
+        prohibition_start_time: "**now**",
+        "prohibition_type_3-days-warn,3 days WARN": false,
+        "prohibition_type_7-days-warn,7 days WARN": false,
+        "prohibition_type_30-days-warn,30 days WARN": false,
+        "prohibition_type_90-days-fail,90 days FAIL": true,
+        "prohibition_type_90-days-refuse,90 days REFUSAL": false
     },
     reasonable_grounds: {
         officer: false,
@@ -190,7 +221,17 @@ var form = {
         //"reason_prescribed_test_not_used_refused,Refused by driver": true,
         "reason_prescribed_test_not_used_opinion,Opinion formed the driver was affected by alcohol and/or drugs": true,
         test_date: "**today**",
-        test_time: "**now**"
+        test_time: "**now**",
+        reason_excessive_speed: true,
+        reason_prohibited: false,
+        reason_suspended: true,
+        reason_racing: false,
+        reason_stunt: true,
+        reason_motorcycle_seating: false,
+        reason_motorcycle_restrictions: true,
+        reason_unlicensed: false,
+        "suspected_bc_resident_yes,Yes": false,
+        "suspected_bc_resident_no,No": true
     },
     test_administered: {  // Only appears on 24-hour form
 
