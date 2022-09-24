@@ -30,7 +30,9 @@
               <b-button class="ml-3 mr-3" variant="danger" @click="onUnsuccessfulServe">Not {{ servedWording }}</b-button>
           </div>
       </div>
+
     </div>
+    
   </div>
 
 </template>
