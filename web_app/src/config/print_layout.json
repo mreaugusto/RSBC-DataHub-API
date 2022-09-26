@@ -1019,7 +1019,7 @@
             ]
           },
           {
-            "orientation": "Portrait",
+            "orientation": "OneHundredEightyDegree",
             "image": {
               "filename": "assets/MV2721_201502_appeal.png",
               "offset_x": 0,
