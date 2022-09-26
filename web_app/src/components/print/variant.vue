@@ -16,6 +16,7 @@
 <script>
 import Landscape from "@/components/print/LandscapePage"
 import Portrait from "@/components/print/PortraitPage";
+import OneHundredEightyDegree from "@/components/print/OneHundredEightyDegreePage";
 
 export default {
   name: "variant",
@@ -43,7 +44,8 @@ export default {
   },
   components: {
     Portrait,
-    Landscape
+    Landscape,
+    OneHundredEightyDegree
   }
 }
 </script>
