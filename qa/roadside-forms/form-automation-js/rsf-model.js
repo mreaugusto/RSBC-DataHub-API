@@ -9,6 +9,3 @@
 // ==/UserScript==
 
 var qaModel = [];
-
-//qaModel.push(form);
-//qaModel.push(form2);
