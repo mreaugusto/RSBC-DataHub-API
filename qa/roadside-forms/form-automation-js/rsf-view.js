@@ -18,6 +18,8 @@ let automationId = "qa-automation";
 let menuStartRow = 10;
 let currentRow = 1;
 
+let repoURL = "https://github.com/bcgov/RSBC-DataHub-API/tree/feature/qa-automation-DF-2265/qa/roadside-forms/form-automation-js";
+
 
 function AddButton(buttonName, topLocation, leftLocation, zIndex, fieldStructure) {
     let btn = document.createElement("button");
@@ -98,7 +100,6 @@ function AddHotKeys() {
 }
 
 function AddLabelLine(labelText) {
-
     AddLabel(labelText, (menuStartRow + 5 + (20 * currentRow)) + "px", "20px", "999");
     currentRow++;
 }
@@ -128,7 +129,7 @@ const observer = new MutationObserver(function ()
             document.body.insertAdjacentElement("afterbegin", testDiv);
 
             // UI Labels
-            AddLabel("<b><u>Super-charged forms</u></b>", menuStartRow + "px", "5px", "999");
+            AddLabel("<b><u><a href='https://github.com/bcgov/RSBC-DataHub-API/tree/feature/qa-automation-DF-2265/qa/roadside-forms/form-automation-js'>Super-charged forms</a></u></b>", menuStartRow + "px", "5px", "999");
 
             AddLabelLine("<li>Alt+1: Driver</li>");
             AddLabelLine("<li>Alt+2: Vehicle</li>");

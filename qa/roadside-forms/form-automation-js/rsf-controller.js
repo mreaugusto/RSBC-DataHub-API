@@ -24,11 +24,11 @@ async function SetCheckbox(field_id, value)
     if (checkbox !== null)
     {
         // Checkbox should be checked
-        if (value == true) {
+        if (value === true) {
             if (!checkbox[0].checked)
                 checkbox[0].click()
         }
-        else if (value == false) {
+        else if (value === false) {
             if (checkbox[0].checked)
                 checkbox[0].click()
         }
@@ -40,7 +40,7 @@ async function SetField(field_id, value)
 {
     console.debug(` - Filling text field "${field_id}": "${value}"`);
     el = document.getElementById(field_id);
-    if (value == "**today**")
+    if (value === "**today**")
     {
         let today = new Date();
         let day = String (today.getDate()).padStart(2, '0');
@@ -48,7 +48,7 @@ async function SetField(field_id, value)
         let year = today.getFullYear();
         el.value = `${year}${month}${day}`;
     }
-    else if (value == "**now**")
+    else if (value === "**now**")
     {
         let today = new Date();
         let hours = today.getHours();
@@ -64,23 +64,23 @@ async function SetField(field_id, value)
         minuteString = String (minutes).padStart(2, '0')
         el.value = `${hourString}${minuteString}`;
     }
-    else if (value == "**phone**")
+    else if (value === "**phone**")
     {
         el.value = chance.phone().replace("(", "").replace(") ", "-")
     }
-    else if (value == "**address**")
+    else if (value === "**address**")
     {
         el.value = chance.address();
     }
-    else if (value == "**birthdate**")
+    else if (value === "**birthdate**")
     {
         el.value = dateToYMD(chance.birthday({type: "adult"}));
     }
-    else if (value == "**postal**")
+    else if (value === "**postal**")
     {
         el.value = chance.postal();
     }
-    else if (value == "**email**")
+    else if (value === "**email**")
     {
         el.value = chance.email();
     }
@@ -108,7 +108,7 @@ async function SetMultiselect(field_id, value)
     if (el.parentElement.getElementsByClassName('multiselect__single').length)
     {
         var currentValue = el.parentElement.getElementsByClassName('multiselect__single')[0].innerText;
-        if (currentValue == value.toUpperCase())
+        if (currentValue === value.toUpperCase())
         {
             console.debug(`   ${field_id} is already set to ${currentValue}`);
             return;
@@ -118,7 +118,7 @@ async function SetMultiselect(field_id, value)
     await el.dispatchEvent(new Event ('focus'));
     pickableElements = el.parentElement.parentElement.parentElement.getElementsByClassName('multiselect__element');
 
-    if (value == "random")
+    if (value === "random")
     {
         randomItem = Math.floor(Math.random() * pickableElements.length);
         // For vehicle colour(s) field having maximum of two colours selected returns no available options
@@ -133,7 +133,7 @@ async function SetMultiselect(field_id, value)
         // Iterate through multiselect options looking for the desired value...
         for (const i in pickableElements)
         {
-            if (pickableElements[i].innerText == value.toUpperCase())
+            if (pickableElements[i].innerText === value.toUpperCase())
             {
                 pickableElements[i].getElementsByClassName('multiselect__option')[0].click();
                 return;
@@ -181,15 +181,15 @@ async function ClearFormSection(fieldStructure) {
         if (document.getElementById(fieldId).className.startsWith('form-control')) {
             await SetField(fieldId, "");
         } else if (document.getElementById(fieldId).className.startsWith('multiselect__input')) {
-            if (fieldId == "province" || fieldId == "plate_province") {
+            if (fieldId === "province" || fieldId === "plate_province") {
                 await SetMultiselect(fieldId, "BRITISH COLUMBIA");
             } else {
                 await SetMultiselect(fieldId, "");
             }
         } else if (document.getElementById(fieldId).className.startsWith('form-check-input')) {
-            if (document.getElementById(fieldId).type == "radio") {
+            if (document.getElementById(fieldId).type === "radio") {
                 await SetRadioButton(fieldId, "");
-            } else if (document.getElementById(fieldId).type == "checkbox") {
+            } else if (document.getElementById(fieldId).type === "checkbox") {
                 await SetCheckbox(fieldId, "");
             } else {
                 console.error(`Unknown element type for ${fieldId}.`)
@@ -201,23 +201,23 @@ async function ClearFormSection(fieldStructure) {
 }
 
 async function FillAllFieldsInOneGo() {
-    await FillFormSection(form["drivers_information"]);
-    await FillFormSection(form["vehicle_information"]);
-    await FillFormSection(form["owner"]);
-    await FillFormSection(form["vehicle_disposition"]);
-    await FillFormSection(form["prohibition"]);
-    await FillFormSection(form["reasonable_grounds"]);
-    await FillFormSection(form["test_administered"]);
-    await FillFormSection(form["officer"]);
+    await FillFormSection(qaModel[0]["drivers_information"]);
+    await FillFormSection(qaModel[0]["vehicle_information"]);
+    await FillFormSection(qaModel[0]["owner"]);
+    await FillFormSection(qaModel[0]["vehicle_disposition"]);
+    await FillFormSection(qaModel[0]["prohibition"]);
+    await FillFormSection(qaModel[0]["reasonable_grounds"]);
+    await FillFormSection(qaModel[0]["test_administered"]);
+    await FillFormSection(qaModel[0]["officer"]);
 }
 
 async function ResetAllFieldsInOneGo() {
-    await ClearFormSection(form["drivers_information"]);
-    await ClearFormSection(form["vehicle_information"]);
-    await ClearFormSection(form["owner"]);
-    await ClearFormSection(form["vehicle_disposition"]);
-    await ClearFormSection(form["prohibition"]);
-    await ClearFormSection(form["reasonable_grounds"]);
-    await ClearFormSection(form["test_administered"]);
-    await ClearFormSection(form["officer"]);
+    await ClearFormSection(qaModel[0]["drivers_information"]);
+    await ClearFormSection(qaModel[0]["vehicle_information"]);
+    await ClearFormSection(qaModel[0]["owner"]);
+    await ClearFormSection(qaModel[0]["vehicle_disposition"]);
+    await ClearFormSection(qaModel[0]["prohibition"]);
+    await ClearFormSection(qaModel[0]["reasonable_grounds"]);
+    await ClearFormSection(qaModel[0]["test_administered"]);
+    await ClearFormSection(qaModel[0]["officer"]);
 }
