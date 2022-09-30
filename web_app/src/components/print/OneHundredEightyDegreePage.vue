@@ -49,12 +49,11 @@ export default {
       margin-top: 25mm;
       border: none;
       page-break-before:always;
-      transform: rotate(180deg) scale(1.2) translate(-200px);
+      transform: rotate(180deg);
     }
 
     @page {
       margin: 0;
-
     }
   }
 
