@@ -30,6 +30,7 @@ Library      DateTime         # https://robotframework.org/robotframework/latest
 # http://robotframework.org/robotframework/latest/RobotFrameworkUserGuide.html#resource-and-variable-files
 #Resource     env/robot-dev-ocp4.resource
 Resource     env/dfapi-test-ocp4.resource
+Resource     lib/keywords.robot
 
 Suite Setup  Create DFAPI session
 
