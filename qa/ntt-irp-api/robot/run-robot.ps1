@@ -9,8 +9,8 @@ Test-Installed oc "Install oc executable and ensure it is on the path."
 Test-FilePresent .\lib\keywords.resource "Check it out from git before running."
 Test-FilePresent .\lib\kw-requests.resource "Check it out from git before running."
 Test-FilePresent .\lib\kw-responses.resource "Check it out from git before running."
-Test-FilePresent .\dev.resource "Copy .env.resource-template to .dev.resource and configure it."
+Test-FilePresent .\env.py "Copy env.py-template to env.py and configure it."
 Test-LoggedInToOpenShift
 
 # Recursively execute all suites with *.robot name
-robot --outputdir results --debugfile debug.txt --name "DF VI-IRP API test suite" .
+robot --outputdir results --debugfile debug.txt --name "DF VI-IRP API test suite" --variablefile env.py .

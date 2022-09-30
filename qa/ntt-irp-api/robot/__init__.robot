@@ -8,7 +8,6 @@ Library      Process          # https://robotframework.org/robotframework/latest
 Library      OperatingSystem  # https://robotframework.org/robotframework/latest/libraries/OperatingSystem.html
 Library      DateTime         # https://robotframework.org/robotframework/latest/libraries/DateTime.html
 
-Resource   dev.resource              # Environment settings
 Resource   lib/keywords.resource        # Keywords
 Resource   lib/kw-requests.resource     # Keywords for server requests
 Resource   lib/kw-responses.resource    # Keywords for server responses

@@ -11,7 +11,7 @@ Library      OperatingSystem  # https://robotframework.org/robotframework/latest
 Library      DateTime         # https://robotframework.org/robotframework/latest/libraries/DateTime.html
 
 # Settings for the DEV environment
-Resource   dev.resource              # Environment settings
+#Variables   dev.Variables              # Environment settings
 
 Resource   lib/keywords.resource        # Keywords
 Resource   lib/kw-requests.resource     # Keywords for server requests

@@ -1,5 +1,4 @@
 *** Settings ***
-Resource   ../dev.resource              # Environment settings
 
 *** Keywords ***
 
