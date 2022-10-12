@@ -7,12 +7,12 @@
 # Start server with:
 # > Start-Webserver
 
-Write-Output "Access content with local URL:"
-Write-Output " - http://localhost:8080/rsf-model.js"
+Write-Output "Access content with local URL. For example:"
+Write-Output " - http://localhost:8088/rsf-view.js"
 Write-Output ""
 
-Write-Output "Stop server by accessing /quit URI:"
-Write-Output " - http://localhost:8080/quit"
+Write-Output "Stop server by accessing '/quit' URI: http://localhost:8088/quit"
+Write-Output "More information: https://github.com/MScholtes/WebServer"
 Write-Output ""
 
-Start-Webserver
+Start-Webserver "http://127.0.0.1:8088/"

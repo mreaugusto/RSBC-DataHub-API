@@ -1,5 +1,5 @@
 # Robot Framework Script to test NTT VI-IRP API
 
-## Install Robot Framework
+## Install Robot Framework and libraries
 
-    pip install robotframework robotframework-requests robotframework-jsonlibrary
+    pip install --user robotframework robotframework-requests robotframework-jsonlibrary rpaframework 

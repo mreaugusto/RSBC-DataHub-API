@@ -1,5 +1,8 @@
 # PowerShell script to run Robot Framework tests
-# Start-Transcript run.log
+
+# Parameter 1: the tag to run. If not given, all tests run.
+
+$tags = $args[0]
 
 Import-Module ".\lib\RobotSupport.psm1" -Force
 
@@ -12,5 +15,12 @@ Test-FilePresent .\lib\kw-responses.resource "Check it out from git before runni
 Test-FilePresent .\env.py "Copy env.py-template to env.py and configure it."
 Test-LoggedInToOpenShift
 
+
+$tagSwitch = ""
+if ("$tags" -ne "") {
+    Write-Host "Running tests tagged with: $tags"
+    $tagSwitch = "--include $tags"
+}
+
 # Recursively execute all suites with *.robot name
-robot --outputdir results --debugfile debug.txt --name "DF VI-IRP API test suite" --variablefile env.py .
+robot --include grr --outputdir results --debugfile debug.txt --name "DF VI-IRP API test suite" --variablefile env.py  .

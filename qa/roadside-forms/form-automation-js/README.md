@@ -12,6 +12,7 @@ These scripts function in all environments:
  - [DEV](https://dev.jag.gov.bc.ca/roadside-forms/)
  - [TEST](https://test.jag.gov.bc.ca/roadside-forms/)
  - [PROD](https://jag.gov.bc.ca/roadside-forms/)
+ - [Local](http://127.0.0.1:8080/)
 
 These environments are only accessible from the BC government network (office Ethernet, wifi, or IDIR VPN) and on-boarded municipal or federal police networks.
 

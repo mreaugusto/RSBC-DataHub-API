@@ -187,6 +187,10 @@ document.onkeyup = function () {
 
 There's also a hotkey to iterate through all the sections of the form and fill each one, plus another to iterate through the form and erase each entry.
 
+### Dates in Vancouver time
+
+When filling out the forms, times are entered in Vancouver time zone. If you're in a more easterly time zone (for example, Eastern GMT-0500) the form will fail validation if times are entered in your local time zone. This is implemented in the controller with the `convertTZ` function. Taken from [Stack Overflow](https://stackoverflow.com/a/54127122).
+
 ### Random and generated records
 
 When a multiselect is used, you can easily pick a value at random. This can be useful to introduce variety to the test records.

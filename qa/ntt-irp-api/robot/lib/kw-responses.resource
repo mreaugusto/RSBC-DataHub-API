@@ -1,4 +1,5 @@
 *** Settings ***
+Library    RPA.JSON    # https://github.com/robocorp/rpaframework/
 
 *** Keywords ***
 
@@ -57,6 +58,28 @@ Response should have at least ${min_length} records
     Log  ${test_response.json()}
     ${records_length} =  Get Length  ${test_response.json()}
     Run keyword and warn on failure  Should be true  ${records_length} > ${min_length}  ${TEST NAME}: Not enough records (found ${records_length}, expected at least ${min_length}).
+
+
+
+
+
+JSON payload includes ${section_name} section
+    ${json_records} =    Get values from JSON    ${test_response.json()}    $.configuration.${section_name}
+    ${length} =  Get Length  ${json_records}
+    Should be true  ${length} > 0  ${TEST NAME}: Did not find '${section_name}' in JSON response
+    Log    Found ${section_name} in payload: ${json_records}
+
+
+JSON structure ${section_name} should have at least ${min_length} records
+    Log  Checking ${section_name}
+    ${json_records} =    Get values from JSON    ${test_response.json()}    $.configuration.${section_name}.objectCd
+    Log    ${json_records}
+    ${length} =  Get Length  ${json_records}
+    Log    Found ${length} in ${section_name}
+    Should be true  ${length} > ${min_length}  ${TEST NAME}: Not enough records (found ${length}, expected at least ${min_length}).
+
+
+
 
 Response should have exactly ${required_length} records
     Log  ${test_response.json()}

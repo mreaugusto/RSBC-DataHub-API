@@ -35,6 +35,11 @@ async function SetCheckbox(field_id, value)
     }
 }
 
+// https://stackoverflow.com/a/54127122
+function convertTZ(date, tzString) {
+    return new Date((typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {timeZone: tzString}));
+}
+
 // Set a Vue.js text field value
 async function SetField(field_id, value)
 {
@@ -43,18 +48,20 @@ async function SetField(field_id, value)
     if (value === "**today**")
     {
         let today = new Date();
-        let day = String (today.getDate()).padStart(2, '0');
-        let month = String (today.getMonth()+1).padStart(2, '0');
-        let year = today.getFullYear();
+        const vancouverTime = convertTZ(today, "America/Vancouver")
+        let day = String (vancouverTime.getDate()).padStart(2, '0');
+        let month = String (vancouverTime.getMonth()+1).padStart(2, '0');
+        let year = vancouverTime.getFullYear();
         el.value = `${year}${month}${day}`;
     }
     else if (value === "**now**")
     {
         let today = new Date();
-        let hours = today.getHours();
+        const vancouverTime = convertTZ(today, "America/Vancouver")
+        let hours = vancouverTime.getHours();
 
         // Subtract five minutes so as not to trigger the form's time validation
-        let minutes = today.getMinutes() - 5;
+        let minutes = vancouverTime.getMinutes() - 5;
         if (minutes < 0)
         {
             minutes = 60+minutes;
