@@ -10,28 +10,8 @@
       <check-field v-if="doesAttributeExist(path, 'test_administered_adse')"
                    id="positive_adse" :path="path + '/test_administered_adse'" fg_class="col-sm-6"
                    :options='[["thc", "THC"], ["cocaine", "Cocaine"]]'>Test result</check-field>
-
-                   <!-- <check-field v-if="doesAttributeExist(path, 'test_administered_sfst')"
-                   id="positive_sfst" :path="path + '/test_administered_sfst'" fg_class="col-sm-6"
-                   :options='[["thc", "THC"], ["cocaine", "Cocaine"]]'>Test result</check-field>
-
-                   <check-field v-if="doesAttributeExist(path, 'test_administered_dre')"
-                   id="positive_dre" :path="path + '/test_administered_dre'" fg_class="col-sm-6"
-                   :options='[["thc", "THC"], ["cocaine", "Cocaine"]]'>Test result</check-field> -->
   </form-row>
-  <form-row>
-      <check-field v-if="doesAttributeExist(path, 'test_administered_sfst')"
-                   id="positive_sfst" :path="path + '/test_administered_sfst'" fg_class="col-sm-6"
-                   :options='[["thc", "THC"], ["cocaine", "Cocaine"]]'>Test result</check-field>
 
-                   <!-- <check-field v-if="doesAttributeExist(path, 'test_administered_sfst')"
-                   id="positive_sfst" :path="path + '/test_administered_sfst'" fg_class="col-sm-6"
-                   :options='[["thc", "THC"], ["cocaine", "Cocaine"]]'>Test result</check-field>
-
-                   <check-field v-if="doesAttributeExist(path, 'test_administered_dre')"
-                   id="positive_dre" :path="path + '/test_administered_dre'" fg_class="col-sm-6"
-                   :options='[["thc", "THC"], ["cocaine", "Cocaine"]]'>Test result</check-field> -->
-  </form-row>
 </form-card>
 </template>
 
