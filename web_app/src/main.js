@@ -44,11 +44,13 @@ Vue.use(VueKeyCloak, {
           router,
           store: rsiStore,
           async created() {
-
+            // get all forms from indexdb database and save it to state
             await rsiStore.dispatch("getAllFormsFromDB")
                 .then( () => {
+                    // if the user has been working offline, and has used up some of ids, need to get more ids to top up to state
                     rsiStore.dispatch("getMoreFormsFromApiIfNecessary")
                 });
+            // tables like lot operator, cities, vehicles make and model; get from api and save to state
             await rsiStore.dispatch("downloadLookupTables");
 
           },
@@ -56,6 +58,7 @@ Vue.use(VueKeyCloak, {
         }).$mount('#app')
   },
 
+  // if the user is offline, get the forms for the user from the indexeddb
   onInitError: () => {
       new Vue({
           router,

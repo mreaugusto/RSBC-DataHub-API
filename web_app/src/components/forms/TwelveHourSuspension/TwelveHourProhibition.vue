@@ -36,6 +36,8 @@ import PrintDocuments from "../PrintDocuments";
 import ProhibitionInformationCard from "@/components/forms/TwelveHourSuspension/ProhibitionInformationCard";
 import VehicleImpoundmentCard from "@/components/forms/TwelveHourSuspension/VehicleImpoundmentCard";
 import {mapGetters} from "vuex";
+//import {mapActions} from "vuex";
+//import {mapMutations} from "vuex";
 
 export default {
   name: "TwelveTwentyFour",
@@ -52,23 +54,83 @@ export default {
     name: {
       type: String,
       default: '12Hour'
-    }
+    },
   },
+/*  id: {
+      type: String
+    }
+   movedToPrintPage: {
+      type: Boolean,
+      default: false
+    }*/
+
+/*  data() {
+    return {
+      form_object: {
+        "formid": this.id,
+        "formtype": this.name,
+        "movedToPrintPage": false
+      }
+    }
+  },*/
 
   mounted() {
     let payload = {form_type: this.name, form_id: this.id}
+    //let payload = {form_type: this.name, form_id: this.getNextAvailableUniqueIdByType(this.name)}
     this.editExistingForm(payload)
     this.setNewFormDefaults(payload)
     this.data = this.getCurrentlyEditedFormData
+    //localStorage.setItem('movedToPrintPage', false);
+    //console.log("this.data", this.getCurrentlyEditedFormData)
+
+    //let check_status = localStorage.getItem('movedToPrintPage')
+    //console.log("outside localStorage", this.getNotPrintStatus())
+    //if (this.getNotPrintStatus()) {
+    //  console.log("inside localStorage")
+    //  let newId = this.getNextAvailableUniqueIdByType
+    //  this.formNotPrintedNewFormId(newId)
+    //  this.updateNotPrintedForm_FormId()
+    //  this.setDisableNotPrintStatus()
+    //}
     this.isMounted = true
   },
+
+  /*  destroyed: function() {
+    console.log("inside created")
+    localStorage.setItem('movedToPrintPage', true)
+    //window.addEventListener('unload', this.movedToPrintPageStatus)
+  },*/
   computed: {
     ...mapGetters([
       "getCurrentlyEditedFormObject",
       "getDocumentsToPrint",
       "getPdfFileNameString",
       "getCurrentlyEditedForm"]),
+
   },
+  /*methods: {
+    ...mapActions(["getNextAvailableUniqueIdByFormType"]),
+    ...mapMutations(["formNotPrintedNewFormId", "statusGoToForm_NotPrinted", "movedToPrintPageToggle", "movedToPrintPageDisable"]),
+    getNotPrintStatus() {
+      console.log("inside getNotPrintStatus()", this.getStatusNotPrint)
+      return this.getStatusNotPrint
+    },
+    setDisableNotPrintStatus(){
+      this.movedToPrintPageDisable(false)
+    },
+    updateNotPrintedForm_FormId() {
+      console.log("inside updateNotPrintedFormId()")
+      // this.id = this.setNewFormId
+      let newId = this.getNextAvailableUniqueIdByType_NotPrintedForm(this.name)
+      console.log("inside inside updateNotPrintedFormId()", newId)
+      this.formNotPrintedNewFormId(newId)
+    }
+    movedToPrintPageStatus() {
+      console.log("before inside movedToPrintPageStatus()", this.movedToPrintPage)
+      this.movedToPrintPage = true
+      console.log("after inside movedToPrintPageStatus()", this.movedToPrintPage)
+    }
+  }*/
 }
 </script>
 

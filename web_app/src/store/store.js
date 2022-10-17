@@ -136,6 +136,7 @@ export const rsiStore = new Vuex.Store ({
     vehicles: [],
     vehicle_styles: [],
     version: version,
+    movedToPrintPage: false,
   },
 
   getters: getters,

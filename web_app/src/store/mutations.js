@@ -76,8 +76,10 @@ export const mutations = {
     },
 
     setNewFormDefaults(state, form_object) {
-        console.log("inside setNewFormDefaults()", form_object)
+        console.log("inside setNewFormDefaults()", state.forms[form_object.form_type])
         let root = state.forms[form_object.form_type][form_object.form_id]
+        //console.log("root", root)
+
         if(! ("data" in root)) {
             Vue.set( root, "data", Object())
             Vue.set( root.data, "submitted", false);
@@ -86,6 +88,22 @@ export const mutations = {
             }
         }
     },
+
+    /*formNotPrintedNewFormId(state, newIdFormNotPrinted) {
+        console.log("inside formNotPrintedNewFormId()", newIdFormNotPrinted)
+        state.currently_editing_form_object.form_id = newIdFormNotPrinted;
+        console.log("inside formNotPrintedNewFormId()", state.currently_editing_form_object.form_id)
+    },
+
+    goToForm_NotPrinted(state, val) {
+      console.log("inside goToForm_NotPrinted")
+      state.movedToPrintPage = val
+      Vue.set(state, "movedToPrintPage", true)
+    },
+
+    movedToPrintPageDisable(state, val2) {
+      state.movedToPrintPage = val2
+    },*/
 
     populateStaticLookupTables(state, payload) {
         Vue.set(state, payload.type, payload.data)
@@ -136,6 +154,7 @@ export const mutations = {
 
     pushFormToStore(state, form_object) {
         console.log("inside pushFormToStore()", form_object)
+        //look up vue.set function
         Vue.set(state.forms[form_object.form_type], form_object.form_id, form_object)
     },
 

@@ -25,10 +25,10 @@
           <div class="text-left float-child">
               <button class="btn btn-primary mr-3" id="btn_print_form" @click="printWindow">Print</button>
           </div>
-          <div class="text-right float-child">
+          <!-- <div class="text-right float-child">
               <b-button variant="success" @click="onSuccessfulServe">{{ servedWording }}</b-button>
               <b-button class="ml-3 mr-3" variant="danger" @click="onUnsuccessfulServe">Not {{ servedWording }}</b-button>
-          </div>
+          </div> -->
       </div>
 
     </div>
@@ -77,7 +77,7 @@ export default {
       "getAttributeValue",
       "getCurrentlyEditedForm",
       "getCurrentlyEditedFormData",
-      "getCurrentlyEditedFormObject"
+      "getCurrentlyEditedFormObject",
     ]),
     getPath() {
       return `forms/${this.form_type}/${this.id}/data`
@@ -130,10 +130,14 @@ export default {
     },
 
     onUnsuccessfulServe() {
+      /* console.log("inside onUnsuccessfulServe")
+      this.goToForm_NotPrinted(true) */
+
       this.$router.replace({
           name: this.form_type, params: {
             "form_type": this.form_type,
             "id": this.id
+            //"id": this.getNextAvailableUniqueIdByType(this.form_type)
           }
         })
     },

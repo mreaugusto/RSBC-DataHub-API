@@ -495,5 +495,10 @@ export const actions = {
             context.commit("userIsAuthenticated", false)
         }
 
-    }
+    },
+
+    /* getNextAvailableUniqueIdByFormType(context, formtype, formid) {
+        formid = context.getters.getNextAvailableUniqueIdByType(formtype)
+        return formid
+    } */
 }

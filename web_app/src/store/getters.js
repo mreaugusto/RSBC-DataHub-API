@@ -52,6 +52,7 @@ export const getters = {
     getCurrentlyEditedFormData: state => {
         let form_object = state.currently_editing_form_object;
         let root = state.forms[form_object.form_type][form_object.form_id]
+        // root.data.form_id = state.getNextAvailableUniqueIdByType(form_object.form_type)
         return root.data;
     },
 
@@ -282,6 +283,22 @@ export const getters = {
             }
         }
     },
+
+    /*getNextAvailableUniqueIdByType_NotPrintedForm: state => form_type => {
+        console.log("inside getNextAvailableUniqueIdByType()", form_type)
+        for (let form_id in state.forms[form_type]) {
+            if(  ("data" in state.forms[form_type][form_id])) {
+                return form_id
+            }
+        }
+    },
+
+    getStatusNotPrint: state => {
+        console.log("inside getStatusNotPrint()", state.movedToPrintPage)
+
+        return state.movedToPrintPage
+
+    },*/
 
     arrayOfFormsRequiringRenewal: state => {
         let forms = Array();
