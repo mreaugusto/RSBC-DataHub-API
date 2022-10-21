@@ -4,7 +4,7 @@
     <user-not-permitted-banner v-if="isDisplayUserNotAuthorizedBanner"></user-not-permitted-banner>
     <welcome-login-card v-if="isDisplayWelcomeLoginCard"></welcome-login-card>
     <issue-prohibitions v-if="isDisplayIssueProhibitions"></issue-prohibitions>
-    <recent-prohibitions v-if="isRecentProhibitions && allResourcesLoaded"></recent-prohibitions>
+    <!-- <recent-prohibitions v-if="isRecentProhibitions && allResourcesLoaded"></recent-prohibitions> -->
     <feedback-welcome v-if="isDisplayFeedbackBanner"></feedback-welcome>
   </div>
 </template>
@@ -13,7 +13,7 @@
 
 import IssueProhibitions from "@/components/IssueProhibitions";
 import FeedbackWelcome from "@/components/FeedbackWelcome";
-import RecentProhibitions from "@/components/RecentProhibitions";
+//import RecentProhibitions from "@/components/RecentProhibitions";
 import UserNotPermittedBanner from "@/components/UserNotPermittedBanner";
 import {mapGetters} from "vuex";
 import WelcomeLoginCard from "@/components/WelcomeLoginCard";
@@ -25,7 +25,7 @@ export default {
     LoadingResources,
      WelcomeLoginCard,
      UserNotPermittedBanner,
-     RecentProhibitions,
+     //RecentProhibitions,
      FeedbackWelcome,
      IssueProhibitions
   },
@@ -33,7 +33,7 @@ export default {
     ...mapGetters([
       "allResourcesLoaded",
       "isUserHasAtLeastOneFormId",
-      'isRecentProhibitions',
+      //'isRecentProhibitions',
       'getFormData',
       'isDisplayIssueProhibitions',
       'getCurrentlyEditedFormObject',
