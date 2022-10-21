@@ -3,8 +3,8 @@
 
     <div class="card-header text-left">
       <div class="font-weight-bold">Print this page</div>
-      <div class="small text-muted">Once the documents have been printed and delivered to the driver,
-      mark the documents as {{ servedWording.toLowerCase() }} below.</div>
+      <!-- <div class="small text-muted">Once the documents have been printed and delivered to the driver,
+      mark the documents as {{ servedWording.toLowerCase() }} below.</div> -->
 
       <div class="small card mt-2" v-if="show_certificate">
           <div class="card-body">
